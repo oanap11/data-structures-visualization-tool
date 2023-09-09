@@ -24,12 +24,13 @@ import dsa.panels.ListPanel;
 import dsa.panels.QueuePanel;
 import dsa.panels.StackPanel;
 import dsa.panels.TreePanel;
+import dsa.PanelType;
 
 public class Main extends JFrame {
 	
 	private static final int PANEL_WIDTH = 800;
     private static final int PANEL_HEIGHT = 800;
-    private static final String IMAGE_PATH = "/images/idk.png";
+    private static final String IMAGE_PATH = "/images/welcomeDS.png";
     private static final Color MENU_BAR_BACKGROUND_COLOR = new Color(255, 87, 51);
 
     static JPanel mainPanel;
@@ -43,8 +44,6 @@ public class Main extends JFrame {
     private JMenu meniuPrincipal;
     private JMenuBar menuBar;
 
-    ImageIcon stackIcon;
-
     public Main() {
 
         initComponents();  
@@ -56,15 +55,31 @@ public class Main extends JFrame {
         this.pack();
     }
     
-    private void setMainPanel() {
-    	mainPanel.setSize(PANEL_WIDTH, PANEL_HEIGHT);
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+    private void initComponents() {
+
+    	menuBar = new JMenuBar();
+        meniuPrincipal = new JMenu();
+
+        initUI();
+
+        meniuPrincipal.setText("Structuri de date \n" + "▼\n" + "");
+        
+        addDataStructureMenuItem("Liste Inlantuite", this::linkedListMenuActionPerformed);
+        addDataStructureMenuItem("Arbori", this::treeMenuActionPerformed);
+        addDataStructureMenuItem("Stiva", this::stackMenuActionPerformed);
+        addDataStructureMenuItem("Coada", this::queueMenuActionPerformed);
+        addDataStructureMenuItem("Algoritmi de cautare", this::algoMenuActionPerformed);
+        
+        configureMenuBar();
+        pack();
     }
     
-    private void setWelcomePicture() {
-    	JLabel welcomePicture = new JLabel();
-    	welcomePicture.setIcon(new ImageIcon(getClass().getResource(IMAGE_PATH)));
-        welcomePanel.add(welcomePicture);
+    void initUI() {
+    	setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Aplicatie pentru vizualizarea structurilor de date");
+        setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
     
     private void initializePanels() {
@@ -77,6 +92,17 @@ public class Main extends JFrame {
         algoPanel = new PathFindingPanel();
     }
     
+    private void setWelcomePicture() {
+    	JLabel welcomePicture = new JLabel();
+    	welcomePicture.setIcon(new ImageIcon(getClass().getResource(IMAGE_PATH)));
+        welcomePanel.add(welcomePicture);
+    }
+    
+    private void setMainPanel() {
+    	mainPanel.setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+    }
+    
     private void addAllPanelsToMain() {
     	mainPanel.add(welcomePanel);
         mainPanel.add(listPanel);
@@ -86,31 +112,20 @@ public class Main extends JFrame {
         mainPanel.add(algoPanel);
         add(mainPanel, BorderLayout.CENTER);
     }
+    
+    void hidePanels() {
+        listPanel.setVisible(false);
+        stackPanel.setVisible(false);
+        queuePanel.setVisible(false);
+        treePanel.setVisible(false);
+        algoPanel.setVisible(false);
+    }
 
-    @SuppressWarnings("unchecked")
-    private void initComponents() {
-
-    	menuBar = new JMenuBar();
-        meniuPrincipal = new JMenu();
-
-        stackIcon = new ImageIcon("/images/back.png");
-
-        initUI();
-
-        meniuPrincipal.setText("Structuri de date \n" + "▼\n" + "");
-
-        addDataStructureMenuItem("Liste Inlantuite", this::linkedListMenuActionPerformed);
-        addDataStructureMenuItem("Arbori", this::treeMenuActionPerformed);
-        addDataStructureMenuItem("Stiva", this::stackMenuActionPerformed);
-        addDataStructureMenuItem("Coada", this::queueMenuActionPerformed);
-        addDataStructureMenuItem("Algoritmi de cautare", this::algoMenuActionPerformed);
-
-        menuBar.setPreferredSize(new Dimension(100, 100));
+    void configureMenuBar() {
+    	menuBar.setPreferredSize(new Dimension(100, 100));
         menuBar.add(meniuPrincipal);
         menuBar.setLayout(new GridBagLayout());
         setJMenuBar(menuBar);
-
-        pack();
     }
     
     private void addDataStructureMenuItem(String text, ActionListener actionListener) {
@@ -119,21 +134,6 @@ public class Main extends JFrame {
         meniuPrincipal.add(menuItem);
     }
     
-    void initUI() {
-    	setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Aplicatie pentru vizualizarea structurilor de date");
-        setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        setLocationRelativeTo(null);
-        setResizable(false);
-    }
-
-    void hidePanels() {
-        listPanel.setVisible(false);
-        stackPanel.setVisible(false);
-        queuePanel.setVisible(false);
-        treePanel.setVisible(false);
-        algoPanel.setVisible(false);
-    }
     
     private void switchToPanel(JPanel panel) {
         hidePanels();
@@ -180,13 +180,9 @@ public class Main extends JFrame {
     	UIManager.put("MenuItem.font", f);
     	UIManager.put("MenuBar.background", MENU_BAR_BACKGROUND_COLOR);
         UIManager.put("MenuItem.background", MENU_BAR_BACKGROUND_COLOR);
-
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				new Main().setVisible(true);
-			}
-		});
+		
+		SwingUtilities.invokeLater(() -> {
+            new Main().setVisible(true);
+        });
     }
-
 }
