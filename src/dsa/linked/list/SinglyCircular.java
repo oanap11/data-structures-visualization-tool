@@ -132,7 +132,7 @@ public class SinglyCircular extends JComponent {
       currentY = 70;
       step_height = 70;
 
-      Node temp = this.list.first;
+      Node temp = this.list.firstNode;
       // draw first node
       g.setColor(Color.RED);
       drawNode(g,currentX,currentY,"Start");
@@ -206,7 +206,7 @@ public class SinglyCircular extends JComponent {
      currentY = 70;
       step_height = 70;
 
-      Node temp = this.list.first;
+      Node temp = this.list.firstNode;
 
       g.setColor(Color.RED);
       drawFirstNode(g,currentX,currentY,"Start");
@@ -261,7 +261,7 @@ public class SinglyCircular extends JComponent {
 
           temp = temp.next;
       }
-      if(this.list.first != null)
+      if(this.list.firstNode != null)
         drawLastPointer(g, finalX + 37, finalY);
 
      }

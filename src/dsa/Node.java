@@ -9,9 +9,4 @@ public class Node {
      public Node(int data){
     	 this.data = data;
      }
-
-     public void printNode(){
-         System.out.println("["+this.data+"]");
-     }
-
 }

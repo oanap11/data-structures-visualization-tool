@@ -24,7 +24,6 @@ import dsa.panels.ListPanel;
 import dsa.panels.QueuePanel;
 import dsa.panels.StackPanel;
 import dsa.panels.TreePanel;
-import dsa.PanelType;
 
 public class Main extends JFrame {
 	

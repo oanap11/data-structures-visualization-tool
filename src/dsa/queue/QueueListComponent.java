@@ -123,7 +123,7 @@ public class QueueListComponent extends JComponent {
   		currentY = 70;
   		stepHeight = 70;
 
-  		Node temp = this.list.first;
+  		Node temp = this.list.firstNode;
   		finalX = currentX + 60;
   		finalY = currentY;
 

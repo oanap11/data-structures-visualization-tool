@@ -129,7 +129,7 @@ public class ListComponent extends JComponent{
       currentY = 70;
       stepHeight = 70;
 
-      Node temp = this.list.first;
+      Node temp = this.list.firstNode;
       //deseneaza primul nod
       g.setColor(Color.RED);
       drawNode(g, currentX, currentY, "Start");
@@ -192,7 +192,7 @@ public class ListComponent extends JComponent{
       currentY = 70;
       stepHeight = 70;
 
-      Node temp = this.list.first;
+      Node temp = this.list.firstNode;
       g.setColor(Color.RED);
       drawNode(g, currentX, currentY, "Start");
 

@@ -2,66 +2,54 @@ package dsa;
 
 public class SinglyLinkedList {
 
-    public Node first;
-    public Node last;
+    public Node firstNode;
+    public Node lastNode;
 
     public SinglyLinkedList() {
-        first = last = null;
+        firstNode = lastNode = null;
     }
 
-    //insereaza un element in lista
     public void insertElement(int data) {
-        Node elementNou = new Node(data); //se initializeaza un nod
+        Node newNode = new Node(data); 
 
-        //daca nu exista elemente in lista (first este null),
-        //nodul initializat este primul elem introdus in lista
-        if(first == null){
-        	elementNou.next = null;
-            first = elementNou;
-            last = elementNou;
-        }
-        //daca exista elemente in lista, elementul curent este adaugat dupa ultimul nod
-        //si devine ultimul nod
-        else {
-        	elementNou.next = null;
-            last.next = elementNou;
-            last = elementNou;
+        if(firstNode == null){
+            firstNode = newNode;
+            lastNode = newNode;
+        } else { // list is not empty, so:
+        	lastNode.next = newNode; // append the new node to the end of the list
+            lastNode = newNode; // update the lastNode reference to the new node
         }
     }
 
-    //sterge un element din lista
-    public Node deleteElement(int data){
-        Node tmp  = first;
-        Node prev = first;
+    public Node deleteElement(int dataToDelete){
 
-        while(tmp != null){
-            if(tmp.data == data){
-                if(tmp == first){
-                    if(tmp == last){
-                        first = last = null;
+        Node tempNode = firstNode;
+        Node prevNode = null;
+
+        while (tempNode != null) {
+            if (tempNode.data == dataToDelete) {
+                if (prevNode == null) { // If it's the first node
+                    firstNode = tempNode.next;
+                    if (tempNode == lastNode) {
+                        lastNode = null; // Adjust lastNode if necessary
                     }
-                    else{
-                        first = tmp.next;
+                } else {
+                    prevNode.next = tempNode.next;
+                    if (tempNode == lastNode) {
+                        lastNode = prevNode; // Adjust lastNode if necessary
                     }
-                 }
-                else if(tmp == last) {
-                    prev.next = tmp.next;
-                    last = prev;
                 }
-                else {
-                    prev.next = tmp.next;
-                }
-                return tmp;
+                return tempNode;
             }
-
-            prev = tmp;
-            tmp = tmp.next;
+            prevNode = tempNode;
+            tempNode = tempNode.next;
         }
-        return null;
+        
+        return null; // Element not found      
     }
 
     public Boolean isEmpty(){
-        return first == null;
+        return firstNode == null;
     }
 
 }

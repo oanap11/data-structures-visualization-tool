@@ -401,10 +401,10 @@ public class QueuePanel extends JPanel {
     }
 
     private void dequeueButtonListActionPerformed(ActionEvent evt) {
-       if(listA.first == null)
+       if(listA.firstNode == null)
              JOptionPane.showMessageDialog(null, "Nu sunt elemente in coada", "alert", JOptionPane.ERROR_MESSAGE);
        else
-             listA.deleteElement(listA.first.data);
+             listA.deleteElement(listA.firstNode.data);
       lcomp.setValues(listA,0,'n');
     }
 

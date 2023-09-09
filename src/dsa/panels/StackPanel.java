@@ -424,12 +424,12 @@ public class StackPanel extends javax.swing.JPanel {
     }
 
     private void sListPopButtonActionPerformed(ActionEvent evt) {
-	     if(listA.first == null){
+	     if(listA.firstNode == null){
 	        JOptionPane.showMessageDialog(null, "Stiva nu contine elemente.", "alert", JOptionPane.ERROR_MESSAGE);
 	        lcomp.setValues(listA, 0, 'e');
 	     }
 	     else {
-	         listA.deleteElement(listA.last.data);
+	         listA.deleteElement(listA.lastNode.data);
 	         lcomp.setValues(listA, 0, 'n'); //n
 	     }
     }

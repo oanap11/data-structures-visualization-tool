@@ -127,7 +127,7 @@ public class StackListComponent extends JComponent {
       stepHeight = 70;
       finalX = currentX + 60;
       finalY = currentY;
-      Node temp = this.list.first;
+      Node temp = this.list.firstNode;
 
       g.setColor(Color.BLACK);
       while(temp != null){
