@@ -12,6 +12,8 @@ import dsa.SinglyLinkedList;
 
 public class ListComponent extends JComponent {
 
+	private static final long serialVersionUID = 1L;
+	
 	SinglyLinkedList list;
 	int operation;
 	int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
@@ -24,7 +26,7 @@ public class ListComponent extends JComponent {
 	public ListComponent() {
 	}
 
-	private void drawArrow(Graphics g, int x, int y, int flag) {
+	protected void drawArrow(Graphics g, int x, int y, int flag) {
 		int arrowSize = 3;
 		int[][] offsets = { { -arrowSize, 0 }, { 0, -arrowSize }, { arrowSize, 0 }, { 0, arrowSize } };
 		int[] xPoints = new int[3];
@@ -40,7 +42,7 @@ public class ListComponent extends JComponent {
 	}
 
 	// metoda pentru desenarea unui nod in lista
-	private void drawNode(Graphics g, int x, int y, String s) {
+	protected void drawNode(Graphics g, int x, int y, String s) {
 		g.drawRect(x, y, 30, 30); // deseneaza dreptunghiul principal
 		g.drawRect(x + 30, y, 10, 30); // deseneaza dreptunghiul pentru adresa, din care porneste pointer-ul/sageata
 		g.drawString(s, x + 5, y + 20); // deseneaza urmatorul nod cu elementul inserat
@@ -48,7 +50,7 @@ public class ListComponent extends JComponent {
 								// adresa
 	}
 
-	private void drawNull(Graphics g, int x, int y) {
+	protected void drawNull(Graphics g, int x, int y) {
 		g.drawLine(x, y + 15, x + 20, y + 15); // linie orizontala
 		g.drawLine(x + 20, y + 15, x + 20, y + 30);
 		g.drawLine(x + 15, y + 30, x + 25, y + 30); // deseneaza linie jos
@@ -172,18 +174,17 @@ public class ListComponent extends JComponent {
 		height = this.getHeight();
 		width = this.getWidth();
 
-		int stepHeight;
+		int stepHeight = 70;
 		int increaseDistance = 50;
 		boolean changed = false;
 		currentX = 20;
 		currentY = 70;
-		stepHeight = 70;
-
+		
 		Node temp = this.list.firstNode;
 		g.setColor(Color.RED);
 		drawNode(g, currentX, currentY, "Start");
-
 		g.setColor(Color.BLACK);
+		
 		while (temp != null) {
 			g.setColor(Color.WHITE);
 			drawNull(g, currentX + 37, currentY);
@@ -201,6 +202,7 @@ public class ListComponent extends JComponent {
 
 			g.setColor(Color.black);
 			drawNode(g, finalX, finalY, "" + temp.data);
+			
 			if (changed) {
 				drawPathWithChanges(g, currentX, currentY, finalX, finalY, increaseDistance);
 				changed = false;
@@ -220,7 +222,7 @@ public class ListComponent extends JComponent {
 
 	}
 	
-	void drawPathWithChanges(Graphics g, int startX, int startY, int finalX, int finalY, int increaseDistance) {
+	protected void drawPathWithChanges(Graphics g, int startX, int startY, int finalX, int finalY, int increaseDistance) {
 	    g.drawLine(startX + 35, startY + 15, startX + 70, startY + 15);
 	    g.drawLine(startX + 70, startY + 15, startX + 70, startY + (30 + increaseDistance / 2));
 	    g.drawLine(startX + 70, startY + (30 + increaseDistance / 2), 10, startY + (30 + increaseDistance / 2));
