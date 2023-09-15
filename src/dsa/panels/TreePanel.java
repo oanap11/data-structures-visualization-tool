@@ -33,14 +33,9 @@ public class TreePanel extends JPanel {
     private JPanel bstPanel;
     private JSlider bstSlider;
     private JPanel bstSouthPanel;
-    private JSeparator jSeparator3;
     private JPanel treeCenterPanel;
     private JTabbedPane treePane;
 
-    private JPanel avlNorthPanel;
-    private JPanel avlSouthPanel;
-
-    JPanel avlPanel;
     TreeComponent treeComponent;
     GraphicalTree graphicalTree;
 
@@ -53,16 +48,6 @@ public class TreePanel extends JPanel {
 
     private void initComponents() {
     	treePane = new JTabbedPane();
-        /*singlyListPanel =  new JPanel() {
-            public void paint(Graphics g)
-            {
-                super.paint(g);
-
-            }
-
-        };*/
-    	avlPanel = new JPanel();
-    	avlPanel.setBackground(Color.red);
         treeCenterPanel = new JPanel();
         treePane = new JTabbedPane();
         bstPanel = new JPanel();
@@ -73,11 +58,6 @@ public class TreePanel extends JPanel {
         bstDelText = new JTextField();
         bstSouthPanel = new JPanel();
         bstSlider = new JSlider();
-
-        avlNorthPanel = new JPanel();
-        avlSouthPanel = new JPanel();
-
-        jSeparator3 = new JSeparator();
 
         setLayout(new BorderLayout());
 
@@ -161,7 +141,6 @@ public class TreePanel extends JPanel {
 
 
         treePane.addTab("Arbore binar de cautare", bstPanel);
-        treePane.addTab("Arbore AVL", avlPanel);
 
         treeCenterPanel.add(treePane);
 
