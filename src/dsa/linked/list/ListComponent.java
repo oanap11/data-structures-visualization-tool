@@ -14,11 +14,11 @@ public class ListComponent extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 	
-	SinglyLinkedList list;
-	int operation;
-	int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
-	int width, height;
-	int interX, interY;
+	protected SinglyLinkedList list;
+	protected int operation;
+	protected int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
+	protected int width, height;
+	protected int interX, interY;
 	
 	// Using a thread pool improves performance while maintaining thread safety
 	private final ExecutorService threadPool = Executors.newCachedThreadPool(); // Initialize a thread pool
@@ -75,7 +75,6 @@ public class ListComponent extends JComponent {
 		y = tempY;
 
 		while (x <= finalX) { // Only need to check x, as y is always incremented
-			System.out.println("x = " + x + "    y = " + y);
 
 			if (x % 4 == 0) {
 				prevX = x;
@@ -115,113 +114,88 @@ public class ListComponent extends JComponent {
 
 	    repaint();
 	}
+	
+	void useCommonLogicForDrawing(Graphics g, Node currentNode, int stepHeight, int increaseDistance, boolean changed) {
+	    g.setColor(Color.WHITE);
+	    drawNull(g, currentX + 37, currentY);
+
+	    if (currentX + 130 > width) {
+	        finalX = 20;
+	        stepHeight += (increaseDistance + 30);
+	        finalY = stepHeight;
+	        changed = true;
+	    } else {
+	        finalX = currentX + 60;
+	        finalY = currentY;
+	    }
+
+	    g.setColor(Color.BLACK);
+	    drawNode(g, finalX, finalY, String.valueOf(currentNode.data));
+
+	    if (changed) {
+	        drawPathWithChanges(g, currentX, currentY, finalX, finalY, increaseDistance);
+	        changed = false;
+	    } else {
+	        g.drawLine(currentX + 35, currentY + 15, finalX, finalY + 15);
+	        drawArrow(g, finalX, finalY + 15, 1);
+	    }
+
+	    lastCurrentX = currentX;
+	    lastCurrentY = currentY;
+	    currentX = finalX;
+	    currentY = finalY;
+	    data = currentNode.data;
+	}
 
 	void drawInterPath(Graphics g) {
-		height = this.getHeight();
-		width = this.getWidth();
+	    height = this.getHeight();
+	    width = this.getWidth();
 
-		int stepHeight = 70;
-		int increaseDistance = 50; // distanta fata de lista verticala in cazul redimensionarii
-		int startX = 20;
-		int startY = 70;
-		currentX = startX;
-		currentY = startY;
-		boolean changed = false;
+	    int stepHeight = 70;
+	    int increaseDistance = 50;
+	    int startX = 20;
+	    int startY = 70;
+	    currentX = startX;
+	    currentY = startY;
+	    boolean changed = false;
 
-		Node currentNode = this.list.firstNode;
-		
-		g.setColor(Color.RED);
-		drawNode(g, currentX, currentY, "Start"); // deseneaza primul nod
-		g.setColor(Color.BLACK);
-		
-		while (currentNode != null && currentNode.next != null) {
-			g.setColor(Color.WHITE);
-			drawNull(g, currentX + 37, currentY);
+	    Node currentNode = this.list.firstNode;
+	    drawFirstNode(g);
 
-			if (currentX + 130 > width) {
-				finalX = startX;
-				stepHeight += (increaseDistance + 30);
-				finalY = stepHeight;
-				changed = true;
-			} else {
-				finalX = currentX + 60;
-				finalY = currentY;
-			}
-
-			g.setColor(Color.black);
-			drawNode(g, finalX, finalY, String.valueOf(currentNode.data));
-			
-			if (changed) {
-				drawPathWithChanges(g, currentX, currentY, finalX, finalY, increaseDistance);
-				changed = false;
-			} else {
-				g.drawLine(currentX + 35, currentY + 15, finalX, finalY + 15);
-				drawArrow(g, finalX, finalY + 15, 1);
-			}
-			// actualizeaza valorile
-			lastCurrentX = currentX;
-			lastCurrentY = currentY;
-			currentX = finalX;
-			currentY = finalY;
-			data = currentNode.data;
-
-			currentNode = currentNode.next;
-		}
-		drawNode(g, interX, interY, String.valueOf(currentNode.data));
+	    while (currentNode != null && currentNode.next != null) {
+	    	useCommonLogicForDrawing(g, currentNode, stepHeight, increaseDistance, changed);
+	        currentNode = currentNode.next;
+	    }
+	    drawNode(g, interX, interY, String.valueOf(currentNode.data));
 	}
 
 	public void drawList(Graphics g) {
-		height = this.getHeight();
-		width = this.getWidth();
+	    height = this.getHeight();
+	    width = this.getWidth();
 
-		int stepHeight = 70;
-		int increaseDistance = 50;
-		boolean changed = false;
-		currentX = 20;
-		currentY = 70;
-		
-		Node temp = this.list.firstNode;
-		g.setColor(Color.RED);
-		drawNode(g, currentX, currentY, "Start");
-		g.setColor(Color.BLACK);
-		
-		while (temp != null) {
-			g.setColor(Color.WHITE);
-			drawNull(g, currentX + 37, currentY);
+	    int stepHeight = 70;
+	    int increaseDistance = 50;
+	    int startX = 20;
+	    int startY = 70;
+	    currentX = startX;
+	    currentY = startY;
+	    boolean changed = false;
 
-			if (currentX + 130 > width) {
-				finalX = 20;
-				stepHeight += increaseDistance + 30;
-				finalY = stepHeight;
+	    Node currentNode = this.list.firstNode;
+	    drawFirstNode(g);
 
-				changed = true;
-			} else {
-				finalX = currentX + 60;
-				finalY = currentY;
-			}
-
-			g.setColor(Color.black);
-			drawNode(g, finalX, finalY, "" + temp.data);
-			
-			if (changed) {
-				drawPathWithChanges(g, currentX, currentY, finalX, finalY, increaseDistance);
-				changed = false;
-			} else {
-				g.drawLine(currentX + 35, currentY + 15, finalX, finalY + 15);
-				drawArrow(g, finalX, finalY + 15, 1);
-			}
-
-			lastCurrentX = currentX;
-			lastCurrentY = currentY;
-			currentX = finalX;
-			currentY = finalY;
-			data = temp.data;
-
-			temp = temp.next;
-		}
-
+	    while (currentNode != null) {
+	    	useCommonLogicForDrawing(g, currentNode, stepHeight, increaseDistance, changed);
+	        currentNode = currentNode.next;
+	    }
 	}
 	
+	void drawFirstNode(Graphics g) {
+		g.setColor(Color.RED);
+		drawNode(g, currentX, currentY, "Start"); // deseneaza primul nod
+		g.setColor(Color.BLACK);
+	}
+
 	protected void drawPathWithChanges(Graphics g, int startX, int startY, int finalX, int finalY, int increaseDistance) {
 	    g.drawLine(startX + 35, startY + 15, startX + 70, startY + 15);
 	    g.drawLine(startX + 70, startY + 15, startX + 70, startY + (30 + increaseDistance / 2));
@@ -233,9 +207,7 @@ public class ListComponent extends JComponent {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println("Desenat" + this.operation);
 		if (this.operation == 1) {
-			System.out.println("A fost inserat un element in lista.");
 			drawInterPath(g);
 		} else {
 			drawList(g);

@@ -13,12 +13,7 @@ public class SinglyCircular extends ListComponent {
 	
 	private static final long serialVersionUID = 1L;
 
-	SinglyLinkedList list;
-	int operation;
-	int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
-	int initialX, initialY, interX, interY;
-	int width, height;
-
+	int initialX, initialY;
 	private final ExecutorService threadPool = Executors.newCachedThreadPool(); // Initialize a thread pool
 
 	private void drawNodeWithoutArrow(Graphics g, int x, int y, String s) {
