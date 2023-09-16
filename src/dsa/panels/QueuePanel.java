@@ -33,36 +33,44 @@ import dsa.queue.QueueListComponent;
 
 public class QueuePanel extends JPanel {
 
-    QueueComponent queueComponent;
+	private static final long serialVersionUID = 1L;
+	QueueComponent queueComponent;
     GraphicalArrayQueue arrayQueue;
-    QueueListComponent lcomp;
+    QueueListComponent listComponent;
     LinkedListTemplate listA;
-
-    private JButton dequeueButton, dequeueButtonList, enqueueButton;
-    private JSeparator jSeparator1, jSeparator2, jSeparator3, jSeparator5, jSeparator6;
-    private JPanel qArrayPanel, qLinkedPanel;
-    private JSlider qArraySlider, qLinkedSlider;
-
-    private JButton qLinkedStepButton, qListEnqueueButton;
-    private JTextField qListinputText, qinputText;
-    private JPanel queueCenterPanel, queueNorthLinkedPanel, queueNorthPanel;
+    
     private JTabbedPane queuePane;
-    private JPanel queueSouthLinkedPanel, queueSouthPanel;
-    private JButton resetButton, sizeButton;
-    private JLabel sizeLabel;
-    private JTextField sizeText;
-
+    private JSeparator jSeparator1, jSeparator2;
+    private JPanel queueCenterPanel;
+    
+    // array components
+    private JButton arrayEnqueueButton, arrayDequeueButton, arrayResetButton, arraySizeButton;
+    private JPanel arrayPanel;
+    private JSlider arraySlider;
+    private JTextField arrayInputTextField;
+    private JLabel arraySizeLabel;
+    private JTextField arraySizeText;
+    private JPanel arraySouthPanel;
+    private JPanel arrayNorthPanel;
+    
+    // linked list components
+    private JButton listEnqueueButton, listDequeueButton;
+    private JPanel listPanel;
+    private JSlider listSlider;
+    private JTextField listInputTextField;
+    private JPanel listSouthPanel;
+    private JPanel listNorthPanel;
+    
     public QueuePanel() {
         initComponents();
-        sizeText.setText(null);
-        lcomp = new QueueListComponent();
-        qLinkedPanel.add(lcomp, BorderLayout.CENTER);
+        listComponent = new QueueListComponent();
+        listPanel.add(listComponent, BorderLayout.CENTER);
         listA = new LinkedListTemplate();
-        lcomp.setValues(listA,0, 'n');
-        enqueueButton.setEnabled(false);
-        dequeueButton.setEnabled(false);
-        resetButton.setEnabled(false);
-        qLinkedPanel.revalidate();
+        listComponent.setValues(listA,0, 'n');
+        arrayEnqueueButton.setEnabled(false);
+        arrayDequeueButton.setEnabled(false);
+        arrayResetButton.setEnabled(false);
+        listPanel.revalidate();
     }
 
     private void initComponents() {
@@ -70,50 +78,38 @@ public class QueuePanel extends JPanel {
 
         queueCenterPanel = new JPanel();
         queuePane = new JTabbedPane();
-        qArrayPanel =  new JPanel(){
-
-            @Override
-			public void paint(Graphics g){
-                super.paint(g);
-                System.out.println("here");
-            }
-
-        };
-        queueNorthPanel = new JPanel();
-        enqueueButton = new JButton();
-        dequeueButton = new JButton();
-        qinputText = new JTextField();
-        sizeButton = new JButton();
-        sizeText = new JTextField();
-        sizeLabel = new JLabel();
-        resetButton = new JButton();
+        arrayPanel =  new JPanel();
+        arrayNorthPanel = new JPanel();
+        arrayEnqueueButton = new JButton();
+        arrayDequeueButton = new JButton();
+        arrayInputTextField = new JTextField();
+        arraySizeButton = new JButton();
+        arraySizeText = new JTextField();
+        arraySizeLabel = new JLabel();
+        arrayResetButton = new JButton();
         jSeparator1 = new JSeparator();
         jSeparator2 = new JSeparator();
-        queueSouthPanel = new JPanel();
-        qArraySlider = new JSlider();
+        arraySouthPanel = new JPanel();
+        arraySlider = new JSlider();
 
-        jSeparator3 = new JSeparator();
-        qLinkedPanel = new JPanel();
-        queueNorthLinkedPanel = new JPanel();
-        qListEnqueueButton = new JButton();
-        dequeueButtonList = new JButton();
-        qListinputText = new JTextField();
-        jSeparator5 = new JSeparator();
-        queueSouthLinkedPanel = new JPanel();
-        qLinkedSlider = new JSlider();
-        qLinkedStepButton = new JButton();
-        jSeparator6 = new JSeparator();
+        listPanel = new JPanel();
+        listNorthPanel = new JPanel();
+        listEnqueueButton = new JButton();
+        listDequeueButton = new JButton();
+        listInputTextField = new JTextField();
+        listSouthPanel = new JPanel();
+        listSlider = new JSlider();
 
         setLayout(new BorderLayout());
 
         queueCenterPanel.setLayout(new BoxLayout(queueCenterPanel, BoxLayout.LINE_AXIS));
 
-        qArrayPanel.setBackground(new Color(254, 254, 254));
-        qArrayPanel.setLayout(new BorderLayout());
+        arrayPanel.setBackground(new Color(254, 254, 254));
+        arrayPanel.setLayout(new BorderLayout());
 
         //butonul pentru adaugarea de elemente in coada
-        enqueueButton.setText("Adauga element");
-        enqueueButton.addActionListener(new ActionListener() {
+        arrayEnqueueButton.setText("Adauga element");
+        arrayEnqueueButton.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
                 enqueueButtonActionPerformed(evt);
@@ -121,8 +117,8 @@ public class QueuePanel extends JPanel {
         });
 
         //botonul pentru stergerea de elemente
-        dequeueButton.setText("Sterge element");
-        dequeueButton.addActionListener(new ActionListener() {
+        arrayDequeueButton.setText("Sterge element");
+        arrayDequeueButton.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
                 dequeueButtonActionPerformed(evt);
@@ -130,48 +126,48 @@ public class QueuePanel extends JPanel {
         });
 
         //insereaza elementul
-        qinputText.setColumns(5);
-        qinputText.addKeyListener(new KeyAdapter() {
+        arrayInputTextField.setColumns(5);
+        arrayInputTextField.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 qinputTextKeyPressed(evt);
             }
         });
 
-        sizeButton.setText("Numar elemente");
-        sizeButton.addActionListener(new ActionListener() {
+        arraySizeButton.setText("Numar elemente");
+        arraySizeButton.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
                 sizeButtonActionPerformed(evt);
             }
         });
-        sizeButton.addKeyListener(new KeyAdapter() {
+        arraySizeButton.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 sizeButtonKeyPressed(evt);
             }
         });
 
-        sizeText.setColumns(5);
-        sizeText.addActionListener(new ActionListener() {
+        arraySizeText.setColumns(5);
+        arraySizeText.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
                 sizeTextActionPerformed(evt);
             }
         });
-        sizeText.addKeyListener(new KeyAdapter() {
+        arraySizeText.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 sizeTextKeyPressed(evt);
             }
         });
 
-        sizeLabel.setFont(new Font("Ubuntu", 0, 18)); // NOI18N
-        sizeLabel.setForeground(new Color(241, 19, 19));
-        sizeLabel.setText("Numar de elemente:  ");
+        arraySizeLabel.setFont(new Font("Ubuntu", 0, 18)); // NOI18N
+        arraySizeLabel.setForeground(new Color(241, 19, 19));
+        arraySizeLabel.setText("Numar de elemente:  ");
 
-        resetButton.setText("Reseteaza");
-        resetButton.addActionListener(new ActionListener() {
+        arrayResetButton.setText("Reseteaza");
+        arrayResetButton.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
                 resetButtonActionPerformed(evt);
@@ -181,29 +177,29 @@ public class QueuePanel extends JPanel {
         jSeparator1.setOrientation(SwingConstants.VERTICAL);
         jSeparator2.setOrientation(SwingConstants.VERTICAL);
 
-        GroupLayout queueNorthPanelLayout = new GroupLayout(queueNorthPanel);
-        queueNorthPanel.setLayout(queueNorthPanelLayout);
+        GroupLayout queueNorthPanelLayout = new GroupLayout(arrayNorthPanel);
+        arrayNorthPanel.setLayout(queueNorthPanelLayout);
         queueNorthPanelLayout.setHorizontalGroup(
             queueNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(queueNorthPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(qinputText, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+                .addComponent(arrayInputTextField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(enqueueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(arrayEnqueueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dequeueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(arrayDequeueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sizeText, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+                .addComponent(arraySizeText, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sizeButton)
+                .addComponent(arraySizeButton)
                 .addGap(29, 29, 29)
-                .addComponent(sizeLabel)
+                .addComponent(arraySizeLabel)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetButton, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(arrayResetButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addContainerGap())
         );
         queueNorthPanelLayout.setVerticalGroup(
@@ -218,69 +214,66 @@ public class QueuePanel extends JPanel {
                         .addGroup(queueNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
                             .addGroup(queueNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(qinputText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(enqueueButton)
-                                .addComponent(dequeueButton)
-                                .addComponent(sizeButton)
-                                .addComponent(sizeText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(sizeLabel)
-                                .addComponent(resetButton)))
+                                .addComponent(arrayInputTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(arrayEnqueueButton)
+                                .addComponent(arrayDequeueButton)
+                                .addComponent(arraySizeButton)
+                                .addComponent(arraySizeText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(arraySizeLabel)
+                                .addComponent(arrayResetButton)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
-        qArrayPanel.add(queueNorthPanel, BorderLayout.NORTH);
-        queueSouthPanel.setBackground(new Color(255, 87, 51));
-        queueSouthPanel.setPreferredSize(new Dimension(100, 100));
-        qArrayPanel.add(queueSouthPanel, BorderLayout.SOUTH);
+        arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
+        arraySouthPanel.setBackground(new Color(255, 87, 51));
+        arraySouthPanel.setPreferredSize(new Dimension(100, 100));
+        arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
 
-        qArraySlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
+        arraySlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
 
-        qArrayPanel.add(queueSouthPanel, BorderLayout.SOUTH);
+        arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
 
-        queuePane.addTab("Coada - Tablou de elemente", qArrayPanel);
+        queuePane.addTab("Coada - Tablou de elemente", arrayPanel);
 
-        qLinkedPanel.setBackground(Color.white);
-        qLinkedPanel.setLayout(new BorderLayout());
+        listPanel.setBackground(Color.white);
+        listPanel.setLayout(new BorderLayout());
 
-        qListEnqueueButton.setText("Adauga element");
-        qListEnqueueButton.addActionListener(new ActionListener() {
+        listEnqueueButton.setText("Adauga element");
+        listEnqueueButton.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
                 qListEnqueueButtonActionPerformed(evt);
             }
         });
 
-        dequeueButtonList.setText("Scoate element");
-        dequeueButtonList.addActionListener(new ActionListener() {
+        listDequeueButton.setText("Scoate element");
+        listDequeueButton.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent evt) {
             	dequeueButtonListActionPerformed(evt);
             }
         });
 
-        qListinputText.setColumns(5);
-        qListinputText.addKeyListener(new KeyAdapter() {
+        listInputTextField.setColumns(5);
+        listInputTextField.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 qListinputTextKeyPressed(evt);
             }
         });
 
-        jSeparator5.setOrientation(SwingConstants.VERTICAL);
-
-        GroupLayout queueNorthLinkedPanelLayout = new GroupLayout(queueNorthLinkedPanel);
-        queueNorthLinkedPanel.setLayout(queueNorthLinkedPanelLayout);
+        GroupLayout queueNorthLinkedPanelLayout = new GroupLayout(listNorthPanel);
+        listNorthPanel.setLayout(queueNorthLinkedPanelLayout);
         queueNorthLinkedPanelLayout.setHorizontalGroup(
             queueNorthLinkedPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(queueNorthLinkedPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(qListinputText, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+                .addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(qListEnqueueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(listEnqueueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dequeueButtonList, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(listDequeueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 322, Short.MAX_VALUE)
-                .addComponent(jSeparator5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
         );
         queueNorthLinkedPanelLayout.setVerticalGroup(
@@ -288,25 +281,24 @@ public class QueuePanel extends JPanel {
             .addGroup(queueNorthLinkedPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(queueNorthLinkedPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator5, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
                     .addGroup(queueNorthLinkedPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(qListinputText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(qListEnqueueButton)
-                        .addComponent(dequeueButtonList)))
+                        .addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(listEnqueueButton)
+                        .addComponent(listDequeueButton)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        qLinkedPanel.add(queueNorthLinkedPanel, BorderLayout.NORTH);
-        qLinkedPanel.add(queueSouthLinkedPanel, BorderLayout.SOUTH);
+        listPanel.add(listNorthPanel, BorderLayout.NORTH);
+        listPanel.add(listSouthPanel, BorderLayout.SOUTH);
 
-        queueSouthLinkedPanel.setBackground(new Color(255, 87, 51));
-        queueSouthLinkedPanel.setPreferredSize(new Dimension(100, 100));
-        qLinkedPanel.add(queueSouthLinkedPanel, BorderLayout.SOUTH);
+        listSouthPanel.setBackground(new Color(255, 87, 51));
+        listSouthPanel.setPreferredSize(new Dimension(100, 100));
+        listPanel.add(listSouthPanel, BorderLayout.SOUTH);
 
-        qLinkedSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION, new Font("Bitstream Charter", 0, 12), new Color(222, 29, 29))); // NOI18N
+        listSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION, new Font("Bitstream Charter", 0, 12), new Color(222, 29, 29))); // NOI18N
 
 
-        queuePane.addTab("Coada - Lista", qLinkedPanel);
+        queuePane.addTab("Coada - Lista", listPanel);
         queueCenterPanel.add(queuePane);
         add(queueCenterPanel, BorderLayout.CENTER);
     }
@@ -314,90 +306,90 @@ public class QueuePanel extends JPanel {
     private void dequeueButtonActionPerformed(ActionEvent evt) {
          String s = arrayQueue.dequeue();
          if(s == null) {
-             dequeueButton.setEnabled(false);
+             arrayDequeueButton.setEnabled(false);
              JOptionPane.showMessageDialog(null, "Coada este goala.", "alert", JOptionPane.ERROR_MESSAGE);
          }
-         enqueueButton.setEnabled(true);
+         arrayEnqueueButton.setEnabled(true);
          queueComponent.setValues(arrayQueue);
-         qinputText.setText("");
+         arrayInputTextField.setText("");
     }
 
     private void sizeButtonActionPerformed(ActionEvent evt) {
-        if(sizeText.getText().equals(""))
+        if(arraySizeText.getText().equals(""))
                 return;
 
         if(queueComponent != null) {
-            qArrayPanel.remove(queueComponent);
+            arrayPanel.remove(queueComponent);
         }
-        if(sizeText.getText() != " ") {
-            sizeLabel.setText( "Numar elemente:  " + sizeText.getText());
-            sizeButton.setEnabled(false);
-            enqueueButton.setEnabled(true);
-            dequeueButton.setEnabled(true);
-            resetButton.setEnabled(true);
+        if(arraySizeText.getText() != " ") {
+            arraySizeLabel.setText( "Numar elemente:  " + arraySizeText.getText());
+            arraySizeButton.setEnabled(false);
+            arrayEnqueueButton.setEnabled(true);
+            arrayDequeueButton.setEnabled(true);
+            arrayResetButton.setEnabled(true);
         }
         queueComponent = new QueueComponent();
 
-        qArrayPanel.add(queueComponent,BorderLayout.CENTER);
+        arrayPanel.add(queueComponent,BorderLayout.CENTER);
 
-        arrayQueue = new GraphicalArrayQueue(Integer.parseInt(sizeText.getText()), qArrayPanel.getWidth(),qArrayPanel.getHeight());
+        arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(),arrayPanel.getHeight());
         queueComponent.setValues(arrayQueue);
-        qArrayPanel.revalidate();
+        arrayPanel.revalidate();
 
-        sizeText.setText(null);
+        arraySizeText.setText(null);
     }
 
     private void sizeTextActionPerformed(ActionEvent evt) {
     }
 
     private void resetButtonActionPerformed(ActionEvent evt) {
-        sizeLabel.setText( "Numar elemente:   ");
-        sizeButton.setEnabled(true);
-        enqueueButton.setEnabled(false);
-        dequeueButton.setEnabled(false);
-        resetButton.setEnabled(false);
+        arraySizeLabel.setText( "Numar elemente:   ");
+        arraySizeButton.setEnabled(true);
+        arrayEnqueueButton.setEnabled(false);
+        arrayDequeueButton.setEnabled(false);
+        arrayResetButton.setEnabled(false);
         arrayQueue.size = 0;
         queueComponent.setValues(arrayQueue);
     }
 
     private void sizeTextKeyPressed(KeyEvent evt) {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(sizeText.getText().equals(""))
+            if(arraySizeText.getText().equals(""))
                 return;
 
         if(queueComponent != null){
-            qArrayPanel.remove(queueComponent);
+            arrayPanel.remove(queueComponent);
         }
-        if(sizeText.getText() != " "){
-            sizeLabel.setText( "Numar elemenete: " + sizeText.getText());
+        if(arraySizeText.getText() != " "){
+            arraySizeLabel.setText( "Numar elemenete: " + arraySizeText.getText());
 
-            sizeButton.setEnabled(false);
-            enqueueButton.setEnabled(true);
-            dequeueButton.setEnabled(true);
-            resetButton.setEnabled(true);
+            arraySizeButton.setEnabled(false);
+            arrayEnqueueButton.setEnabled(true);
+            arrayDequeueButton.setEnabled(true);
+            arrayResetButton.setEnabled(true);
         }
         queueComponent = new QueueComponent();
 
-        qArrayPanel.add(queueComponent,BorderLayout.CENTER);
+        arrayPanel.add(queueComponent,BorderLayout.CENTER);
 
-        arrayQueue = new GraphicalArrayQueue(Integer.parseInt(sizeText.getText()), qArrayPanel.getWidth(),qArrayPanel.getHeight());
+        arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(),arrayPanel.getHeight());
         queueComponent.setValues(arrayQueue);
-        qArrayPanel.revalidate();
+        arrayPanel.revalidate();
 
-        sizeText.setText(null);
+        arraySizeText.setText(null);
 
         }
     }
 
     private void enqueueButtonActionPerformed(ActionEvent evt) {
-        int a = arrayQueue.enqueue(qinputText.getText());
+        int a = arrayQueue.enqueue(arrayInputTextField.getText());
         if(a==-1){
             JOptionPane.showMessageDialog(null, "Coada este plina.", "alert", JOptionPane.ERROR_MESSAGE);
-            enqueueButton.setEnabled(false);
+            arrayEnqueueButton.setEnabled(false);
         }
-        dequeueButton.setEnabled(true);
+        arrayDequeueButton.setEnabled(true);
         queueComponent.setValues(arrayQueue);
-        qinputText.setText("");
+        arrayInputTextField.setText("");
     }
 
     private void dequeueButtonListActionPerformed(ActionEvent evt) {
@@ -405,25 +397,25 @@ public class QueuePanel extends JPanel {
              JOptionPane.showMessageDialog(null, "Nu sunt elemente in coada", "alert", JOptionPane.ERROR_MESSAGE);
        else
              listA.deleteElement(listA.firstNode.data);
-      lcomp.setValues(listA,0,'n');
+      listComponent.setValues(listA,0,'n');
     }
 
     private void qListEnqueueButtonActionPerformed(ActionEvent evt) {
-        listA.insertElement(Integer.parseInt(qListinputText.getText()));
-        lcomp.setValues(listA,1, 'n');
-        qListinputText.setText("");
+        listA.insertElement(Integer.parseInt(listInputTextField.getText()));
+        listComponent.setValues(listA,1, 'n');
+        listInputTextField.setText("");
     }
 
     private void qinputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-            int a = arrayQueue.enqueue(qinputText.getText());
+            int a = arrayQueue.enqueue(arrayInputTextField.getText());
             if(a==-1){
                 JOptionPane.showMessageDialog(null, "Coada este plina", "alert", JOptionPane.ERROR_MESSAGE);
-                enqueueButton.setEnabled(false);
+                arrayEnqueueButton.setEnabled(false);
             }
-            dequeueButton.setEnabled(true);
+            arrayDequeueButton.setEnabled(true);
             queueComponent.setValues(arrayQueue);
-            qinputText.setText("");
+            arrayInputTextField.setText("");
        }
     }
 
@@ -431,9 +423,9 @@ public class QueuePanel extends JPanel {
 
     private void qListinputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-            listA.insertElement(Integer.parseInt(qListinputText.getText()));
-            lcomp.setValues(listA,1, 'n');
-            qListinputText.setText("");
+            listA.insertElement(Integer.parseInt(listInputTextField.getText()));
+            listComponent.setValues(listA,1, 'n');
+            listInputTextField.setText("");
        }
     }
 
