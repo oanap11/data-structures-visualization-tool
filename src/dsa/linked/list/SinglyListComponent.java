@@ -8,13 +8,13 @@ import java.util.concurrent.Executors;
 import javax.swing.JComponent;
 
 import dsa.Node;
-import dsa.SinglyLinkedList;
+import dsa.LinkedListTemplate;
 
-public class ListComponent extends JComponent {
+public class SinglyListComponent extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected SinglyLinkedList list;
+	protected LinkedListTemplate list;
 	protected int operation;
 	protected int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
 	protected int width, height;
@@ -23,7 +23,7 @@ public class ListComponent extends JComponent {
 	// Using a thread pool improves performance while maintaining thread safety
 	private final ExecutorService threadPool = Executors.newCachedThreadPool(); // Initialize a thread pool
 
-	public ListComponent() {
+	public SinglyListComponent() {
 	}
 
 	protected void drawArrow(Graphics g, int x, int y, int flag) {
@@ -104,7 +104,7 @@ public class ListComponent extends JComponent {
 
 	}
 
-	public void setValues(SinglyLinkedList list, int operation) {
+	public void setValues(LinkedListTemplate list, int operation) {
 		this.list = list;
 	    this.operation = operation;
 

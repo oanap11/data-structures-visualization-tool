@@ -8,12 +8,12 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 import dsa.Node;
-import dsa.SinglyLinkedList;
+import dsa.LinkedListTemplate;
 import dsa.panels.ListPanel;
 
 public class StackListComponent extends JComponent {
 
-	SinglyLinkedList list;
+	LinkedListTemplate list;
 	char flag;
 	int operation ;
 	int tempX, tempY, currentX, currentY, finalX, finalY,data,lastCurrentX, lastCurrentY;
@@ -108,7 +108,7 @@ public class StackListComponent extends JComponent {
 
  }
 
- public void setValues(SinglyLinkedList list,int operation,char flag){
+ public void setValues(LinkedListTemplate list,int operation,char flag){
       this.flag = flag;
       this.list = list;
       this.operation = operation;

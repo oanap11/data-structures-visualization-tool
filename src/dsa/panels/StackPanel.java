@@ -23,7 +23,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import dsa.SinglyLinkedList;
+import dsa.LinkedListTemplate;
 import dsa.stack.GraphicalArrayStack;
 import dsa.stack.StackComponent;
 import dsa.stack.StackListComponent;
@@ -33,7 +33,7 @@ public class StackPanel extends javax.swing.JPanel {
     StackComponent stackComp;
     GraphicalArrayStack stackArray;
     StackListComponent lcomp;
-    SinglyLinkedList listA;
+    LinkedListTemplate listA;
 
     private JSeparator jSeparator1, jSeparator2, jSeparator3, jSeparator4, jSeparator5, jSeparator6;
 
@@ -58,7 +58,7 @@ public class StackPanel extends javax.swing.JPanel {
         initComponents();
         lcomp = new StackListComponent();
         sLinkedPanel.add(lcomp,BorderLayout.CENTER);
-        listA = new SinglyLinkedList();
+        listA = new LinkedListTemplate();
         lcomp.setValues(listA,0,'n');
         sLinkedPanel.revalidate();
         pushButton.setEnabled(false);

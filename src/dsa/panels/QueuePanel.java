@@ -25,7 +25,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import dsa.SinglyLinkedList;
+import dsa.LinkedListTemplate;
 import dsa.queue.GraphicalArrayQueue;
 import dsa.queue.QueueComponent;
 import dsa.queue.QueueListComponent;
@@ -36,7 +36,7 @@ public class QueuePanel extends JPanel {
     QueueComponent queueComponent;
     GraphicalArrayQueue arrayQueue;
     QueueListComponent lcomp;
-    SinglyLinkedList listA;
+    LinkedListTemplate listA;
 
     private JButton dequeueButton, dequeueButtonList, enqueueButton;
     private JSeparator jSeparator1, jSeparator2, jSeparator3, jSeparator5, jSeparator6;
@@ -57,7 +57,7 @@ public class QueuePanel extends JPanel {
         sizeText.setText(null);
         lcomp = new QueueListComponent();
         qLinkedPanel.add(lcomp, BorderLayout.CENTER);
-        listA = new SinglyLinkedList();
+        listA = new LinkedListTemplate();
         lcomp.setValues(listA,0, 'n');
         enqueueButton.setEnabled(false);
         dequeueButton.setEnabled(false);

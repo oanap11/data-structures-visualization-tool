@@ -7,9 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dsa.Node;
-import dsa.SinglyLinkedList;
+import dsa.LinkedListTemplate;
 
-public class SinglyCircular extends ListComponent {
+public class SinglyCircular extends SinglyListComponent {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -213,7 +213,7 @@ public class SinglyCircular extends ListComponent {
 
 	}
 
-	public void setValues(SinglyLinkedList listCircular, int operation) {
+	public void setValues(LinkedListTemplate listCircular, int operation) {
 		this.list = listCircular;
 		this.operation = operation;
 

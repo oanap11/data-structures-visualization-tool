@@ -1,11 +1,11 @@
 package dsa;
 
-public class SinglyLinkedList {
+public class LinkedListTemplate {
 
     public Node firstNode;
     public Node lastNode;
 
-    public SinglyLinkedList() {
+    public LinkedListTemplate() {
         firstNode = lastNode = null;
     }
 
