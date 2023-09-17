@@ -25,7 +25,8 @@ import dsa.trees.TreeComponent;
 
 public class TreePanel extends JPanel {
 
-    private JButton bstDelButton;
+	private static final long serialVersionUID = 1L;
+	private JButton bstDelButton;
     private JTextField bstDelText;
     private JButton bstInsertButton;
     private JTextField bstInsertText;
@@ -82,13 +83,6 @@ public class TreePanel extends JPanel {
             }
         });
 
-        bstInsertText.setColumns(10);
-        bstInsertText.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                bstInsertTextActionPerformed(evt);
-            }
-        });
         bstInsertText.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
@@ -145,8 +139,6 @@ public class TreePanel extends JPanel {
         treeCenterPanel.add(treePane);
 
         add(treeCenterPanel, BorderLayout.CENTER);
-    }
-    private void bstInsertTextActionPerformed(ActionEvent evt) {
     }
 
     private void bstDelButtonActionPerformed(ActionEvent evt) {

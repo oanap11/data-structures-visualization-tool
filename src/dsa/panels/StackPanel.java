@@ -30,262 +30,168 @@ import dsa.stack.StackListComponent;
 
 public class StackPanel extends javax.swing.JPanel {
 
-    StackComponent stackComp;
+	private static final long serialVersionUID = 1L;
+	StackComponent arrayStackComponent;
     GraphicalArrayStack stackArray;
-    StackListComponent lcomp;
-    LinkedListTemplate listA;
+    
+    StackListComponent listStackComponent;
+    LinkedListTemplate linkedListTemplate;
+    
+    private JTabbedPane tabbedPane;
+    private JSeparator jSeparator1, jSeparator2;
 
-    private JSeparator jSeparator1, jSeparator2, jSeparator3, jSeparator4, jSeparator5, jSeparator6;
-
-    private JButton popButton, pushButton;
-
-    private JPanel sArrayPanel, sLinkedPanel, stackArrayNorthPanel, stackCenterPanel, stackLinkedNorthPanel1, stackArraySouthPanel, stackLinkedSouthPanel;
-    private JSlider sArraySlider;
-    private JButton sLPushButton;
-
-    private JSlider sLinkedSlider1;
-    private JTextField sListInputText;
-    private JButton sListPopButton;
-    private JTextField sinputText;
-
-    private JTabbedPane stackPane;
-    private JButton stackResetButton;
-    private JButton stackSizeButton;
-    private JLabel stackSizeLabel;
-    private JTextField stackSizeText;
+    private JPanel arrayPanel, listPanel; 
+    private JPanel stackCenterPanel, arrayNorthPanel, arraySouthPanel, listSouthPanel, listNorthPanel;
+    
+    private JButton listPushButton, listPopButton;
+    private JSlider listSlider;
+    private JTextField listInputTextField;
+    
+    private JButton arrayPopButton, arrayPushButton, arrayResetButton, arraySizeButton;
+    private JLabel arraySizeLabel;
+    private JTextField arraySizeText;
+    private JSlider arraySlider;
+    private JTextField arrayInputTextField;
 
     public StackPanel() {
         initComponents();
-        lcomp = new StackListComponent();
-        sLinkedPanel.add(lcomp,BorderLayout.CENTER);
-        listA = new LinkedListTemplate();
-        lcomp.setValues(listA,0,'n');
-        sLinkedPanel.revalidate();
-        pushButton.setEnabled(false);
-        popButton.setEnabled(false);
-        stackResetButton.setEnabled(false);
+        listStackComponent = new StackListComponent();
+        listPanel.add(listStackComponent,BorderLayout.CENTER);
+        linkedListTemplate = new LinkedListTemplate();
+        listStackComponent.setValues(linkedListTemplate,0,'n');
+        listPanel.revalidate();
+        arrayPushButton.setEnabled(false);
+        arrayPopButton.setEnabled(false);
+        arrayResetButton.setEnabled(false);
     }
-
-
-    private void initComponents() {
-
-        stackCenterPanel = new JPanel();
-        stackPane = new JTabbedPane();
-        sArrayPanel = new JPanel();
-
-        sArraySlider = new JSlider();
-
-        stackArraySouthPanel = new JPanel();
-        stackLinkedSouthPanel = new JPanel();
-
-        jSeparator3 = new JSeparator();
-        stackArrayNorthPanel = new JPanel();
-        pushButton = new JButton();
-        popButton = new JButton();
-        sinputText = new JTextField();
-        stackSizeButton = new JButton();
-        stackSizeText = new JTextField();
-        stackSizeLabel = new JLabel();
-        stackResetButton = new JButton();
+    
+    void initArrayStackComponents() {
+        arrayPanel = new JPanel();
+        arraySlider = new JSlider();
+        arraySouthPanel = new JPanel();
+        arrayNorthPanel = new JPanel();
+        arrayPushButton = new JButton();
+        arrayPopButton = new JButton();
+        arrayInputTextField = new JTextField();
+        arraySizeButton = new JButton();
+        arraySizeText = new JTextField();
+        arraySizeLabel = new JLabel();
+        arrayResetButton = new JButton();
         jSeparator1 = new JSeparator();
         jSeparator2 = new JSeparator();
-        sLinkedPanel = new JPanel();
-        stackLinkedNorthPanel1 = new JPanel();
-        sLPushButton = new JButton();
-        sListPopButton = new JButton();
-        sListInputText = new JTextField();
-        jSeparator4 = new JSeparator();
-        jSeparator5 = new JSeparator();
+    }
+    
+    void initListStackComponents() {
+    	listPanel = new JPanel();
+        listNorthPanel = new JPanel();
+        listSouthPanel = new JPanel();
+        listPushButton = new JButton();
+        listPopButton = new JButton();
+        listInputTextField = new JTextField();
+        listSlider = new JSlider();
+    }
 
-        sLinkedSlider1 = new JSlider();
-
-
-
-        jSeparator6 = new JSeparator();
+    private void initComponents() {
+    	tabbedPane = new JTabbedPane();
+        stackCenterPanel = new JPanel();
+        
+    	initArrayStackComponents();
+    	initListStackComponents();
 
         setLayout(new BorderLayout());
 
         stackCenterPanel.setLayout(new BoxLayout(stackCenterPanel, BoxLayout.LINE_AXIS));
 
-        sArrayPanel.setBackground(new Color(254, 254, 254));
-        sArrayPanel.setLayout(new BorderLayout());
+        arrayPanel.setBackground(new Color(254, 254, 254));
+        arrayPanel.setLayout(new BorderLayout());
 
-        sArraySlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT,
+        arraySlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT,
         		TitledBorder.DEFAULT_POSITION, new Font("Bitstream Charter", 0, 12), new Color(222, 29, 29)));
 
-        pushButton.setText("Push");
-        pushButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                pushButtonActionPerformed(evt);
-            }
-        });
+        arrayPushButton.setText("Push");
+        arrayPushButton.addActionListener(evt -> pushButtonActionPerformed(evt));
 
-        popButton.setText("Pop");
-        popButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                popButtonActionPerformed(evt);
-            }
-        });
+        arrayPopButton.setText("Pop");
+        arrayPopButton.addActionListener(evt -> popButtonActionPerformed(evt));
 
-        sinputText.setColumns(5);
-        sinputText.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                sinputTextActionPerformed(evt);
-            }
-        });
-        sinputText.addKeyListener(new KeyAdapter() {
+        arrayInputTextField.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 sinputTextKeyPressed(evt);
             }
         });
 
-        stackSizeButton.setText("Numar de elemente");
-        stackSizeButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                stackSizeButtonActionPerformed(evt);
-            }
-        });
+        arraySizeButton.setText("Numar de elemente");
+        arraySizeButton.addActionListener(evt -> stackSizeButtonActionPerformed(evt));
 
-        stackSizeText.setColumns(5);
-        stackSizeText.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                stackSizeTextActionPerformed(evt);
-            }
-        });
-        stackSizeText.addKeyListener(new KeyAdapter() {
+        arraySizeText.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 stackSizeTextKeyPressed(evt);
             }
         });
 
-        stackSizeLabel.setFont(new Font("Ubuntu", 0, 18));
-        stackSizeLabel.setForeground(new Color(241, 19, 19));
-        stackSizeLabel.setText("Numar de elemente in stiva:  ");
+        arraySizeLabel.setFont(new Font("Ubuntu", 0, 18));
+        arraySizeLabel.setForeground(new Color(241, 19, 19));
+        arraySizeLabel.setText("Numar de elemente in stiva:  ");
 
-        stackResetButton.setText("Reseteaza");
-        stackResetButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                stackResetButtonActionPerformed(evt);
-            }
-        });
+        arrayResetButton.setText("Reseteaza");
+        arrayResetButton.addActionListener(evt -> stackResetButtonActionPerformed(evt));
 
         jSeparator1.setOrientation(SwingConstants.VERTICAL);
-
         jSeparator2.setOrientation(SwingConstants.VERTICAL);
+        
+        GroupLayout arrayStackLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(
+        	    arrayNorthPanel,
+        	    arrayInputTextField,
+        	    arrayPushButton,
+        	    arrayPopButton,
+        	    jSeparator1,
+        	    arraySizeText,
+        	    arraySizeButton,
+        	    arraySizeLabel,
+        	    jSeparator2,
+        	    arrayResetButton
+        	);
 
-        GroupLayout stackArrayNorthPanelLayout = new GroupLayout(stackArrayNorthPanel);
-        stackArrayNorthPanel.setLayout(stackArrayNorthPanelLayout);
-        stackArrayNorthPanelLayout.setHorizontalGroup(
-            stackArrayNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(stackArrayNorthPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sinputText, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pushButton, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(popButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(stackSizeText, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(stackSizeButton)
-                .addGap(29, 29, 29)
-                .addComponent(stackSizeLabel)
-                .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(stackResetButton, 0, GroupLayout.DEFAULT_SIZE, 200)
-                .addContainerGap())
-        );
-        stackArrayNorthPanelLayout.setVerticalGroup(
-            stackArrayNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(stackArrayNorthPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(stackArrayNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(stackArrayNorthPanelLayout.createSequentialGroup()
-                        .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(stackArrayNorthPanelLayout.createSequentialGroup()
-                        .addGroup(stackArrayNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                            .addGroup(stackArrayNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(sinputText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(pushButton)
-                                .addComponent(popButton)
-                                .addComponent(stackSizeButton)
-                                .addComponent(stackSizeText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(stackSizeLabel)
-                                .addComponent(stackResetButton)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
+        arrayNorthPanel.setLayout(arrayStackLayout);
+       
+        arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
+        arraySouthPanel.setBackground(new Color(255, 87, 51));
+        arraySouthPanel.setPreferredSize(new Dimension(100, 100));
 
-        sArrayPanel.add(stackArrayNorthPanel, BorderLayout.NORTH);
-        stackArraySouthPanel.setBackground(new Color(255, 87, 51));
-        stackArraySouthPanel.setPreferredSize(new Dimension(100, 100));
+        arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
 
-        sArrayPanel.add(stackArraySouthPanel, BorderLayout.SOUTH);
+        tabbedPane.addTab("Stiva - Tablou de elemente", arrayPanel);
 
-        stackPane.addTab("Stiva - Tablou de elemente", sArrayPanel);
+        listPanel.setBackground(new Color(254, 254, 254));
+        listPanel.setLayout(new BorderLayout());
 
-        sLinkedPanel.setBackground(new Color(254, 254, 254));
-        sLinkedPanel.setLayout(new BorderLayout());
+        listPushButton.setText("Push");
+        listPushButton.addActionListener(evt -> listPushButtonActionPerformed(evt));
 
-        sLPushButton.setText("Push");
-        sLPushButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                sLPushButtonActionPerformed(evt);
-            }
-        });
+        listPopButton.setText("Pop");
+        listPopButton.addActionListener(evt -> listPopButtonActionPerformed(evt));
 
-        sListPopButton.setText("Pop");
-        sListPopButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                sListPopButtonActionPerformed(evt);
-            }
-        });
-
-        sListInputText.setColumns(5);
-        sListInputText.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                sListInputTextActionPerformed(evt);
-            }
-        });
-        sListInputText.addKeyListener(new KeyAdapter() {
+        listInputTextField.setColumns(5);
+        listInputTextField.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(KeyEvent evt) {
                 sListInputTextKeyPressed(evt);
             }
         });
 
-        jSeparator4.setOrientation(SwingConstants.VERTICAL);
-
-        jSeparator5.setOrientation(SwingConstants.VERTICAL);
-
-        GroupLayout stackLinkedNorthPanel1Layout = new GroupLayout(stackLinkedNorthPanel1);
-        stackLinkedNorthPanel1.setLayout(stackLinkedNorthPanel1Layout);
+        GroupLayout stackLinkedNorthPanel1Layout = new GroupLayout(listNorthPanel);
+        listNorthPanel.setLayout(stackLinkedNorthPanel1Layout);
         stackLinkedNorthPanel1Layout.setHorizontalGroup(
             stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(stackLinkedNorthPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sListInputText, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+                .addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sLPushButton, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+                .addComponent(listPushButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(sListPopButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator4, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
-                .addGap(236, 236, 236)
-                .addComponent(jSeparator5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(listPopButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(108, Short.MAX_VALUE))
         );
         stackLinkedNorthPanel1Layout.setVerticalGroup(
@@ -293,175 +199,158 @@ public class StackPanel extends javax.swing.JPanel {
             .addGroup(stackLinkedNorthPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator4, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator5, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
                     .addGroup(stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(sListInputText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(sLPushButton)
-                        .addComponent(sListPopButton)))
+                        .addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(listPushButton)
+                        .addComponent(listPopButton)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        sLinkedPanel.add(stackLinkedNorthPanel1, BorderLayout.NORTH);
-        sLinkedPanel.add(stackLinkedSouthPanel, BorderLayout.SOUTH);
+        listPanel.add(listNorthPanel, BorderLayout.NORTH);
+        listPanel.add(listSouthPanel, BorderLayout.SOUTH);
 
-        stackLinkedSouthPanel.setBackground(new Color(255, 87, 51));
-        stackLinkedSouthPanel.setPreferredSize(new Dimension(100, 100));
+        listSouthPanel.setBackground(new Color(255, 87, 51));
+        listSouthPanel.setPreferredSize(new Dimension(100, 100));
 
-        sLinkedSlider1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(), "Animation Speed", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
+        listSlider.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(), "Animation Speed", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
 
-
-        stackPane.addTab("Stiva - lista inlantuita", sLinkedPanel);
-
-        stackCenterPanel.add(stackPane);
-
+        tabbedPane.addTab("Stiva - lista inlantuita", listPanel);
+        stackCenterPanel.add(tabbedPane);
         add(stackCenterPanel, BorderLayout.CENTER);
     }
 
-    private void sArraySkipButtonActionPerformed(ActionEvent evt) {}
-
     private void pushButtonActionPerformed(ActionEvent evt) {
-        if(sinputText.getText().equals("")){
-            //System.out.println("ok");
+        if(arrayInputTextField.getText().equals("")){
             return;
         }
-        int temp = stackArray.push(sinputText.getText());
+        int temp = stackArray.push(arrayInputTextField.getText());
 
         if(temp==-1) {
-            pushButton.setEnabled(false);
+            arrayPushButton.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE);
         }
-        popButton.setEnabled(true);
-        stackComp.setValues(stackArray);
-        sinputText.setText("");
-
+        arrayPopButton.setEnabled(true);
+        arrayStackComponent.setValues(stackArray);
+        arrayInputTextField.setText("");
     }
 
     private void popButtonActionPerformed(ActionEvent evt) {
         String temp = stackArray.pop();
         if(temp == null){
-            popButton.setEnabled(false);
+            arrayPopButton.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Stiva nu contine elemente", "alert", JOptionPane.ERROR_MESSAGE);
         }
-        pushButton.setEnabled(true);
-        stackComp.setValues(stackArray);
-        sinputText.setText("");
+        arrayPushButton.setEnabled(true);
+        arrayStackComponent.setValues(stackArray);
+        arrayInputTextField.setText("");
     }
 
     private void stackSizeButtonActionPerformed(ActionEvent evt) {
-        if(stackSizeText.getText().equals(""))
+        if(arraySizeText.getText().equals(""))
                 return;
-        if(stackComp != null) {
-            sArrayPanel.remove(stackComp);
+        if(arrayStackComponent != null) {
+            arrayPanel.remove(arrayStackComponent);
         }
-        if(stackSizeText.getText() != " ") {
-            stackSizeLabel.setText( "Numar de elemente in stiva:   "+ stackSizeText.getText());
+        if(arraySizeText.getText() != " ") {
+            arraySizeLabel.setText( "Numar de elemente in stiva:   "+ arraySizeText.getText());
 
-            stackSizeButton.setEnabled(false);
-            pushButton.setEnabled(true);
-            popButton.setEnabled(true);
-            stackResetButton.setEnabled(true);
+            arraySizeButton.setEnabled(false);
+            arrayPushButton.setEnabled(true);
+            arrayPopButton.setEnabled(true);
+            arrayResetButton.setEnabled(true);
 
         }
-        stackComp = new StackComponent();
+        arrayStackComponent = new StackComponent();
 
-        sArrayPanel.add(stackComp, BorderLayout.CENTER);
+        arrayPanel.add(arrayStackComponent, BorderLayout.CENTER);
 
-        stackArray = new GraphicalArrayStack(Integer.parseInt(stackSizeText.getText()), sArrayPanel.getWidth(),sArrayPanel.getHeight());
-        stackComp.setValues(stackArray);
-        sArrayPanel.revalidate();
+        stackArray = new GraphicalArrayStack(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(),arrayPanel.getHeight());
+        arrayStackComponent.setValues(stackArray);
+        arrayPanel.revalidate();
 
-        stackSizeText.setText(null);
+        arraySizeText.setText(null);
     }
 
     private void stackResetButtonActionPerformed(ActionEvent evt) {
-        stackSizeLabel.setText( "Numar de elemente in stiva:  ");
-        stackSizeButton.setEnabled(true);
+        arraySizeLabel.setText( "Numar de elemente in stiva:  ");
+        arraySizeButton.setEnabled(true);
         stackArray.size=0;
-        stackComp.setValues(stackArray);
-        pushButton.setEnabled(false);
-        popButton.setEnabled(false);
-        stackSizeButton.setEnabled(true);
+        arrayStackComponent.setValues(stackArray);
+        arrayPushButton.setEnabled(false);
+        arrayPopButton.setEnabled(false);
+        arraySizeButton.setEnabled(true);
     }
 
     private void stackSizeTextKeyPressed(KeyEvent evt) {
        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(stackSizeText.getText().equals(""))
+            if(arraySizeText.getText().equals(""))
                 return;
-            if(stackComp != null) {
-                sArrayPanel.remove(stackComp);
+            if(arrayStackComponent != null) {
+                arrayPanel.remove(arrayStackComponent);
             }
-            if(stackSizeText.getText() != " ") {
-                stackSizeLabel.setText( "Numar de elemente in stiva:   " + stackSizeText.getText());
+            if(arraySizeText.getText() != " ") {
+                arraySizeLabel.setText( "Numar de elemente in stiva:   " + arraySizeText.getText());
 
-                stackSizeButton.setEnabled(false);
-                pushButton.setEnabled(true);
-                popButton.setEnabled(true);
-                stackResetButton.setEnabled(true);
+                arraySizeButton.setEnabled(false);
+                arrayPushButton.setEnabled(true);
+                arrayPopButton.setEnabled(true);
+                arrayResetButton.setEnabled(true);
 
             }
-            stackComp = new StackComponent();
+            arrayStackComponent = new StackComponent();
 
-            sArrayPanel.add(stackComp, BorderLayout.CENTER);
+            arrayPanel.add(arrayStackComponent, BorderLayout.CENTER);
 
-            stackArray = new GraphicalArrayStack(Integer.parseInt(stackSizeText.getText()), sArrayPanel.getWidth(),sArrayPanel.getHeight());
-            stackComp.setValues(stackArray);
-            sArrayPanel.revalidate();
+            stackArray = new GraphicalArrayStack(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(),arrayPanel.getHeight());
+            arrayStackComponent.setValues(stackArray);
+            arrayPanel.revalidate();
 
-            stackSizeText.setText(null);
+            arraySizeText.setText(null);
         }
     }
 
-    private void stackSizeTextActionPerformed(ActionEvent evt) {}
-
-    private void sLPushButtonActionPerformed(ActionEvent evt) {
-        if(sListInputText.getText().equals("")) {
+    private void listPushButtonActionPerformed(ActionEvent evt) {
+        if(listInputTextField.getText().equals("")) {
             return;
         }
-        listA.insertElement(Integer.parseInt(sListInputText.getText()));
-         lcomp.setValues(listA,1,'n');
-        sListInputText.setText("");
+        linkedListTemplate.insertElement(Integer.parseInt(listInputTextField.getText()));
+         listStackComponent.setValues(linkedListTemplate,1,'n');
+        listInputTextField.setText("");
     }
 
-    private void sListPopButtonActionPerformed(ActionEvent evt) {
-	     if(listA.firstNode == null){
+    private void listPopButtonActionPerformed(ActionEvent evt) {
+	     if(linkedListTemplate.firstNode == null){
 	        JOptionPane.showMessageDialog(null, "Stiva nu contine elemente.", "alert", JOptionPane.ERROR_MESSAGE);
-	        lcomp.setValues(listA, 0, 'e');
+	        listStackComponent.setValues(linkedListTemplate, 0, 'e');
 	     }
 	     else {
-	         listA.deleteElement(listA.lastNode.data);
-	         lcomp.setValues(listA, 0, 'n'); //n
+	         linkedListTemplate.deleteElement(linkedListTemplate.lastNode.data);
+	         listStackComponent.setValues(linkedListTemplate, 0, 'n'); //n
 	     }
     }
 
     private void sListInputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            listA.insertElement(Integer.parseInt(sListInputText.getText()));
-            lcomp.setValues(listA,1,'n');
-            sListInputText.setText(null);
+            linkedListTemplate.insertElement(Integer.parseInt(listInputTextField.getText()));
+            listStackComponent.setValues(linkedListTemplate,1,'n');
+            listInputTextField.setText(null);
        }
     }
 
     private void sinputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           if(sinputText.getText().equals("")) {
+           if(arrayInputTextField.getText().equals("")) {
                 return;
             }
-            int temp = stackArray.push(sinputText.getText());
+            int temp = stackArray.push(arrayInputTextField.getText());
 
             if(temp==-1) {
-                pushButton.setEnabled(false);
+                arrayPushButton.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE);
             }
-            popButton.setEnabled(true);
-            stackComp.setValues(stackArray);
-            sinputText.setText("");
+            arrayPopButton.setEnabled(true);
+            arrayStackComponent.setValues(stackArray);
+            arrayInputTextField.setText("");
        }
     }
-
-    private void sinputTextActionPerformed(ActionEvent evt) {}
-
-    private void sListInputTextActionPerformed(ActionEvent evt) {}
-
-
 }
