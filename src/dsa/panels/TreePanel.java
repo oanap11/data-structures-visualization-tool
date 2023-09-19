@@ -32,7 +32,6 @@ public class TreePanel extends JPanel {
     private JTextField bstInsertText;
     private JPanel bstNorthPanel;
     private JPanel bstPanel;
-    private JSlider bstSlider;
     private JPanel bstSouthPanel;
     private JPanel treeCenterPanel;
     private JTabbedPane treePane;
@@ -58,7 +57,6 @@ public class TreePanel extends JPanel {
         bstInsertText = new JTextField();
         bstDelText = new JTextField();
         bstSouthPanel = new JPanel();
-        bstSlider = new JSlider();
 
         setLayout(new BorderLayout());
 
@@ -68,20 +66,10 @@ public class TreePanel extends JPanel {
         bstPanel.setLayout(new BorderLayout());
 
         bstInsertButton.setText("Insereaza element");
-        bstInsertButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                bstInsertButtonActionPerformed(evt);
-            }
-        });
+        bstInsertButton.addActionListener(evt -> bstInsertButtonActionPerformed(evt));
 
         bstDelButton.setText("Sterge element");
-        bstDelButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                bstDelButtonActionPerformed(evt);
-            }
-        });
+        bstDelButton.addActionListener(evt -> bstDelButtonActionPerformed(evt));
 
         bstInsertText.addKeyListener(new KeyAdapter() {
             @Override
@@ -90,49 +78,15 @@ public class TreePanel extends JPanel {
             }
         });
 
-        GroupLayout bstNorthPanelLayout = new GroupLayout(bstNorthPanel);
+        GroupLayout bstNorthPanelLayout = 
+        		GroupLayoutUtil.createCustomLayoutForBSTNorthPanel(bstNorthPanel, bstInsertText, bstInsertButton, bstDelText, bstDelButton);
         bstNorthPanel.setLayout(bstNorthPanelLayout);
 
-        bstNorthPanelLayout.setHorizontalGroup(
-            bstNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(bstNorthPanelLayout.createSequentialGroup()
-            	.addContainerGap()
-                .addComponent(bstInsertText, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bstInsertButton)
-                .addGap(24, 24, 24)
-                .addComponent(bstDelText, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bstDelButton)
-                .addGap(30, 30, 30)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addContainerGap(172, Short.MAX_VALUE))
-
-        );
-
-        bstNorthPanelLayout.linkSize(SwingConstants.HORIZONTAL, new Component[] {bstDelText, bstInsertText});
-
-        bstNorthPanelLayout.setVerticalGroup(
-            bstNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(bstNorthPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(bstNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(bstInsertButton)
-                    .addComponent(bstDelButton)
-                    .addComponent(bstInsertText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bstDelText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         bstPanel.add(bstNorthPanel, BorderLayout.NORTH);
-
-        bstSlider.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(), "Animation Speed", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
 
         bstSouthPanel.setBackground(new Color(255, 87, 51));
         bstSouthPanel.setPreferredSize(new Dimension(100, 100));
         bstPanel.add(bstSouthPanel, BorderLayout.SOUTH);
-
-
 
         treePane.addTab("Arbore binar de cautare", bstPanel);
 
@@ -140,42 +94,44 @@ public class TreePanel extends JPanel {
 
         add(treeCenterPanel, BorderLayout.CENTER);
     }
+    
+    private void enableButtons() {
+        bstInsertButton.setEnabled(true);
+        bstDelButton.setEnabled(true);
+    }
 
-    private void bstDelButtonActionPerformed(ActionEvent evt) {
+    private void disableButtons() {
         bstInsertButton.setEnabled(false);
         bstDelButton.setEnabled(false);
+    }
+
+    private void bstDelButtonActionPerformed(ActionEvent evt) {
+    	disableButtons();
 
         treeComponent.setValues(graphicalTree,'d', bstDelText.getText());
         bstDelText.setText("");
 
-        bstInsertButton.setEnabled(true);
-        bstDelButton.setEnabled(true);
+        enableButtons();
     }
 
     private void bstInsertButtonActionPerformed(ActionEvent evt) {
-        bstInsertButton.setEnabled(false);
-        bstDelButton.setEnabled(false);
+    	disableButtons();
 
         treeComponent.setValues(graphicalTree,'i', bstInsertText.getText());
         bstInsertText.setText("");
 
-        bstInsertButton.setEnabled(true);
-        bstDelButton.setEnabled(true);
+        enableButtons();
     }
 
     private void bstInsertTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-	        bstInsertButton.setEnabled(false);
-	        bstDelButton.setEnabled(false);
+    	   disableButtons();
 
 	        treeComponent.setValues(graphicalTree,'i', bstInsertText.getText());
 	        bstInsertText.setText("");
 
-	        bstInsertButton.setEnabled(true);
-	        bstDelButton.setEnabled(true);
+	        enableButtons();
 
        }
     }
-
-
 }

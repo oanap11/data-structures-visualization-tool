@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -17,12 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
 
 import dsa.LinkedListTemplate;
 import dsa.queue.GraphicalArrayQueue;
@@ -44,7 +40,6 @@ public class QueuePanel extends JPanel {
 	// array components
 	private JButton arrayEnqueueButton, arrayDequeueButton, arrayResetButton, arraySizeButton;
 	private JPanel arrayPanel;
-	private JSlider arraySlider;
 	private JTextField arrayInputTextField;
 	private JLabel arraySizeLabel;
 	private JTextField arraySizeText;
@@ -54,7 +49,6 @@ public class QueuePanel extends JPanel {
 	// linked list components
 	private JButton listEnqueueButton, listDequeueButton;
 	private JPanel listPanel;
-	private JSlider listSlider;
 	private JTextField listInputTextField;
 	private JPanel listSouthPanel;
 	private JPanel listNorthPanel;
@@ -94,29 +88,28 @@ public class QueuePanel extends JPanel {
 		arrayPanel.setBackground(new Color(254, 254, 254));
 		arrayPanel.setLayout(new BorderLayout());
 
-		configureArrayEnqueueButton();
-		configureArrayDequeueButton();
+		configureButton(arrayEnqueueButton, "Adauga element", evt -> enqueueButtonActionPerformed(evt));
+		configureButton(arrayDequeueButton, "Sterge element", evt -> dequeueButtonActionPerformed(evt));
+		configureButton(arrayResetButton, "Reseteaza", evt -> resetButtonActionPerformed(evt));
+		configureButton(arraySizeButton, "Numar elemente", evt -> sizeButtonActionPerformed(evt));
+		
 		configureArrayInputField();
-		configureArraySizeButton();
 		configureArraySizeText();
 		configureArraySizeLabel();
-		configureArrayResetButton();
 		configureArrayPanelSeparators();
 		configureArrayNorthPanel();
 		configureArrayQueueView();	
-		configureArraySlider();
 
 		tabbedPane.addTab("Coada - Tablou de elemente", arrayPanel);
 
 		listPanel.setBackground(Color.white);
 		listPanel.setLayout(new BorderLayout());
 
-		configureListEnqueueButton();
-		configureListDequeueButton();	
+		configureButton(listEnqueueButton, "Adauga element", evt -> listEnqueueButtonActionPerformed(evt));
+		configureButton(listDequeueButton, "Sterge element", evt -> listDequeueButtonActionPerformed(evt));
 		configureListInputField();
 		configureListNorthPanel();
 		configureListQueueView();
-		configureListSlider();
 
 		tabbedPane.addTab("Coada - Lista", listPanel);
 		queueMainPanel.add(tabbedPane);
@@ -136,7 +129,6 @@ public class QueuePanel extends JPanel {
 		jSeparator1 = new JSeparator();
 		jSeparator2 = new JSeparator();
 		arraySouthPanel = new JPanel();
-		arraySlider = new JSlider();
 	}
 
 	void initListQueueComponents() {
@@ -146,32 +138,20 @@ public class QueuePanel extends JPanel {
 		listDequeueButton = new JButton();
 		listInputTextField = new JTextField();
 		listSouthPanel = new JPanel();
-		listSlider = new JSlider();
 	}
-
-	void configureArrayEnqueueButton() {
-		arrayEnqueueButton.setText("Adauga element");
-		arrayEnqueueButton.addActionListener(evt -> enqueueButtonActionPerformed(evt));
-	}
-
-	void configureArrayDequeueButton() {
-		arrayDequeueButton.setText("Sterge element");
-		arrayDequeueButton.addActionListener(evt -> dequeueButtonActionPerformed(evt));
+	
+	private void configureButton(JButton button, String text, ActionListener listener) {
+	    button.setText(text);
+	    button.addActionListener(listener);
 	}
 
 	void configureArrayInputField() {
-		arrayInputTextField.setColumns(5);
 		arrayInputTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
 				qinputTextKeyPressed(evt);
 			}
 		});
-	}
-	
-	void configureArraySizeButton() {
-		arraySizeButton.setText("Numar elemente");
-		arraySizeButton.addActionListener(evt -> sizeButtonActionPerformed(evt));
 	}
 	
 	void configureArraySizeText() {
@@ -190,27 +170,14 @@ public class QueuePanel extends JPanel {
 		arraySizeLabel.setText("Numar de elemente:  ");
 	}
 	
-	void configureArrayResetButton() {
-		arrayResetButton.setText("Reseteaza");
-		arrayResetButton.addActionListener(evt -> resetButtonActionPerformed(evt));
-	}
-	
 	void configureArrayPanelSeparators() {
 		jSeparator1.setOrientation(SwingConstants.VERTICAL);
 		jSeparator2.setOrientation(SwingConstants.VERTICAL);
 	}
 	
 	void configureArrayNorthPanel() {
-		GroupLayout arrayQueueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(
-			    arrayNorthPanel,
-			    arrayInputTextField,
-			    arrayEnqueueButton,
-			    arrayDequeueButton,
-			    jSeparator1,
-			    arraySizeText,
-			    arraySizeButton,
-			    arraySizeLabel,
-			    jSeparator2,
+		GroupLayout arrayQueueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
+			    arrayEnqueueButton, arrayDequeueButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
 			    arrayResetButton
 			);
 
@@ -222,28 +189,6 @@ public class QueuePanel extends JPanel {
 		arraySouthPanel.setBackground(new Color(255, 87, 51));
 		arraySouthPanel.setPreferredSize(new Dimension(100, 100));
 		arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
-	}
-	
-	void configureArraySlider() {
-		arraySlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed",
-				TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
-	}
-	
-	void configureListSlider() {
-		listSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed",
-				TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION, new Font("Bitstream Charter", 0, 12),
-				new Color(222, 29, 29))); // NOI18N
-	}
-	
-	void configureListEnqueueButton() {
-		listEnqueueButton.setText("Adauga element");
-		listEnqueueButton.addActionListener(evt -> listEnqueueButtonActionPerformed(evt));
-	}
-	
-	void configureListDequeueButton() {
-		listDequeueButton.setText("Scoate element");
-		listDequeueButton.addActionListener(evt -> dequeueButtonListActionPerformed(evt));
 	}
 	
 	void configureListInputField() {
@@ -264,28 +209,8 @@ public class QueuePanel extends JPanel {
 	}
 	
 	void configureListNorthPanel() {
-		GroupLayout queueNorthLinkedPanelLayout = new GroupLayout(listNorthPanel);
-		listNorthPanel.setLayout(queueNorthLinkedPanelLayout);
-		queueNorthLinkedPanelLayout.setHorizontalGroup(queueNorthLinkedPanelLayout
-				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(queueNorthLinkedPanelLayout.createSequentialGroup().addContainerGap()
-						.addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(listEnqueueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(listDequeueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 322, Short.MAX_VALUE)
-						.addGap(82, 82, 82)));
-		queueNorthLinkedPanelLayout
-				.setVerticalGroup(queueNorthLinkedPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addGroup(queueNorthLinkedPanelLayout.createSequentialGroup().addContainerGap()
-								.addGroup(queueNorthLinkedPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-										.addGroup(queueNorthLinkedPanelLayout
-												.createParallelGroup(GroupLayout.Alignment.BASELINE)
-												.addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(listEnqueueButton).addComponent(listDequeueButton)))
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		GroupLayout listQueueLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listEnqueueButton, listDequeueButton);
+		listNorthPanel.setLayout(listQueueLayout);
 	}
 	
 	void enableArrayButtons() {
@@ -378,7 +303,7 @@ public class QueuePanel extends JPanel {
 		arrayInputTextField.setText("");
 	}
 
-	private void dequeueButtonListActionPerformed(ActionEvent evt) {
+	private void listDequeueButtonActionPerformed(ActionEvent evt) {
 		if (linkedListTemplate.firstNode == null)
 			JOptionPane.showMessageDialog(null, "Nu sunt elemente in coada", "alert", JOptionPane.ERROR_MESSAGE);
 		else

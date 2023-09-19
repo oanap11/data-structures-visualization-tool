@@ -1,4 +1,5 @@
 package dsa.panels;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -16,12 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
 
 import dsa.LinkedListTemplate;
 import dsa.stack.GraphicalArrayStack;
@@ -39,35 +36,143 @@ public class StackPanel extends javax.swing.JPanel {
     
     private JTabbedPane tabbedPane;
     private JSeparator jSeparator1, jSeparator2;
+    private JPanel stackMainPanel;
 
-    private JPanel arrayPanel, listPanel; 
-    private JPanel stackCenterPanel, arrayNorthPanel, arraySouthPanel, listSouthPanel, listNorthPanel;
-    
-    private JButton listPushButton, listPopButton;
-    private JSlider listSlider;
-    private JTextField listInputTextField;
-    
+    private JPanel arrayPanel; 
+    private JPanel arrayNorthPanel, arraySouthPanel;
     private JButton arrayPopButton, arrayPushButton, arrayResetButton, arraySizeButton;
     private JLabel arraySizeLabel;
     private JTextField arraySizeText;
-    private JSlider arraySlider;
     private JTextField arrayInputTextField;
-
+    
+    private JPanel listPanel;
+    private JButton listPushButton, listPopButton;
+    private JTextField listInputTextField;
+    private JPanel listSouthPanel, listNorthPanel;
+    
     public StackPanel() {
         initComponents();
-        listStackComponent = new StackListComponent();
+        configureListComponent();
+        disableArrayButtons();     
+    }
+    
+    void configureListComponent() {
+    	listStackComponent = new StackListComponent();
         listPanel.add(listStackComponent,BorderLayout.CENTER);
         linkedListTemplate = new LinkedListTemplate();
         listStackComponent.setValues(linkedListTemplate,0,'n');
-        listPanel.revalidate();
-        arrayPushButton.setEnabled(false);
+	}
+    
+    void disableArrayButtons() {
+    	arrayPushButton.setEnabled(false);
         arrayPopButton.setEnabled(false);
         arrayResetButton.setEnabled(false);
+	}
+
+    private void initComponents() {
+    	
+    	tabbedPane = new JTabbedPane();
+        stackMainPanel = new JPanel();
+        
+    	initArrayStackComponents();
+    	initListStackComponents();
+
+        setLayout(new BorderLayout());
+
+        stackMainPanel.setLayout(new BoxLayout(stackMainPanel, BoxLayout.LINE_AXIS));
+
+        arrayPanel.setBackground(new Color(254, 254, 254));
+        arrayPanel.setLayout(new BorderLayout());
+
+        configureButton(arrayPushButton, "Push", evt -> pushButtonActionPerformed(evt));
+        configureButton(arrayPopButton, "Pop", evt -> popButtonActionPerformed(evt));
+        configureButton(arraySizeButton, "Numar de elemente", evt -> stackSizeButtonActionPerformed(evt));
+        configureButton(arrayResetButton, "Reseteaza", evt -> stackResetButtonActionPerformed(evt));
+        
+        configureArrayInputField();
+        configureArraySizeText();
+        configureArraySizeLabel();
+        configureArrayPanelSeparators();
+        configureArrayNorthPanel();
+       
+        configureArrayStackView();
+
+        tabbedPane.addTab("Stiva - Tablou de elemente", arrayPanel);
+
+        listPanel.setBackground(new Color(254, 254, 254));
+        listPanel.setLayout(new BorderLayout());
+
+        configureButton(listPushButton, "Push", evt -> listPushButtonActionPerformed(evt));
+        configureButton(listPopButton, "Pop", evt -> listPopButtonActionPerformed(evt));
+
+        configureListInputField();
+        configureListNorthPanel();
+        configureListStackView();
+
+        tabbedPane.addTab("Stiva - lista inlantuita", listPanel);
+        stackMainPanel.add(tabbedPane);
+        add(stackMainPanel, BorderLayout.CENTER);
     }
+    
+    void configureListStackView() {
+		listPanel.add(listNorthPanel, BorderLayout.NORTH);
+		listSouthPanel.setBackground(new Color(255, 87, 51));
+		listSouthPanel.setPreferredSize(new Dimension(100, 100));
+		listPanel.add(listSouthPanel, BorderLayout.SOUTH);
+	}
+    
+    void configureListNorthPanel() {
+    	GroupLayout listStackLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listPushButton, listPopButton);
+		listNorthPanel.setLayout(listStackLayout);
+	}
+    
+    void configureArrayInputField() {
+		arrayInputTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				sinputTextKeyPressed(evt);
+			}
+		});
+	}
+    
+    void configureArraySizeText() {
+		arraySizeText.setColumns(5);
+		arraySizeText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				stackSizeTextKeyPressed(evt);
+			}
+		});
+	}
+    
+    void configureArrayNorthPanel() {
+		GroupLayout stackQueueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
+			    arrayPushButton, arrayPopButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
+			    arrayResetButton
+			);
+
+		arrayNorthPanel.setLayout(stackQueueLayout);
+	}
+    
+    void configureArrayStackView() {
+		arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
+		arraySouthPanel.setBackground(new Color(255, 87, 51));
+		arraySouthPanel.setPreferredSize(new Dimension(100, 100));
+		arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
+	}
+    
+    void configureListInputField() {
+		listInputTextField.setColumns(5);
+		listInputTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				sListInputTextKeyPressed(evt);
+			}
+		});
+	}
     
     void initArrayStackComponents() {
         arrayPanel = new JPanel();
-        arraySlider = new JSlider();
         arraySouthPanel = new JPanel();
         arrayNorthPanel = new JPanel();
         arrayPushButton = new JButton();
@@ -88,136 +193,23 @@ public class StackPanel extends javax.swing.JPanel {
         listPushButton = new JButton();
         listPopButton = new JButton();
         listInputTextField = new JTextField();
-        listSlider = new JSlider();
     }
-
-    private void initComponents() {
-    	tabbedPane = new JTabbedPane();
-        stackCenterPanel = new JPanel();
-        
-    	initArrayStackComponents();
-    	initListStackComponents();
-
-        setLayout(new BorderLayout());
-
-        stackCenterPanel.setLayout(new BoxLayout(stackCenterPanel, BoxLayout.LINE_AXIS));
-
-        arrayPanel.setBackground(new Color(254, 254, 254));
-        arrayPanel.setLayout(new BorderLayout());
-
-        arraySlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(), "Animation Speed", TitledBorder.LEFT,
-        		TitledBorder.DEFAULT_POSITION, new Font("Bitstream Charter", 0, 12), new Color(222, 29, 29)));
-
-        arrayPushButton.setText("Push");
-        arrayPushButton.addActionListener(evt -> pushButtonActionPerformed(evt));
-
-        arrayPopButton.setText("Pop");
-        arrayPopButton.addActionListener(evt -> popButtonActionPerformed(evt));
-
-        arrayInputTextField.addKeyListener(new KeyAdapter() {
-            @Override
-			public void keyPressed(KeyEvent evt) {
-                sinputTextKeyPressed(evt);
-            }
-        });
-
-        arraySizeButton.setText("Numar de elemente");
-        arraySizeButton.addActionListener(evt -> stackSizeButtonActionPerformed(evt));
-
-        arraySizeText.addKeyListener(new KeyAdapter() {
-            @Override
-			public void keyPressed(KeyEvent evt) {
-                stackSizeTextKeyPressed(evt);
-            }
-        });
-
-        arraySizeLabel.setFont(new Font("Ubuntu", 0, 18));
-        arraySizeLabel.setForeground(new Color(241, 19, 19));
-        arraySizeLabel.setText("Numar de elemente in stiva:  ");
-
-        arrayResetButton.setText("Reseteaza");
-        arrayResetButton.addActionListener(evt -> stackResetButtonActionPerformed(evt));
-
-        jSeparator1.setOrientation(SwingConstants.VERTICAL);
-        jSeparator2.setOrientation(SwingConstants.VERTICAL);
-        
-        GroupLayout arrayStackLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(
-        	    arrayNorthPanel,
-        	    arrayInputTextField,
-        	    arrayPushButton,
-        	    arrayPopButton,
-        	    jSeparator1,
-        	    arraySizeText,
-        	    arraySizeButton,
-        	    arraySizeLabel,
-        	    jSeparator2,
-        	    arrayResetButton
-        	);
-
-        arrayNorthPanel.setLayout(arrayStackLayout);
-       
-        arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
-        arraySouthPanel.setBackground(new Color(255, 87, 51));
-        arraySouthPanel.setPreferredSize(new Dimension(100, 100));
-
-        arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
-
-        tabbedPane.addTab("Stiva - Tablou de elemente", arrayPanel);
-
-        listPanel.setBackground(new Color(254, 254, 254));
-        listPanel.setLayout(new BorderLayout());
-
-        listPushButton.setText("Push");
-        listPushButton.addActionListener(evt -> listPushButtonActionPerformed(evt));
-
-        listPopButton.setText("Pop");
-        listPopButton.addActionListener(evt -> listPopButtonActionPerformed(evt));
-
-        listInputTextField.setColumns(5);
-        listInputTextField.addKeyListener(new KeyAdapter() {
-            @Override
-			public void keyPressed(KeyEvent evt) {
-                sListInputTextKeyPressed(evt);
-            }
-        });
-
-        GroupLayout stackLinkedNorthPanel1Layout = new GroupLayout(listNorthPanel);
-        listNorthPanel.setLayout(stackLinkedNorthPanel1Layout);
-        stackLinkedNorthPanel1Layout.setHorizontalGroup(
-            stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(stackLinkedNorthPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(listPushButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(listPopButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
-        );
-        stackLinkedNorthPanel1Layout.setVerticalGroup(
-            stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(stackLinkedNorthPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(stackLinkedNorthPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(listInputTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(listPushButton)
-                        .addComponent(listPopButton)))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        listPanel.add(listNorthPanel, BorderLayout.NORTH);
-        listPanel.add(listSouthPanel, BorderLayout.SOUTH);
-
-        listSouthPanel.setBackground(new Color(255, 87, 51));
-        listSouthPanel.setPreferredSize(new Dimension(100, 100));
-
-        listSlider.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(), "Animation Speed", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bitstream Charter", 0, 12), new java.awt.Color(222, 29, 29))); // NOI18N
-
-        tabbedPane.addTab("Stiva - lista inlantuita", listPanel);
-        stackCenterPanel.add(tabbedPane);
-        add(stackCenterPanel, BorderLayout.CENTER);
-    }
+    
+    void configureArrayPanelSeparators() {
+		jSeparator1.setOrientation(SwingConstants.VERTICAL);
+		jSeparator2.setOrientation(SwingConstants.VERTICAL);
+	}
+    
+    void configureArraySizeLabel() {
+		arraySizeLabel.setFont(new Font("Ubuntu", 0, 18)); // NOI18N
+		arraySizeLabel.setForeground(new Color(241, 19, 19));
+		arraySizeLabel.setText("Numar de elemente:  ");
+	}
+    
+    private void configureButton(JButton button, String text, ActionListener listener) {
+	    button.setText(text);
+	    button.addActionListener(listener);
+	}
 
     private void pushButtonActionPerformed(ActionEvent evt) {
         if(arrayInputTextField.getText().equals("")){
