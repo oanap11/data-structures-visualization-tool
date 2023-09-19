@@ -25,7 +25,7 @@ import dsa.stack.GraphicalArrayStack;
 import dsa.stack.StackComponent;
 import dsa.stack.StackListComponent;
 
-public class StackPanel extends javax.swing.JPanel {
+public class StackPanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
 	StackComponent arrayStackComponent;
@@ -35,39 +35,13 @@ public class StackPanel extends javax.swing.JPanel {
     LinkedListTemplate linkedListTemplate;
     
     private JTabbedPane tabbedPane;
-    private JSeparator jSeparator1, jSeparator2;
     private JPanel stackMainPanel;
-
-    private JPanel arrayPanel; 
-    private JPanel arrayNorthPanel, arraySouthPanel;
-    private JButton arrayPopButton, arrayPushButton, arrayResetButton, arraySizeButton;
-    private JLabel arraySizeLabel;
-    private JTextField arraySizeText;
-    private JTextField arrayInputTextField;
-    
-    private JPanel listPanel;
-    private JButton listPushButton, listPopButton;
-    private JTextField listInputTextField;
-    private JPanel listSouthPanel, listNorthPanel;
     
     public StackPanel() {
         initComponents();
         configureListComponent();
         disableArrayButtons();     
     }
-    
-    void configureListComponent() {
-    	listStackComponent = new StackListComponent();
-        listPanel.add(listStackComponent,BorderLayout.CENTER);
-        linkedListTemplate = new LinkedListTemplate();
-        listStackComponent.setValues(linkedListTemplate,0,'n');
-	}
-    
-    void disableArrayButtons() {
-    	arrayPushButton.setEnabled(false);
-        arrayPopButton.setEnabled(false);
-        arrayResetButton.setEnabled(false);
-	}
 
     private void initComponents() {
     	
@@ -81,11 +55,8 @@ public class StackPanel extends javax.swing.JPanel {
 
         stackMainPanel.setLayout(new BoxLayout(stackMainPanel, BoxLayout.LINE_AXIS));
 
-        arrayPanel.setBackground(new Color(254, 254, 254));
-        arrayPanel.setLayout(new BorderLayout());
-
-        configureButton(arrayPushButton, "Push", evt -> pushButtonActionPerformed(evt));
-        configureButton(arrayPopButton, "Pop", evt -> popButtonActionPerformed(evt));
+        configureButton(arrayAddButton, "Push", evt -> pushButtonActionPerformed(evt));
+        configureButton(arrayRemoveButton, "Pop", evt -> popButtonActionPerformed(evt));
         configureButton(arraySizeButton, "Numar de elemente", evt -> stackSizeButtonActionPerformed(evt));
         configureButton(arrayResetButton, "Reseteaza", evt -> stackResetButtonActionPerformed(evt));
         
@@ -95,34 +66,27 @@ public class StackPanel extends javax.swing.JPanel {
         configureArrayPanelSeparators();
         configureArrayNorthPanel();
        
-        configureArrayStackView();
+        configureArrayView();
 
         tabbedPane.addTab("Stiva - Tablou de elemente", arrayPanel);
 
         listPanel.setBackground(new Color(254, 254, 254));
         listPanel.setLayout(new BorderLayout());
 
-        configureButton(listPushButton, "Push", evt -> listPushButtonActionPerformed(evt));
-        configureButton(listPopButton, "Pop", evt -> listPopButtonActionPerformed(evt));
+        configureButton(listAddButton, "Push", evt -> listPushButtonActionPerformed(evt));
+        configureButton(listRemoveButton, "Pop", evt -> listPopButtonActionPerformed(evt));
 
         configureListInputField();
         configureListNorthPanel();
-        configureListStackView();
+        configureListView();
 
         tabbedPane.addTab("Stiva - lista inlantuita", listPanel);
         stackMainPanel.add(tabbedPane);
         add(stackMainPanel, BorderLayout.CENTER);
     }
     
-    void configureListStackView() {
-		listPanel.add(listNorthPanel, BorderLayout.NORTH);
-		listSouthPanel.setBackground(new Color(255, 87, 51));
-		listSouthPanel.setPreferredSize(new Dimension(100, 100));
-		listPanel.add(listSouthPanel, BorderLayout.SOUTH);
-	}
-    
     void configureListNorthPanel() {
-    	GroupLayout listStackLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listPushButton, listPopButton);
+    	GroupLayout listStackLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listAddButton, listRemoveButton);
 		listNorthPanel.setLayout(listStackLayout);
 	}
     
@@ -147,18 +111,11 @@ public class StackPanel extends javax.swing.JPanel {
     
     void configureArrayNorthPanel() {
 		GroupLayout stackQueueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
-			    arrayPushButton, arrayPopButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
+			    arrayAddButton, arrayRemoveButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
 			    arrayResetButton
 			);
 
 		arrayNorthPanel.setLayout(stackQueueLayout);
-	}
-    
-    void configureArrayStackView() {
-		arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
-		arraySouthPanel.setBackground(new Color(255, 87, 51));
-		arraySouthPanel.setPreferredSize(new Dimension(100, 100));
-		arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
 	}
     
     void configureListInputField() {
@@ -172,11 +129,8 @@ public class StackPanel extends javax.swing.JPanel {
 	}
     
     void initArrayStackComponents() {
-        arrayPanel = new JPanel();
-        arraySouthPanel = new JPanel();
-        arrayNorthPanel = new JPanel();
-        arrayPushButton = new JButton();
-        arrayPopButton = new JButton();
+        arrayAddButton = new JButton();
+        arrayRemoveButton = new JButton();
         arrayInputTextField = new JTextField();
         arraySizeButton = new JButton();
         arraySizeText = new JTextField();
@@ -190,26 +144,10 @@ public class StackPanel extends javax.swing.JPanel {
     	listPanel = new JPanel();
         listNorthPanel = new JPanel();
         listSouthPanel = new JPanel();
-        listPushButton = new JButton();
-        listPopButton = new JButton();
+        listAddButton = new JButton();
+        listRemoveButton = new JButton();
         listInputTextField = new JTextField();
     }
-    
-    void configureArrayPanelSeparators() {
-		jSeparator1.setOrientation(SwingConstants.VERTICAL);
-		jSeparator2.setOrientation(SwingConstants.VERTICAL);
-	}
-    
-    void configureArraySizeLabel() {
-		arraySizeLabel.setFont(new Font("Ubuntu", 0, 18)); // NOI18N
-		arraySizeLabel.setForeground(new Color(241, 19, 19));
-		arraySizeLabel.setText("Numar de elemente:  ");
-	}
-    
-    private void configureButton(JButton button, String text, ActionListener listener) {
-	    button.setText(text);
-	    button.addActionListener(listener);
-	}
 
     private void pushButtonActionPerformed(ActionEvent evt) {
         if(arrayInputTextField.getText().equals("")){
@@ -218,10 +156,10 @@ public class StackPanel extends javax.swing.JPanel {
         int temp = stackArray.push(arrayInputTextField.getText());
 
         if(temp==-1) {
-            arrayPushButton.setEnabled(false);
+            arrayAddButton.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE);
         }
-        arrayPopButton.setEnabled(true);
+        arrayRemoveButton.setEnabled(true);
         arrayStackComponent.setValues(stackArray);
         arrayInputTextField.setText("");
     }
@@ -229,10 +167,10 @@ public class StackPanel extends javax.swing.JPanel {
     private void popButtonActionPerformed(ActionEvent evt) {
         String temp = stackArray.pop();
         if(temp == null){
-            arrayPopButton.setEnabled(false);
+            arrayRemoveButton.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Stiva nu contine elemente", "alert", JOptionPane.ERROR_MESSAGE);
         }
-        arrayPushButton.setEnabled(true);
+        arrayAddButton.setEnabled(true);
         arrayStackComponent.setValues(stackArray);
         arrayInputTextField.setText("");
     }
@@ -247,10 +185,7 @@ public class StackPanel extends javax.swing.JPanel {
             arraySizeLabel.setText( "Numar de elemente in stiva:   "+ arraySizeText.getText());
 
             arraySizeButton.setEnabled(false);
-            arrayPushButton.setEnabled(true);
-            arrayPopButton.setEnabled(true);
-            arrayResetButton.setEnabled(true);
-
+            enableArrayButtons();
         }
         arrayStackComponent = new StackComponent();
 
@@ -268,9 +203,7 @@ public class StackPanel extends javax.swing.JPanel {
         arraySizeButton.setEnabled(true);
         stackArray.size=0;
         arrayStackComponent.setValues(stackArray);
-        arrayPushButton.setEnabled(false);
-        arrayPopButton.setEnabled(false);
-        arraySizeButton.setEnabled(true);
+        disableArrayButtons();
     }
 
     private void stackSizeTextKeyPressed(KeyEvent evt) {
@@ -284,9 +217,7 @@ public class StackPanel extends javax.swing.JPanel {
                 arraySizeLabel.setText( "Numar de elemente in stiva:   " + arraySizeText.getText());
 
                 arraySizeButton.setEnabled(false);
-                arrayPushButton.setEnabled(true);
-                arrayPopButton.setEnabled(true);
-                arrayResetButton.setEnabled(true);
+                enableArrayButtons();
 
             }
             arrayStackComponent = new StackComponent();
@@ -337,10 +268,10 @@ public class StackPanel extends javax.swing.JPanel {
             int temp = stackArray.push(arrayInputTextField.getText());
 
             if(temp==-1) {
-                arrayPushButton.setEnabled(false);
+                arrayAddButton.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE);
             }
-            arrayPopButton.setEnabled(true);
+            arrayRemoveButton.setEnabled(true);
             arrayStackComponent.setValues(stackArray);
             arrayInputTextField.setText("");
        }
