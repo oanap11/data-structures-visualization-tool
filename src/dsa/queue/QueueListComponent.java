@@ -8,102 +8,17 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 import dsa.Node;
+import dsa.linked.list.SinglyListComponent;
 import dsa.LinkedListTemplate;
 import dsa.panels.ListPanel;
 
-public class QueueListComponent extends JComponent {
+public class QueueListComponent extends SinglyListComponent {
 
 	LinkedListTemplate list;
 	char flag;
     int operation;
     int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
     int width, height;
-
-    private void drawArrow(Graphics g, int x, int y, int flag) {
-         // 1 - dreapta 2 - jos 3 - stanga 4 - sus
- 	   switch(flag) {
- 	   case 1:
- 		    g.drawLine(x, y, x-3, y-3);
-            g.drawLine(x, y, x-3, y+3);
-            break;
- 	   case 2:
- 		    g.drawLine(x, y, x-3, y-3);
-            g.drawLine(x, y, x+3, y-3);
-            break;
- 	   case 3:
- 		    g.drawLine(x, y, x+3, y-3);
-            g.drawLine(x, y, x+3, y+3);
-            break;
- 	   case 4:
- 		    g.drawLine(x, y, x+3, y+3);
-            g.drawLine(x, y, x-3, y+3);
-            break;
- 	   }
-   }
-
-   private void drawNode(Graphics g, int x, int y, String s){
-         g.drawRect(x, y, 30, 30);
-         g.drawRect(x + 30, y, 10, 30);
-         g.drawString(s, x + 5, y + 20);
-         drawNull(g, x + 37, y);
-  }
-
-  private void drawNull(Graphics g, int x, int y){
-      g.drawLine(x, y + 15, x + 20, y + 15);
-      g.drawLine(x + 20, y + 15, x + 20, y + 30);
-      g.drawLine(x + 15, y + 30, x + 25, y + 30);
-  }
-
-  private void drawAnimation(Graphics g,int data){
-      //punctele intermediare se gasesc cu algoritmul Bresenham de trasare a unei linii
-      int i = 0;
-      int dx, dy, p, x, y;
-
-      this.operation = 0;
-
-      tempX = 20;
-      tempY = 20;
-      currentX = lastCurrentX;
-      currentY = lastCurrentY;
-      dx = finalY - tempX;
-      dy = finalY - tempY;
-
-      p = 2 * dy - dx;
-      x = tempX;
-      y = tempY;
-      g.setColor(Color.BLACK);
-      drawNode(g, 20, 20, "" + data);
-
-      while(x <= finalX){
-         if(p < 0){
-             x=x+1;
-             p = p + 2 * (dy);
-         }
-         else{
-             x = x+1;
-             y = y+1;
-             p = p + 2 * (dy - dx);
-         }
-        System.out.println("x=" + x + "    y=" + y);
-        if(x % 4 == 0){
-        this.update(g);
-              try {
-                 Thread.sleep(100);
-             } catch (InterruptedException ex) {
-                 Logger.getLogger(ListPanel.class.getName()).log(Level.SEVERE, null, ex);
-             }
-             g.setColor(Color.WHITE);
-             drawNode(g, finalX, finalY,""+data);
-             g.setColor(Color.BLACK);
-             g.drawLine(currentX+35, currentY + 15, x+20, y+30);
-             drawNode(g,x,y,""+data);
-        }
-
-     }
-         g.setColor(Color.white);
-         g.drawLine(currentX + 35, currentY + 15, x + 20, y + 30);
-         drawNode(g, x, y, "" + data);
-  }
 
   	public void setValues(LinkedListTemplate list, int operation, char flag){
   		this.flag = flag;
