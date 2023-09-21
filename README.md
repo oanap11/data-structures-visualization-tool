@@ -1,12 +1,22 @@
-# Data-Structures-Visualization-Tool
+## Overview
 
-Software application written in Java that allows users to visualize interactive animations for various data structures. It provides representations for:
+This Java desktop application offers interactive animations for:
+  - Singly Linked List
+  - Circular Singly Linked List
+  - Queue (Array and Linked List)
+  - Stack (Array and Linked List)
+  - Binary Search Tree
+  - Dijkstra and A* Pathfinding Algorithms
 
-    * singly linked list
-    * circular singly linked list
-    * queue (implemented through array and linked list)
-    * stack (implemented through array and linked list)
-    * binary search tree
-    * Dijkstra and A* pathfinding algorithms
-    
+## Features
 
+- Visualize data structure operations.
+- Observe pathfinding algorithms in action.
+- Simple user interface for easy interaction.
+
+## Usage
+
+1. Clone or download the repository.
+2. Compile and run the Java application.
+3. Choose a data structure or algorithm from the menu.
+4. Interact with the visualization to learn and explore.
