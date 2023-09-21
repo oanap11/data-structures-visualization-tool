@@ -8,12 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -21,16 +23,26 @@ import dsa.LinkedListTemplate;
 import dsa.queue.GraphicalArrayQueue;
 import dsa.queue.QueueComponent;
 import dsa.queue.QueueListComponent;
+import dsa.stack.GraphicalArrayStack;
+import dsa.stack.StackComponent;
+import dsa.stack.StackListComponent;
 
 public class BasePanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
 	QueueComponent queueComponent;
+	StackComponent arrayStackComponent;
+	
 	GraphicalArrayQueue arrayQueue;
+	GraphicalArrayStack stackArray;
+	
 	QueueListComponent listComponent;
+	StackListComponent listStackComponent;
+	
 	LinkedListTemplate linkedListTemplate;
 	
+	protected JTabbedPane tabbedPane;
 	protected JPanel arrayPanel, arraySouthPanel, arrayNorthPanel;
 	protected JButton arrayAddButton, arrayRemoveButton, arrayResetButton, arraySizeButton;
 	protected JTextField arrayInputTextField;
@@ -60,6 +72,15 @@ public class BasePanel extends JPanel{
 		listComponent.setValues(linkedListTemplate, 0, 'n');
 	}
 	
+	protected void configureArrayNorthPanel() {
+		GroupLayout queueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
+			    arrayAddButton, arrayRemoveButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
+			    arrayResetButton
+			);
+
+		arrayNorthPanel.setLayout(queueLayout);
+	}
+	
 	protected void configureArrayView() {
 		arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
 		arraySouthPanel.setBackground(new Color(255, 87, 51));
@@ -72,25 +93,6 @@ public class BasePanel extends JPanel{
 		listSouthPanel.setBackground(new Color(255, 87, 51));
 		listSouthPanel.setPreferredSize(new Dimension(100, 100));
 		listPanel.add(listSouthPanel, BorderLayout.SOUTH);
-	}
-	
-	void configureArrayInputField() {
-		arrayInputTextField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent evt) {
-				arrayInputTextKeyPressed(evt);
-			}
-		});
-	}
-	
-	void configureArraySizeText() {
-		arraySizeText.setColumns(5);
-		arraySizeText.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent evt) {
-				sizeTextKeyPressed(evt);
-			}
-		});
 	}
 	
 	void configureArraySizeLabel() {
@@ -121,48 +123,6 @@ public class BasePanel extends JPanel{
 	protected void configureButton(JButton button, String text, ActionListener listener) {
 	    button.setText(text);
 	    button.addActionListener(listener);
-	}
-	
-	private void sizeTextKeyPressed(KeyEvent evt) {
-		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			if (arraySizeText.getText().equals(""))
-				return;
-
-			if (queueComponent != null) {
-				arrayPanel.remove(queueComponent);
-			}
-			if (arraySizeText.getText() != " ") {
-				arraySizeLabel.setText("Numar elemenete: " + arraySizeText.getText());
-
-				arraySizeButton.setEnabled(false);
-				enableArrayButtons();
-				
-			}
-			queueComponent = new QueueComponent();
-
-			arrayPanel.add(queueComponent, BorderLayout.CENTER);
-
-			arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(),
-					arrayPanel.getHeight());
-			queueComponent.setValues(arrayQueue);
-			arrayPanel.revalidate();
-
-			arraySizeText.setText(null);
-
-		}
-	}
-		
-	private void arrayInputTextKeyPressed(KeyEvent evt) {
-		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			int a = arrayQueue.enqueue(arrayInputTextField.getText());
-			if (a == -1) {
-				JOptionPane.showMessageDialog(null, "Coada este plina", "alert", JOptionPane.ERROR_MESSAGE);
-				arrayAddButton.setEnabled(false);
-			}
-			arrayRemoveButton.setEnabled(true);
-			queueComponent.setValues(arrayQueue);
-			arrayInputTextField.setText("");
-		}
 	}
 	
 }

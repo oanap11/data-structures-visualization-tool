@@ -23,7 +23,6 @@ public class QueuePanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JTabbedPane tabbedPane;
 	private JPanel queueMainPanel;
 
 	public QueuePanel() {
@@ -44,7 +43,7 @@ public class QueuePanel extends BasePanel {
 
 		queueMainPanel.setLayout(new BoxLayout(queueMainPanel, BoxLayout.LINE_AXIS));
 
-		configureButton(arrayAddButton, "Adauga element", evt -> enqueueButtonActionPerformed(evt));
+		configureButton(arrayAddButton, "Adauga element", evt -> arrayEnqueueButtonActionPerformed(evt));
 		configureButton(arrayRemoveButton, "Sterge element", evt -> dequeueButtonActionPerformed(evt));
 		configureButton(arrayResetButton, "Reseteaza", evt -> resetButtonActionPerformed(evt));
 		configureButton(arraySizeButton, "Numar elemente", evt -> sizeButtonActionPerformed(evt));
@@ -72,6 +71,25 @@ public class QueuePanel extends BasePanel {
 		add(queueMainPanel, BorderLayout.CENTER);
 	}
 	
+	void configureArrayInputField() {
+		arrayInputTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				arrayInputTextKeyPressed(evt);
+			}
+		});
+	}
+
+	void configureArraySizeText() {
+		arraySizeText.setColumns(5);
+		arraySizeText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				sizeTextKeyPressed(evt);
+			}
+		});
+	}
+	
 	void initArrayQueueComponents() {
 		arrayAddButton = new JButton();
 		arrayRemoveButton = new JButton();
@@ -93,21 +111,12 @@ public class QueuePanel extends BasePanel {
 		listSouthPanel = new JPanel();
 	}
 	
-	void configureArrayNorthPanel() {
-		GroupLayout arrayQueueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
-			    arrayAddButton, arrayRemoveButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
-			    arrayResetButton
-			);
-
-		arrayNorthPanel.setLayout(arrayQueueLayout);
-	}
-	
 	void configureListInputField() {
 		listInputTextField.setColumns(5);
 		listInputTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
-				qListinputTextKeyPressed(evt);
+				listInputTextKeyPressed(evt);
 			}
 		});
 	}
@@ -117,6 +126,41 @@ public class QueuePanel extends BasePanel {
 		listNorthPanel.setLayout(listQueueLayout);
 	}
 
+	private void setQueueSize() {
+	    if (arraySizeText.getText().equals(""))
+	        return;
+
+	    if (queueComponent != null) {
+	        arrayPanel.remove(queueComponent);
+	    }
+
+	    if (!arraySizeText.getText().trim().isEmpty()) {
+	        arraySizeLabel.setText("Numar elemente: " + arraySizeText.getText());
+	        arraySizeButton.setEnabled(false);
+	        enableArrayButtons();
+	    }
+
+	    queueComponent = new QueueComponent();
+	    arrayPanel.add(queueComponent, BorderLayout.CENTER);
+
+	    arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight());
+	    queueComponent.setValues(arrayQueue);
+	    arrayPanel.revalidate();
+
+	    arraySizeText.setText(null);
+	}
+	
+	private void addElementToArray() {
+	    int a = arrayQueue.enqueue(arrayInputTextField.getText());
+	    if (a == -1) {
+	        JOptionPane.showMessageDialog(null, "Coada este plina.", "alert", JOptionPane.ERROR_MESSAGE);
+	        arrayAddButton.setEnabled(false);
+	    }
+	    arrayRemoveButton.setEnabled(true);
+	    queueComponent.setValues(arrayQueue);
+	    arrayInputTextField.setText("");
+	}
+	
 	private void dequeueButtonActionPerformed(ActionEvent evt) {
 		String s = arrayQueue.dequeue();
 		if (s == null) {
@@ -128,47 +172,12 @@ public class QueuePanel extends BasePanel {
 		arrayInputTextField.setText("");
 	}
 
-	private void sizeButtonActionPerformed(ActionEvent evt) {
-		if (arraySizeText.getText().equals(""))
-			return;
-
-		if (queueComponent != null) {
-			arrayPanel.remove(queueComponent);
-		}
-		if (arraySizeText.getText() != " ") {
-			arraySizeLabel.setText("Numar elemente:  " + arraySizeText.getText());
-			arraySizeButton.setEnabled(false);
-			enableArrayButtons();
-		}
-		queueComponent = new QueueComponent();
-
-		arrayPanel.add(queueComponent, BorderLayout.CENTER);
-
-		arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(),
-				arrayPanel.getHeight());
-		queueComponent.setValues(arrayQueue);
-		arrayPanel.revalidate();
-
-		arraySizeText.setText(null);
-	}
-
 	private void resetButtonActionPerformed(ActionEvent evt) {
 		arraySizeLabel.setText("Numar elemente:   ");
 		arraySizeButton.setEnabled(true);
 		disableArrayButtons();
 		arrayQueue.size = 0;
 		queueComponent.setValues(arrayQueue);
-	}
-
-	private void enqueueButtonActionPerformed(ActionEvent evt) {
-		int a = arrayQueue.enqueue(arrayInputTextField.getText());
-		if (a == -1) {
-			JOptionPane.showMessageDialog(null, "Coada este plina.", "alert", JOptionPane.ERROR_MESSAGE);
-			arrayAddButton.setEnabled(false);
-		}
-		arrayRemoveButton.setEnabled(true);
-		queueComponent.setValues(arrayQueue);
-		arrayInputTextField.setText("");
 	}
 
 	private void listDequeueButtonActionPerformed(ActionEvent evt) {
@@ -179,17 +188,40 @@ public class QueuePanel extends BasePanel {
 		listComponent.setValues(linkedListTemplate, 0, 'n');
 	}
 
-	private void listEnqueueButtonActionPerformed(ActionEvent evt) {
-		linkedListTemplate.insertElement(Integer.parseInt(listInputTextField.getText()));
-		listComponent.setValues(linkedListTemplate, 1, 'n');
-		listInputTextField.setText("");
+	private void addElementToList() {
+	    int element = Integer.parseInt(listInputTextField.getText());
+	    linkedListTemplate.insertElement(element);
+	    listComponent.setValues(linkedListTemplate, 1, 'n');
+	    listInputTextField.setText("");
+	}
+	
+	private void sizeButtonActionPerformed(ActionEvent evt) {
+		setQueueSize();
 	}
 
-	private void qListinputTextKeyPressed(KeyEvent evt) {
-		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			linkedListTemplate.insertElement(Integer.parseInt(listInputTextField.getText()));
-			listComponent.setValues(linkedListTemplate, 1, 'n');
-			listInputTextField.setText("");
-		}
+	private void sizeTextKeyPressed(KeyEvent evt) {
+	    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+	    	setQueueSize();
+	    }
 	}
+
+	private void listEnqueueButtonActionPerformed(ActionEvent evt) {
+		addElementToList();
+	}
+	
+	private void listInputTextKeyPressed(KeyEvent evt) {
+	    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+	    	addElementToList();
+	    }
+	}
+	
+	private void arrayEnqueueButtonActionPerformed(ActionEvent evt) {
+		addElementToArray();
+	}
+	
+	private void arrayInputTextKeyPressed(KeyEvent evt) {
+	    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+	    	addElementToArray();
+	    }
+	}		
 }
