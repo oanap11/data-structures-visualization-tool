@@ -21,12 +21,12 @@ public class StackComponent extends JComponent {
 
 		Graphics2D qG = (Graphics2D) g;
 		for (int i = 0; i < stack.size; i++) {
-			stack.stackArray[i].setRect((50 + (i * 60)), (getHeight() / 2) - 30, 60, 60);
+			stack.array[i].setRect((50 + (i * 60)), (getHeight() / 2) - 30, 60, 60);
 
-			int x = (int) stack.stackArray[i].getMinX();
-			int y = (int) stack.stackArray[i].getMinY();
+			int x = (int) stack.array[i].getMinX();
+			int y = (int) stack.array[i].getMinY();
 			
-			qG.draw(stack.stackArray[i]);
+			qG.draw(stack.array[i]);
 			qG.drawString(stack.val[i], x + 30, y + 30);
 		}
 

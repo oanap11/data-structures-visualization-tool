@@ -25,12 +25,12 @@ public class QueueComponent extends JComponent {
 
 		for (int i = 0; i < queue.size; i++) {
 			// deseneaza reprezentarea grafica pentru coada implementata prin array
-			queue.queueArray[i].setRect((50 + (i * 60)), componentHeight_HALF - 30, 60, 60);
+			queue.array[i].setRect((50 + (i * 60)), componentHeight_HALF - 30, 60, 60);
 
-			int x = (int) queue.queueArray[i].getMinX();
-			int y = (int) queue.queueArray[i].getMinY();
+			int x = (int) queue.array[i].getMinX();
+			int y = (int) queue.array[i].getMinY();
 			
-			qG.draw(queue.queueArray[i]);
+			qG.draw(queue.array[i]);
 			qG.drawString(queue.val[i], x + 30, y + 30);
 		}
 

@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 
 import dsa.trees.GraphicalTree;
 import dsa.trees.TreeComponent;
+import dsa.utils.GroupLayoutUtil;
 
 public class TreePanel extends JPanel {
 

@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import dsa.queue.GraphicalArrayQueue;
 import dsa.queue.QueueComponent;
+import dsa.utils.GroupLayoutUtil;
 
 public class QueuePanel extends BasePanel {
 
