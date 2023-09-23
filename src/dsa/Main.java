@@ -24,6 +24,7 @@ import dsa.panels.ListPanel;
 import dsa.panels.QueuePanel;
 import dsa.panels.StackPanel;
 import dsa.panels.TreePanel;
+import login.LoginForm;
 
 public class Main extends JFrame {
 	
@@ -181,7 +182,8 @@ public class Main extends JFrame {
         UIManager.put("MenuItem.background", MENU_BAR_BACKGROUND_COLOR);
 		
 		SwingUtilities.invokeLater(() -> {
-            new Main().setVisible(true);
+            //new Main().setVisible(true);
+			new LoginForm().setVisible(true);
         });
     }
 }

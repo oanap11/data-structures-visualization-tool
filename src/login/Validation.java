@@ -12,14 +12,14 @@ import java.util.regex.Pattern;
 
 public class Validation {
 
-	public static boolean checkUsernameExists(String user){
+	public static boolean checkUsernameExists(String username){
 	    boolean usernameExists = false;
 
 	    try{
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aplicatieLicenta", "root", "password");
 	        Statement statement = connection.createStatement();
 
-	        String SQL = "SELECT * FROM cont WHERE user='" + user + "'";
+	        String SQL = "SELECT * FROM cont WHERE username='" + username + "'";
 
 	        ResultSet rs = statement.executeQuery(SQL);
 
