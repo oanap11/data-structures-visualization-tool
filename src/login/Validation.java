@@ -14,8 +14,8 @@ public class Validation {
 		boolean usernameExists = false;
 
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aplicatieLicenta", "root",
-					"password");
+			Connection connection = DatabaseConnectionManager.getConnection();
+			
 			Statement statement = connection.createStatement();
 
 			String getNumberOfUsers = "SELECT COUNT(*) FROM cont WHERE username='" + username + "'";

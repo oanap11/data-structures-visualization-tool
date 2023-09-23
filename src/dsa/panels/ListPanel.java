@@ -39,13 +39,11 @@ public class ListPanel extends JPanel {
 	private JButton singlyAddButton, singlyDeleteButton;
 	private JTextField singlyAddNodeField, singlyDeleteNodeField;
 	private JPanel singlyListMainPanel, singlyListSouthPanel, singlyListNorthPanel;
-	private JSlider singlySlider;
 	
 	// Components to create the circular list view
 	private JButton circularAddButton, circularDeleteButton;
 	private JTextField circularAddNodeField, circularDeleteNodeField;
 	private JPanel circularListMainPanel, circularListNorthPanel, circularListSouthPanel;
-	private JSlider circularSlider;
 
 	public ListPanel() {
 		initComponents();
@@ -89,7 +87,6 @@ public class ListPanel extends JPanel {
 		singlyAddButton = new JButton();
 		singlyDeleteNodeField = new JTextField();
 		singlyDeleteButton = new JButton();
-		singlySlider = new JSlider();
 	}
 
 	void initCircularComponents() {
@@ -100,7 +97,6 @@ public class ListPanel extends JPanel {
 		circularAddButton = new JButton();
 		circularDeleteNodeField = new JTextField();
 		circularDeleteButton = new JButton();
-		circularSlider = new JSlider();
 	}
 	
 	void configureSinglyListSettings(){
@@ -112,7 +108,6 @@ public class ListPanel extends JPanel {
 		setupNorthPanel(singlyListNorthPanel, singlyAddNodeField, singlyAddButton,
 	            singlyDeleteNodeField, singlyDeleteButton);
 		configureListView(singlyListMainPanel, singlyListNorthPanel, singlyListSouthPanel);
-		configureSlider(singlySlider);
 	}
 	
 	void configureCircularListSettings() {
@@ -124,7 +119,6 @@ public class ListPanel extends JPanel {
 		setupNorthPanel(circularListNorthPanel, circularAddNodeField, circularAddButton,
 	            circularDeleteNodeField, circularDeleteButton);
 		configureListView(circularListMainPanel, circularListNorthPanel, circularListSouthPanel);
-		configureSlider(circularSlider);
 	}
 	
 	void configureListView(JPanel mainPanel, JPanel northPanel, JPanel southPanel) {
@@ -176,16 +170,6 @@ public class ListPanel extends JPanel {
 	void configureMainPanel(JPanel mainPanel, LayoutManager layout) {
 	    mainPanel.setBackground(Color.WHITE);
 	    mainPanel.setLayout(layout);
-	}
-	
-	void configureSlider(JSlider slider) {
-	    slider.setBorder(javax.swing.BorderFactory.createTitledBorder(
-	            javax.swing.BorderFactory.createCompoundBorder(), 
-	            "Animation Speed",
-	            javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION,
-	            new java.awt.Font("Bitstream Charter", 0, 12),
-	            new java.awt.Color(222, 29, 29)
-	    ));
 	}
 
 	void setupDeleteButton(JButton deleteButton, ActionListener actionListener) {

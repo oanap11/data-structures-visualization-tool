@@ -101,8 +101,7 @@ public class LoginForm extends JFrame {
 		String userName = userTextField.getText();
 		String password = passField.getText();
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aplicatieLicenta", "root",
-					"password");
+			Connection connection = DatabaseConnectionManager.getConnection();
 
 			PreparedStatement st = connection
 					.prepareStatement("Select username, password from cont where username=? and password=?");
