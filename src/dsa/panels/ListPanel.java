@@ -9,16 +9,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
 
 import dsa.LinkedListTemplate;
 import dsa.linked.list.SinglyListComponent;
@@ -102,9 +99,11 @@ public class ListPanel extends JPanel {
 	void configureSinglyListSettings(){
 		configureMainPanel(singlyListMainPanel, new BorderLayout());
 		configureAddNodeField(singlyAddNodeField);
-		configureAddButton(singlyAddButton);
 		configureDeleteNodeField(singlyDeleteNodeField);
-		setupDeleteButton(singlyDeleteButton, evt -> singlyDeleteButtonActionPerformed(evt));
+		
+		setupButton(singlyAddButton, "Insereaza", evt -> singlyAddButtonActionPerformed(evt));
+		setupButton(singlyDeleteButton, "Sterge", evt -> singlyDeleteButtonActionPerformed(evt));
+		
 		setupNorthPanel(singlyListNorthPanel, singlyAddNodeField, singlyAddButton,
 	            singlyDeleteNodeField, singlyDeleteButton);
 		configureListView(singlyListMainPanel, singlyListNorthPanel, singlyListSouthPanel);
@@ -113,9 +112,11 @@ public class ListPanel extends JPanel {
 	void configureCircularListSettings() {
 		configureMainPanel(circularListMainPanel, new BorderLayout());
 		configureAddNodeField(circularAddNodeField);
-		configureAddButton(circularAddButton);
-		configureDeleteNodeField(circularDeleteNodeField);
-		setupDeleteButton(circularDeleteButton, evt -> circularDeleteButtonActionPerformed(evt));
+		
+		setupButton(circularAddButton, "Insereaza", evt -> circularAddButtonActionPerformed(evt));
+		setupButton(circularDeleteButton, "Sterge", evt -> circularDeleteButtonActionPerformed(evt));
+		
+		configureDeleteNodeField(circularDeleteNodeField);;
 		setupNorthPanel(circularListNorthPanel, circularAddNodeField, circularAddButton,
 	            circularDeleteNodeField, circularDeleteButton);
 		configureListView(circularListMainPanel, circularListNorthPanel, circularListSouthPanel);
@@ -142,15 +143,13 @@ public class ListPanel extends JPanel {
 	    });
 	}
 	
-	void configureAddButton(JButton addButton) {
-		addButton.setText("Insereaza");
-		addButton.addActionListener(evt -> {
-		    if (addButton == singlyAddButton) {
-		        singlyAddButtonActionPerformed(evt);
-		    } else if (addButton == circularAddButton) {
-		        circularAddButtonActionPerformed(evt);
-		    } 
-		});
+	void setupButton(JButton button, String text, ActionListener actionListener) {
+	    button.setBackground(Color.white);
+	    button.setText(text);
+	    button.setFocusable(false);
+	    button.setHorizontalTextPosition(SwingConstants.CENTER);
+	    button.setVerticalTextPosition(SwingConstants.BOTTOM);
+	    button.addActionListener(actionListener);
 	}
 	
 	void configureDeleteNodeField(JTextField deleteNodeField){
@@ -166,7 +165,7 @@ public class ListPanel extends JPanel {
 	        }
 	    });
 	}
-
+	
 	void configureMainPanel(JPanel mainPanel, LayoutManager layout) {
 	    mainPanel.setBackground(Color.WHITE);
 	    mainPanel.setLayout(layout);
@@ -195,9 +194,11 @@ public class ListPanel extends JPanel {
 	                            GroupLayout.PREFERRED_SIZE)
 	                    .addGap(18, 18, 18).addComponent(deleteButton, 0, GroupLayout.DEFAULT_SIZE, 200)
 	                    .addContainerGap(298, Short.MAX_VALUE)));
+	    
 	    northPanelLayout.setVerticalGroup(northPanelLayout
-	            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+	            .createParallelGroup(GroupLayout.Alignment.LEADING)
 	            .addGroup(GroupLayout.Alignment.TRAILING, northPanelLayout.createSequentialGroup()
+	            		.addContainerGap()
 	                    .addGroup(northPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                            .addGroup(northPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                                    .addComponent(addButton)

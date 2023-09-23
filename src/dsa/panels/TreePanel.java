@@ -19,6 +19,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
+import javax.swing.UIDefaults;
 
 import dsa.trees.GraphicalTree;
 import dsa.trees.TreeComponent;
@@ -49,6 +50,8 @@ public class TreePanel extends JPanel {
 
     private void initComponents() {
     	treePane = new JTabbedPane();
+    	treePane.setBackground(Color.red);
+
         treeCenterPanel = new JPanel();
         treePane = new JTabbedPane();
         bstPanel = new JPanel();
@@ -65,12 +68,9 @@ public class TreePanel extends JPanel {
 
         bstPanel.setBackground(new Color(254, 254, 254));
         bstPanel.setLayout(new BorderLayout());
-
-        bstInsertButton.setText("Insereaza element");
-        bstInsertButton.addActionListener(evt -> bstInsertButtonActionPerformed(evt));
-
-        bstDelButton.setText("Sterge element");
-        bstDelButton.addActionListener(evt -> bstDelButtonActionPerformed(evt));
+        
+        configureButton(bstInsertButton, "Insereaza", evt -> bstInsertButtonActionPerformed(evt));
+        configureButton(bstDelButton, "Sterge", evt -> bstDelButtonActionPerformed(evt));
 
         bstInsertText.addKeyListener(new KeyAdapter() {
             @Override
@@ -94,6 +94,15 @@ public class TreePanel extends JPanel {
         treeCenterPanel.add(treePane);
 
         add(treeCenterPanel, BorderLayout.CENTER);
+    }
+    
+    void configureButton(JButton button, String text, ActionListener actionListener) {
+    	button.setBackground(Color.white);
+	    button.setText(text);
+	    button.setFocusable(false);
+	    button.setHorizontalTextPosition(SwingConstants.CENTER);
+	    button.setVerticalTextPosition(SwingConstants.BOTTOM);
+	    button.addActionListener(actionListener);
     }
     
     private void enableButtons() {

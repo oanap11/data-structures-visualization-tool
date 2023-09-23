@@ -122,7 +122,11 @@ public class BasePanel extends JPanel{
 	}
 	
 	protected void configureButton(JButton button, String text, ActionListener listener) {
+	    button.setBackground(Color.white);
 	    button.setText(text);
+	    button.setFocusable(false);
+	    button.setHorizontalTextPosition(SwingConstants.CENTER);
+	    button.setVerticalTextPosition(SwingConstants.BOTTOM);
 	    button.addActionListener(listener);
 	}
 	
