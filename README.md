@@ -14,9 +14,4 @@ This Java desktop application offers interactive animations for:
 - Observe pathfinding algorithms in action.
 - Simple user interface for easy interaction.
 
-## Usage
-
-1. Clone or download the repository.
-2. Compile and run the Java application.
-3. Choose a data structure or algorithm from the menu.
-4. Interact with the visualization to learn and explore.
+![Coada](https://github.com/oanap11/Data-Structures-Visualization-Tool/assets/91391485/6a32fe83-2fd4-4ecf-bc08-3fce914a1352)
