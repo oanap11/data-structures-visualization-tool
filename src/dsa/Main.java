@@ -164,6 +164,16 @@ public class Main extends JFrame {
     private void algoMenuActionPerformed(ActionEvent evt) {
         menuItemActionPerformed(evt, algoPanel);
     }
+    
+    public static void configureUIManager() {
+    	Font f = new Font("dialog", Font.BOLD, 50);
+    	UIManager.put("MenuItem.foreground", Color.WHITE);
+    	UIManager.put("Menu.foreground", Color.WHITE);
+    	UIManager.put("Menu.font", f);
+    	UIManager.put("MenuItem.font", f);
+    	UIManager.put("MenuBar.background", MENU_BAR_BACKGROUND_COLOR);
+        UIManager.put("MenuItem.background", MENU_BAR_BACKGROUND_COLOR);
+    }
 
     public static void main(String args[]) {
 
@@ -173,17 +183,11 @@ public class Main extends JFrame {
 		}
     	catch (Exception e) {}
 
-    	Font f = new Font("dialog", Font.BOLD, 50);
-    	UIManager.put("MenuItem.foreground", Color.WHITE);
-    	UIManager.put("Menu.foreground", Color.WHITE);
-    	UIManager.put("Menu.font", f);
-    	UIManager.put("MenuItem.font", f);
-    	UIManager.put("MenuBar.background", MENU_BAR_BACKGROUND_COLOR);
-        UIManager.put("MenuItem.background", MENU_BAR_BACKGROUND_COLOR);
+    	configureUIManager();
 		
 		SwingUtilities.invokeLater(() -> {
-            //new Main().setVisible(true);
-			new LoginForm().setVisible(true);
+            new Main().setVisible(true);
+			//new LoginForm().setVisible(true);
         });
     }
 }

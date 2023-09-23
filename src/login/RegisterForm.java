@@ -1,17 +1,13 @@
 package login;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import dsa.utils.FormLayoutUtils;
-
 
 public class RegisterForm extends JFrame {
 
@@ -48,82 +43,64 @@ public class RegisterForm extends JFrame {
     private void initComponents() {
     	setTitle("Inregistrare");
     	setResizable(false);
-    	//setLocationRelativeTo(null);
-    	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    	this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-
+    	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
         mainPanel = new JPanel();
-        logo = new JLabel();
-        //email
-        emailLabel = new JLabel();
-        emailTextField = new JTextField();
-
-        //utilizator
-        userLabel = new JLabel();
-        userTextField = new JTextField();
-
-        //parola
-        passLabel = new JLabel();
-        passField = new JPasswordField();
-
-        //butoane
-        registerButton = new JButton();
-        resetButton = new JButton();
-        backButton = new JButton();
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainPanel.setBackground(new Color(211, 227, 235));
+        
+        logo = new JLabel();
         logo.setIcon(new ImageIcon(getClass().getResource("/images/logoInregistrare.png")));
 
-        emailLabel.setFont(new Font("Bitstream Vera Sans Mono", 1, 18));
-        emailLabel.setText("E-mail");
+        emailLabel = createLabel("E-mail");
+        emailTextField = createTextField();
 
-        userLabel.setFont(new Font("Bitstream Vera Sans Mono", 1, 18));
-        userLabel.setText("Utilizator");
+        userLabel = createLabel("Utilizator");
+        userTextField = createTextField();
 
-        passLabel.setFont(new Font("Bitstream Vera Sans Mono", 1, 18));
-        passLabel.setText("Parola");
-
-        //buton de inregistrare
-        registerButton.setBackground(new Color(11, 167, 88));
-        registerButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 18));
-        registerButton.setText("Inregistreaza-te");
-        registerButton.setBorder(null);
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                registerButtonActionPerformed(evt);
-            }
-        });
-
-        //buton de reset
-        resetButton.setBackground(new Color(11, 167, 88));
-        resetButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 18)); // NOI18N
-        resetButton.setText("Reseteaza");
-        resetButton.setBorder(null);
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                resetButtonActionPerformed(evt);
-            }
-        });
-
-        //buton back login
+        passLabel = createLabel("Parola");
+        passField = createPasswordField();
+        
+        registerButton = createButton("Inregistreaza-te", this::registerButtonActionPerformed);
+        resetButton = createButton("Reseteaza", this::resetButtonActionPerformed);
+        backButton = createButton("", this::backButtonActionPerformed);
+        backButton.setIcon(new ImageIcon(getClass().getResource("/images/backButton.png")));
         backButton.setBackground(new Color(211, 227, 235));
-        backButton.setIcon(new ImageIcon(getClass().getResource("/images/backButton.png"))); // NOI18N
         backButton.setBorder(null);
         backButton.setFocusPainted(false);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed(ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
 
-        FormLayoutUtils.setupRegisterPanelLayout(mainPanel, registerButton, resetButton, userLabel, passLabel, emailLabel, emailTextField, passField, userTextField, backButton, logo);
-
+        FormLayoutUtils.setupRegisterPanelLayout(mainPanel, registerButton, resetButton, userLabel, passLabel, 
+        		emailLabel, emailTextField, passField, userTextField, backButton, logo);
         FormLayoutUtils.setCommonLayout(mainPanel,getContentPane());
+        
         pack();
+        setLocationRelativeTo(null);
+    }
+    
+    private JButton createButton(String text, ActionListener listener) {
+        JButton button = new JButton();
+        button.setBackground(new Color(11, 167, 88));
+        button.setFont(new Font("Bitstream Vera Sans Mono", 1, 18));
+        button.setText(text);
+        button.setBorder(null);
+        button.addActionListener(listener);
+        return button;
+    }
+    
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel();
+        label.setFont(new Font("Bitstream Vera Sans Mono", 1, 18));
+        label.setText(text);
+        return label;
+    }
+    
+    private JTextField createTextField() {
+        JTextField textField = new JTextField();
+        return textField;
+    }
+
+    private JPasswordField createPasswordField() {
+        JPasswordField passwordField = new JPasswordField();
+        return passwordField;
     }
 
     private void registerButtonActionPerformed(ActionEvent evt) {
@@ -152,11 +129,11 @@ public class RegisterForm extends JFrame {
             	try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aplicatieLicenta", "root", "password");
 
-                    String query = "INSERT INTO cont (username, password, email) VALUES ('" + username + "','" + password + "','" + email + "')";
+                    String createNewUser = "INSERT INTO cont (username, password, email) VALUES ('" + username + "','" + password + "','" + email + "')";
 
-                    Statement sta = connection.createStatement();
-                    int x = sta.executeUpdate(query);
-                    if (x == 0) {
+                    Statement statement = connection.createStatement();
+
+                    if (statement.executeUpdate(createNewUser) == 0) {
                         JOptionPane.showMessageDialog(registerButton, "Numele introdus apartine altui utilizator.");
                     } else {
                         JOptionPane.showMessageDialog(registerButton,
@@ -174,7 +151,7 @@ public class RegisterForm extends JFrame {
         }
     }
 
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void resetButtonActionPerformed(ActionEvent evt) {
         clearFields();
     }
 
@@ -189,33 +166,4 @@ public class RegisterForm extends JFrame {
     	userTextField.setText(null);
     	passField.setText(null);
     }
-
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-			public void run() {
-                RegisterForm register = new RegisterForm();
-                register.setVisible(true);
-            }
-        });
-    }
-
-
 }
