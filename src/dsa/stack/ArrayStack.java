@@ -18,29 +18,29 @@ public class ArrayStack extends JComponent {
 
 	@Override
 	public synchronized void paintComponent(Graphics graphics) {
-		
 		Graphics2D graphicsContext = (Graphics2D) graphics;
 		int halfHeight = getHeight() / 2;
-		
 		stack.updateRectanglesPosition(halfHeight, graphics);
 
 		if (this.stack.size != 0) {
 			graphicsContext.setStroke(new BasicStroke(4));
-			int tl = 80 + (stack.head * 60);
-			
-			stack.tailLine.setLine(tl, halfHeight + 37, tl, halfHeight + 80);
+			drawArrows(graphics);
 			graphicsContext.draw(stack.tailLine);
-
-			int x1[] = { tl, tl - 8, tl + 8, tl };
-			int y1[] = { halfHeight + 30, halfHeight + 50, halfHeight + 50, halfHeight + 30 };
-
-			graphicsContext.draw(stack.tailLine);
-			graphics.setColor(Color.red);
-			graphics.drawString("Top", tl - 4, halfHeight + 95);
-			graphics.setColor(Color.black);
-			graphics.fillPolygon(x1, y1, 4);
 			graphicsContext.setStroke(new BasicStroke(1));
 		}
 	}
-
+	
+	void drawArrows(Graphics graphics) {
+		int tailPosition = 80 + (stack.head * 60);
+		int halfHeight = getHeight() / 2;
+		int tailXPoints[] = { tailPosition, tailPosition - 8, tailPosition + 8, tailPosition };
+		int tailYPoints[] = { halfHeight + 30, halfHeight + 50, halfHeight + 50, halfHeight + 30 };
+		
+		stack.tailLine.setLine(tailPosition, halfHeight + 37, tailPosition, halfHeight + 80);
+		
+		graphics.setColor(Color.red);
+		graphics.drawString("Top", tailPosition - 4, halfHeight + 95);
+		graphics.setColor(Color.black);
+		graphics.fillPolygon(tailXPoints, tailYPoints, 4);
+	}
 }
