@@ -14,8 +14,8 @@ public class GraphicalArrayQueue extends GraphicalArray  {
 			System.out.println("Coada nu contine elemente.");
 			return null;
 		}
-		temp = val[head];
-		val[head] = " ";
+		temp = elements[head];
+		elements[head] = " ";
 		head = (head + 1) % size;
 		count--;
 		return temp;
@@ -26,7 +26,7 @@ public class GraphicalArrayQueue extends GraphicalArray  {
 			System.out.println("Coada este plina - nu mai pot fi adaugate elemente.");
 			return -1;
 		}
-		val[tail] = element;
+		elements[tail] = element;
 		tail = (tail + 1) % size;
 		count++;
 		return 0;

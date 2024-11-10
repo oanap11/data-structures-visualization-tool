@@ -17,7 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import dsa.queue.GraphicalArrayQueue;
-import dsa.queue.QueueComponent;
+import dsa.queue.ArrayQueue;
 import dsa.utils.GroupLayoutUtil;
 
 public class QueuePanel extends BasePanel {
@@ -141,10 +141,10 @@ public class QueuePanel extends BasePanel {
 	        enableArrayButtons();
 	    }
 
-	    queueComponent = new QueueComponent();
+	    queueComponent = new ArrayQueue();
 	    arrayPanel.add(queueComponent, BorderLayout.CENTER);
 
-	    arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight());
+	    arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
 	    queueComponent.setValues(arrayQueue);
 	    arrayPanel.revalidate();
 

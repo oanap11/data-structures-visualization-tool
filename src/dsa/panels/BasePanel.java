@@ -21,25 +21,25 @@ import javax.swing.SwingConstants;
 
 import dsa.LinkedListTemplate;
 import dsa.queue.GraphicalArrayQueue;
-import dsa.queue.QueueComponent;
-import dsa.queue.QueueListComponent;
+import dsa.queue.ArrayQueue;
+import dsa.queue.ListQueue;
 import dsa.stack.GraphicalArrayStack;
-import dsa.stack.StackComponent;
-import dsa.stack.StackListComponent;
+import dsa.stack.ArrayStack;
+import dsa.stack.ListStack;
 import dsa.utils.GroupLayoutUtil;
 
 public class BasePanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	QueueComponent queueComponent;
-	StackComponent arrayStackComponent;
+	ArrayQueue queueComponent;
+	ArrayStack arrayStackComponent;
 	
 	GraphicalArrayQueue arrayQueue;
 	GraphicalArrayStack stackArray;
 	
-	QueueListComponent listComponent;
-	StackListComponent listStackComponent;
+	ListQueue listComponent;
+	ListStack listStackComponent;
 	
 	LinkedListTemplate linkedListTemplate;
 	
@@ -67,7 +67,7 @@ public class BasePanel extends JPanel{
     }
 	
 	void configureListComponent() {
-		listComponent = new QueueListComponent();
+		listComponent = new ListQueue();
 		listPanel.add(listComponent, BorderLayout.CENTER);
 		linkedListTemplate = new LinkedListTemplate();
 		listComponent.setValues(linkedListTemplate, 0, 'n');

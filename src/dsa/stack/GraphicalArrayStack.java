@@ -15,8 +15,8 @@ public class GraphicalArrayStack extends GraphicalArray {
 			System.out.println("Stiva nu contine elemente.");
 			return null;
 		}
-		temp = val[head - 1];
-		val[head - 1] = " ";
+		temp = elements[head - 1];
+		elements[head - 1] = " ";
 		head = head - 1;
 		count--;
 		return temp;
@@ -27,7 +27,7 @@ public class GraphicalArrayStack extends GraphicalArray {
 			System.out.println("Stiva este plina.");
 			return -1;
 		}
-		val[head] = element;
+		elements[head] = element;
 		head++;
 		count++;
 		return 0;

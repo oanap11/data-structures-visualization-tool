@@ -12,7 +12,7 @@ import dsa.linked.list.SinglyListComponent;
 import dsa.LinkedListTemplate;
 import dsa.panels.ListPanel;
 
-public class StackListComponent extends SinglyListComponent {
+public class ListStack extends SinglyListComponent {
 
 	LinkedListTemplate list;
 	char flag;

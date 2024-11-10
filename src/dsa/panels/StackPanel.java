@@ -17,10 +17,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import dsa.LinkedListTemplate;
-import dsa.queue.QueueListComponent;
+import dsa.queue.ListQueue;
 import dsa.stack.GraphicalArrayStack;
-import dsa.stack.StackComponent;
-import dsa.stack.StackListComponent;
+import dsa.stack.ArrayStack;
+import dsa.stack.ListStack;
 import dsa.utils.GroupLayoutUtil;
 
 public class StackPanel extends BasePanel {
@@ -112,7 +112,7 @@ public class StackPanel extends BasePanel {
 	}
 	
 	void configureListStackComponent() {
-		listStackComponent = new StackListComponent();
+		listStackComponent = new ListStack();
 		listPanel.add(listStackComponent, BorderLayout.CENTER);
 		linkedListTemplate = new LinkedListTemplate();
 		listStackComponent.setValues(linkedListTemplate, 0, 'n');
@@ -176,9 +176,9 @@ public class StackPanel extends BasePanel {
 	        arraySizeButton.setEnabled(false);
 	        enableArrayButtons();
 	    }
-	    arrayStackComponent = new StackComponent();
+	    arrayStackComponent = new ArrayStack();
 	    arrayPanel.add(arrayStackComponent, BorderLayout.CENTER);
-	    stackArray = new GraphicalArrayStack(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight());
+	    stackArray = new GraphicalArrayStack(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
 	    arrayStackComponent.setValues(stackArray);
 	    arrayPanel.revalidate();
 	    arraySizeText.setText(null);
