@@ -2,80 +2,72 @@ package dsa.trees;
 
 import java.awt.Graphics;
 
-class NodeTree {
-	double value;
-	NodeTree leftNode, rightNode;
-}
-
 public class GraphicalTree {
-    public NodeTree root;
-
-    public GraphicalTree() {
-        root = null;
-    }
+    public TreeNode root;
     
-    public int getTreeDepth(NodeTree t) {
-		if (t == null)
+    public int getTreeDepth(TreeNode node) {
+		if (node == null)
 			return 0;
-		return 1 + Math.max(getTreeDepth(t.leftNode), getTreeDepth(t.rightNode));
+		return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
 	}
 
-    public void insertElement(String value, Graphics g) {
+    public void insertElement(String value) {
         double va = Double.parseDouble(value);
         root = insertRecursive(root, va);
     }
     
-    private NodeTree insertRecursive(NodeTree node, double value) {
+    private TreeNode insertRecursive(TreeNode node, double value) {
         if (node == null) {
-            NodeTree newNode = new NodeTree();
-            newNode.value = value;
-            return newNode;
+            return new TreeNode(value); 
         }
-
+        
         if (value < node.value) {
-            node.leftNode = insertRecursive(node.leftNode, value);
+            node.left = insertRecursive(node.left, value);
         } else {
-            node.rightNode = insertRecursive(node.rightNode, value);
+            node.right = insertRecursive(node.right, value);
         }
 
         return node;
     }
 
-    public int deleteElement(String v, Graphics g) {
-        double va = Double.parseDouble(v);
+    public boolean deleteElement(String value) {
+        double parsedValue = Double.parseDouble(value);
         if (root == null) {
-            return -1;
+            return false;
         }
 
-        return deleteRecursive(root, va) != null ? 1 : -1;
+        root = deleteNode(root, parsedValue);
+        return root != null;
     }
 
-    private NodeTree deleteRecursive(NodeTree node, double value) {
+    private TreeNode deleteNode(TreeNode node, double value) {
         if (node == null) {
-            return node;
+            return null; 
         }
 
         if (value < node.value) {
-            node.leftNode = deleteRecursive(node.leftNode, value);
+            node.left = deleteNode(node.left, value);
         } else if (value > node.value) {
-            node.rightNode = deleteRecursive(node.rightNode, value);
+            node.right = deleteNode(node.right, value); 
         } else {
-            if (node.leftNode == null) {
-                return node.rightNode;
-            } else if (node.rightNode == null) {
-                return node.leftNode;
+            // Node found, handle the three possible cases for deletion
+            if (node.left == null) {
+                return node.right; // Case 1: Only right child or no children
+            } else if (node.right == null) {
+                return node.left; // Case 2: Only left child
             }
 
-            NodeTree r = findMin(node.rightNode);
-            node.value = r.value;
-            node.rightNode = deleteRecursive(node.rightNode, r.value);
+            // Case 3: Two children - replace with smallest in right subtree
+            TreeNode minNode = findMin(node.right);
+            node.value = minNode.value; // Copy min value to current node
+            node.right = deleteNode(node.right, minNode.value); // Delete min node
         }
 
-        return node;
+        return node; 
     }
     
-    public void draw(NodeTree t, Graphics g, int x, int y, int prevx, int prevy, int lev, int gap) {
-        if (t == null) {
+    public void draw(TreeNode node, Graphics g, int x, int y, int prevx, int prevy, int lev, int gap) {
+        if (node == null) {
             return;
         }
         g.drawOval(x, y, 30, 30);
@@ -85,14 +77,14 @@ public class GraphicalTree {
             gap /= 2;
         }
 
-        g.drawString("" + t.value, x + 2, y + 17);
-        draw(t.leftNode, g, x - gap, y + 50, x, y, lev, gap);
-        draw(t.rightNode, g, x + gap, y + 50, x, y, lev, gap);
+        g.drawString("" + node.value, x + 2, y + 17);
+        draw(node.left, g, x - gap, y + 50, x, y, lev, gap);
+        draw(node.right, g, x + gap, y + 50, x, y, lev, gap);
     }
 
-    private NodeTree findMin(NodeTree node) {
-        while (node.leftNode != null) {
-            node = node.leftNode;
+    private TreeNode findMin(TreeNode node) {
+        while (node.left != null) {
+            node = node.left;
         }
         return node;
     }

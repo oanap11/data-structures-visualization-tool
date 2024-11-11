@@ -22,10 +22,10 @@ public class TreeComponent extends JComponent {
 		int gap = 0;
 		switch (flag) {
 		case 'i':
-			graphicalTree.insertElement(val, g);
+			graphicalTree.insertElement(val);
 			break;
 		case 'd':
-			if (graphicalTree.deleteElement(val, g) == 1) {
+			if (graphicalTree.deleteElement(val) == true) {
 				break;
 			}
 			// If delete was unsuccessful, do not continue drawing
