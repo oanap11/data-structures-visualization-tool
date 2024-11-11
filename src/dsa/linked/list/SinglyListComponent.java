@@ -153,10 +153,8 @@ public class SinglyListComponent extends JComponent {
 
 	    int stepHeight = 70;
 	    int increaseDistance = 50;
-	    int startX = 20;
-	    int startY = 70;
-	    currentX = startX;
-	    currentY = startY;
+		currentX = 20;
+		currentY = 70;
 	    boolean changed = false;
 
 	    Node currentNode = this.list.firstNode;
