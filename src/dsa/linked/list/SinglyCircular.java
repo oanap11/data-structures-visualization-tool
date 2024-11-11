@@ -103,31 +103,18 @@ public class SinglyCircular extends SinglyListComponent {
 	}
 
 	public void drawList(Graphics g) {
-		height = this.getHeight();
-		width = this.getWidth();
-		
 		int first = 1;
-		int stepHeight = 70;
-		int increaseDistance = 50;
-		boolean changed = false;
-		currentX = 20;
-		currentY = 70;
-
-		Node temp = this.list.firstNode;
-		g.setColor(Color.RED);
-		drawNode(g, currentX, currentY, "Start");
-		g.setColor(Color.BLACK);
+		initializeDrawingVariables(g);
+		drawFirstNode(g);
 		
-		while (temp != null) {
+		while (currentNode != null) {
 			if (first == 1) {
 				initialX = currentX + 60;
 				initialY = currentY;
 				g.setColor(Color.WHITE);
 				drawNull(g, currentX + 37, currentY);
 				first = 0;
-			} else {
-
-			}
+			} 
 
 			if (currentX + 130 > width) {
 				finalX = 20;
@@ -141,7 +128,7 @@ public class SinglyCircular extends SinglyListComponent {
 			}
 
 			g.setColor(Color.black);
-			drawNodeWithoutArrow(g, finalX, finalY, "" + temp.data);
+			drawNodeWithoutArrow(g, finalX, finalY, "" + currentNode.data);
 			
 			if (changed) {
 				drawPathWithChanges(g, currentX, currentY, finalX, finalY, increaseDistance);
@@ -155,13 +142,14 @@ public class SinglyCircular extends SinglyListComponent {
 			lastCurrentY = currentY;
 			currentX = finalX;
 			currentY = finalY;
-			data = temp.data;
+			data = currentNode.data;
 
-			temp = temp.next;
+			currentNode = currentNode.next;
 		}
-		if (this.list.firstNode != null)
+		
+		if (this.list.firstNode != null) {
 			drawLastPointer(g, finalX + 37, finalY);
-
+		}
 	}
 
 	public void setValues(LinkedListTemplate listCircular, int operation) {
@@ -177,14 +165,10 @@ public class SinglyCircular extends SinglyListComponent {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println("DESENAT" + this.operation);
-
 		if (this.operation == 1) {
-			System.out.println("A fost adaugat un nou element in lista.");
 			drawInterPath(g);
 		} else {
 			drawList(g);
 		}
 	}
-
 }
