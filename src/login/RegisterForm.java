@@ -129,7 +129,7 @@ public class RegisterForm extends JFrame {
             	try {
                     Connection connection = DatabaseConnectionManager.getConnection();
 
-                    String createNewUser = "INSERT INTO cont (username, password, email) VALUES ('" + username + "','" + password + "','" + email + "')";
+                    String createNewUser = "INSERT INTO users (username, password, email) VALUES ('" + username + "','" + password + "','" + email + "')";
 
                     Statement statement = connection.createStatement();
 

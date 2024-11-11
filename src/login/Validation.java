@@ -18,7 +18,7 @@ public class Validation {
 			
 			Statement statement = connection.createStatement();
 
-			String getNumberOfUsers = "SELECT COUNT(*) FROM cont WHERE username='" + username + "'";
+			String getNumberOfUsers = "SELECT COUNT(*) FROM users WHERE username='" + username + "'";
 
 			ResultSet resultSet = statement.executeQuery(getNumberOfUsers);
 			

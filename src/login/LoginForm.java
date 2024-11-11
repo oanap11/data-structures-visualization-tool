@@ -104,7 +104,7 @@ public class LoginForm extends JFrame {
 			Connection connection = DatabaseConnectionManager.getConnection();
 
 			PreparedStatement st = connection
-					.prepareStatement("Select username, password from cont where username=? and password=?");
+					.prepareStatement("Select username, password from users where username=? and password=?");
 
 			st.setString(1, userName);
 			st.setString(2, password);
