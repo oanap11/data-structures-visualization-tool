@@ -19,6 +19,9 @@ public class SinglyListComponent extends JComponent {
 	protected int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
 	protected int width, height;
 	protected int interX, interY;
+	protected int stepHeight, increaseDistance;
+	protected boolean changed;
+	protected Node currentNode;
 	
 	// Using a thread pool improves performance while maintaining thread safety
 	private final ExecutorService threadPool = Executors.newCachedThreadPool(); // Initialize a thread pool
@@ -115,7 +118,7 @@ public class SinglyListComponent extends JComponent {
 	    repaint();
 	}
 	
-	void useCommonLogicForDrawing(Graphics g, Node currentNode, int stepHeight, int increaseDistance, boolean changed) {
+	protected void useCommonLogicForDrawing(Graphics g, Node currentNode, int stepHeight, int increaseDistance, boolean changed) {
 	    g.setColor(Color.WHITE);
 	    drawNull(g, currentX + 37, currentY);
 
@@ -167,25 +170,30 @@ public class SinglyListComponent extends JComponent {
 	    drawNode(g, interX, interY, String.valueOf(currentNode.data));
 	}
 
-	public void drawList(Graphics g) {
-	    height = this.getHeight();
-	    width = this.getWidth();
-
-	    int stepHeight = 70;
-	    int increaseDistance = 50;
-	    int startX = 20;
-	    int startY = 70;
-	    currentX = startX;
-	    currentY = startY;
-	    boolean changed = false;
-
-	    Node currentNode = this.list.firstNode;
+	protected void drawList(Graphics g) {
+		initializeDrawingVariables(g);
+		
 	    drawFirstNode(g);
 
 	    while (currentNode != null) {
 	    	useCommonLogicForDrawing(g, currentNode, stepHeight, increaseDistance, changed);
 	        currentNode = currentNode.next;
 	    }
+	}
+	
+	protected void initializeDrawingVariables(Graphics g) {
+	    height = this.getHeight();
+	    width = this.getWidth();
+
+	    stepHeight = 70;
+	    increaseDistance = 50;
+	    currentX = 20;
+	    currentY = 70;
+	    changed = false;
+
+	    finalX = currentX + 60;
+	    finalY = currentY;
+	    currentNode = this.list.firstNode;
 	}
 	
 	void drawFirstNode(Graphics g) {
