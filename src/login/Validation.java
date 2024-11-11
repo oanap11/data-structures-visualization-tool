@@ -1,60 +1,40 @@
 package login;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validation {
 
-	public static boolean checkUsernameExists(String username) {
-		boolean usernameExists = false;
+	static boolean checkUsernameExists(String username) {
+		try (Connection connection = DatabaseConnectionManager.getConnection();
+			PreparedStatement statement = connection.prepareStatement(Constants.CHECK_USERNAME_EXISTS_QUERY)) {
 
-		try {
-			Connection connection = DatabaseConnectionManager.getConnection();
-			
-			Statement statement = connection.createStatement();
-
-			String getNumberOfUsers = "SELECT COUNT(*) FROM users WHERE username='" + username + "'";
-
-			ResultSet resultSet = statement.executeQuery(getNumberOfUsers);
-			
-			if (resultSet.next()) {
-				int numberOfUsers = resultSet.getInt(1); // retrieve the value from the result set
-				usernameExists = numberOfUsers > 0;
-			}		
-
+			statement.setString(1, username);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				return resultSet.next() && resultSet.getInt(1) > 0;
+			}
 		} catch (SQLException e) {
-			System.out.println("SQL Exception: " + e.toString());
+			System.err.println("SQL Exception: " + e.getMessage());
+			return false;
 		}
-
-		return usernameExists;
 	}
 
-	public static boolean checkValidUser(String user) {
-		String usernameFormat = "^[a-zA-Z0-9.\\-_$@*!]{6,20}$";
-		return isValid(user, usernameFormat);
-	}
+	static boolean checkValidUser(String user) {
+        return isValid(user, Constants.USERNAME_FORMAT);
+    }
 
-	public static boolean checkValidEmail(String email) {
-		String emailFormat = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\."
-				+ "[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
-		return isValid(email, emailFormat);
-	}
+	static boolean checkValidEmail(String email) {
+        return isValid(email, Constants.EMAIL_FORMAT);
+    }
 
-	public static boolean checkValidPassword(String password) {
-		String passwordFormat = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$"; // minim 1 cifra, minim 6 caractere, maxim
-																			// 20 caractere
-		return isValid(password, passwordFormat);
-	}
+	static boolean checkValidPassword(String password) {
+        return isValid(password, Constants.PASSWORD_FORMAT);
+    }
 
-	public static boolean isValid(String input, String regexPattern) {
-		Pattern pattern = Pattern.compile(regexPattern);
-		Matcher matcher = pattern.matcher(input);
-		return matcher.matches();
-	}
-
+    private static boolean isValid(String input, String regexPattern) {
+        return Pattern.matches(regexPattern, input);
+    }
 }
