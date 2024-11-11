@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,7 +49,7 @@ public class RegisterForm extends JFrame {
         mainPanel.setBackground(new Color(211, 227, 235));
         
         logo = new JLabel();
-        logo.setIcon(new ImageIcon(getClass().getResource("/images/logoInregistrare.png")));
+        logo.setIcon(new ImageIcon(getClass().getResource(Constants.REGISTER_LOGO)));
 
         emailLabel = createLabel("E-mail");
         emailTextField = createTextField();
@@ -63,7 +63,7 @@ public class RegisterForm extends JFrame {
         registerButton = createButton("Inregistreaza-te", this::registerButtonActionPerformed);
         resetButton = createButton("Reseteaza", this::resetButtonActionPerformed);
         backButton = createButton("", this::backButtonActionPerformed);
-        backButton.setIcon(new ImageIcon(getClass().getResource("/images/backButton.png")));
+        backButton.setIcon(new ImageIcon(getClass().getResource(Constants.BACK_BUTTON)));
         backButton.setBackground(new Color(211, 227, 235));
         backButton.setBorder(null);
         backButton.setFocusPainted(false);
@@ -102,53 +102,44 @@ public class RegisterForm extends JFrame {
         JPasswordField passwordField = new JPasswordField();
         return passwordField;
     }
-
+    
     private void registerButtonActionPerformed(ActionEvent evt) {
-    	String email = emailTextField.getText();
+        String email = emailTextField.getText();
         String username = userTextField.getText();
         String password = passField.getText();
 
-        if(!Validation.checkValidUser(username)) {
-        	JOptionPane.showMessageDialog(null, "Introduceti un nume de utilizator care are minim 6 caractere si nu contine spatii");
+        // Validation checks
+        if (!Validation.checkValidUser(username)) {
+            showMessage(Constants.INVALID_USERNAME);
+        } else if (Validation.checkUsernameExists(username)) {
+            showMessage(Constants.USERNAME_TAKEN);
+        } else if (!Validation.checkValidPassword(password)) {
+            showMessage(Constants.INVALID_PASSWORD);
+        } else if (!Validation.checkValidEmail(email)) {
+            showMessage(Constants.INVALID_EMAIL);
+        } else {
+            registerUser(username, password, email);
         }
-        else if(Validation.checkUsernameExists(username)) {
-        	JOptionPane.showMessageDialog(null, "Numele de utilizator este deja utilizat.");
+    }
+    
+    private void registerUser(String username, String password, String email) {
+        try (Connection connection = DatabaseConnectionManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(Constants.CREATE_USER_QUERY)) {
+
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setString(3, email);
+            
+            int result = statement.executeUpdate();
+            showMessage(result == 0 ? Constants.USERNAME_TAKEN : Constants.ACCOUNT_CREATED);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        else if(!Validation.checkValidPassword(password)) {
-        	JOptionPane.showMessageDialog(null, "Introduceti o parola de minim 6 caractere care contine o cifra");
-        }
-        else if(!Validation.checkValidEmail(email)) {
-        	JOptionPane.showMessageDialog(null, "Introduceti o adresa de e-mail valida.");
-        }
-
-
-        else {
-        	boolean check = Validation.checkValidEmail(email) && Validation.checkValidUser(username)
-        			&& Validation.checkValidPassword(password);
-            if (check) {
-            	try {
-                    Connection connection = DatabaseConnectionManager.getConnection();
-
-                    String createNewUser = "INSERT INTO users (username, password, email) VALUES ('" + username + "','" + password + "','" + email + "')";
-
-                    Statement statement = connection.createStatement();
-
-                    if (statement.executeUpdate(createNewUser) == 0) {
-                        JOptionPane.showMessageDialog(registerButton, "Numele introdus apartine altui utilizator.");
-                    } else {
-                        JOptionPane.showMessageDialog(registerButton,
-                            "Contul dumneavoastra a fost creat.");
-                    }
-                    connection.close();
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-            else {
-            	JOptionPane.showMessageDialog(null, "Adresa de e-mail nu este valida.");
-            }
-
-        }
+    }
+    
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(registerButton, message);
     }
 
     private void resetButtonActionPerformed(ActionEvent evt) {

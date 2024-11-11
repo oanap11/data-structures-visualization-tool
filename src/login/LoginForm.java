@@ -7,9 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -55,7 +53,7 @@ public class LoginForm extends JFrame {
 		passField = new JPasswordField();
 
 		mainPanel.setBackground(new Color(211, 227, 235));
-		loginLabel.setIcon(new ImageIcon(getClass().getResource("/images/logoLogin.png")));
+		loginLabel.setIcon(new ImageIcon(getClass().getResource(Constants.LOGIN_LOGO)));
 
 		loginButton = createButton("Log In", this::loginButtonActionPerformed);
 		registerButton = createButton("Inregistrare", this::registerButtonActionPerformed);
@@ -97,45 +95,35 @@ public class LoginForm extends JFrame {
 	}
 
 	private void loginButtonActionPerformed(ActionEvent evt) {
-
 		String userName = userTextField.getText();
-		String password = passField.getText();
-		try {
-			Connection connection = DatabaseConnectionManager.getConnection();
+	    String password = passField.getText();
 
-			PreparedStatement st = connection
-					.prepareStatement("Select username, password from users where username=? and password=?");
+	    try (Connection connection = DatabaseConnectionManager.getConnection();
+	         PreparedStatement st = connection.prepareStatement(Constants.LOGIN_QUERY)) {
 
-			st.setString(1, userName);
-			st.setString(2, password);
-			ResultSet rs = st.executeQuery();
-			if (rs.next()) {
-				dispose();
-
-				try {
-					String className = UIManager.getCrossPlatformLookAndFeelClassName();
-					UIManager.setLookAndFeel(className);
+	        st.setString(1, userName);
+	        st.setString(2, password);
+	        
+	        if (st.executeQuery().next()) {
+	            dispose();
+	            try {
+					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				} catch (Exception e) {
-				}
+					e.printStackTrace();
+				} 
+	            Main.configureUIManager();
+	            SwingUtilities.invokeLater(() -> {
+	                Main main = new Main();
+	                main.setPreferredSize(new Dimension(400, 300));
+	                main.setVisible(true);
+	            });
+	        } else {
+	            JOptionPane.showMessageDialog(loginButton, Constants.USER_NOT_FOUND);
+	        }
 
-				Main.configureUIManager();
-
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						Main main = new Main();
-						main.setPreferredSize(new Dimension(400, 300));
-						main.setVisible(true);
-
-					}
-				});
-
-			} else {
-				JOptionPane.showMessageDialog(loginButton, "Informatiile introduse nu se afla in baza de date.");
-			}
-		} catch (SQLException sqlException) {
-			sqlException.printStackTrace();
-		}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 }
