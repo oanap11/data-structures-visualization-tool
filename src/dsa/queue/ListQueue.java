@@ -9,14 +9,7 @@ import dsa.LinkedListTemplate;
 
 public class ListQueue extends SinglyListComponent {
 
-	LinkedListTemplate list;
-	char flag;
-    int operation;
-    int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
-    int width, height;
-
-  	public void setValues(LinkedListTemplate list, int operation, char flag){
-  		this.flag = flag;
+  	public void setValues(LinkedListTemplate list, int operation){
   		this.list = list;
   		this.operation = operation;
   		repaint();
@@ -82,10 +75,8 @@ public class ListQueue extends SinglyListComponent {
 
            currentNode = currentNode.next;
        }
-
        g.setColor(Color.RED);
        g.drawString("Tail",finalX+3,finalY+77);
-
        g.setColor(Color.BLACK);
        g.drawLine(finalX+13, finalY+68, finalX+13, finalY+30);
        drawArrow(g, finalX+13, finalY+30, 4);

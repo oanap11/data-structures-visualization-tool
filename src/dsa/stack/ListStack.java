@@ -9,14 +9,7 @@ import dsa.LinkedListTemplate;
 
 public class ListStack extends SinglyListComponent {
 
-	LinkedListTemplate list;
-	char flag;
-	int operation;
-	int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
-	int width, height;
-
-	public void setValues(LinkedListTemplate list, int operation, char flag) {
-		this.flag = flag;
+	public void setValues(LinkedListTemplate list, int operation) {
 		this.list = list;
 		this.operation = operation;
 		repaint();

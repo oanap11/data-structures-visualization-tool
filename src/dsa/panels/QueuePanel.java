@@ -186,13 +186,13 @@ public class QueuePanel extends BasePanel {
 			JOptionPane.showMessageDialog(null, "Nu sunt elemente in coada", "alert", JOptionPane.ERROR_MESSAGE);
 		else
 			linkedListTemplate.deleteElement(linkedListTemplate.firstNode.data);
-		listComponent.setValues(linkedListTemplate, 0, 'n');
+		listComponent.setValues(linkedListTemplate, 0);
 	}
 
 	private void addElementToList() {
 	    int element = Integer.parseInt(listInputTextField.getText());
 	    linkedListTemplate.insertElement(element);
-	    listComponent.setValues(linkedListTemplate, 1, 'n');
+	    listComponent.setValues(linkedListTemplate, 1);
 	    listInputTextField.setText("");
 	}
 	

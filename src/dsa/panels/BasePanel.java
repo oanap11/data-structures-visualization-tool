@@ -70,7 +70,7 @@ public class BasePanel extends JPanel{
 		listComponent = new ListQueue();
 		listPanel.add(listComponent, BorderLayout.CENTER);
 		linkedListTemplate = new LinkedListTemplate();
-		listComponent.setValues(linkedListTemplate, 0, 'n');
+		listComponent.setValues(linkedListTemplate, 0);
 	}
 	
 	protected void configureArrayNorthPanel() {

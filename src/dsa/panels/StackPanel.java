@@ -115,7 +115,7 @@ public class StackPanel extends BasePanel {
 		listStackComponent = new ListStack();
 		listPanel.add(listStackComponent, BorderLayout.CENTER);
 		linkedListTemplate = new LinkedListTemplate();
-		listStackComponent.setValues(linkedListTemplate, 0, 'n');
+		listStackComponent.setValues(linkedListTemplate, 0);
 	}
 
 	void initArrayStackComponents() {
@@ -187,7 +187,7 @@ public class StackPanel extends BasePanel {
 	private void addElementToList() {
 	    int element = Integer.parseInt(listInputTextField.getText());
 	    linkedListTemplate.insertElement(element);
-	    listStackComponent.setValues(linkedListTemplate, 1, 'n');
+	    listStackComponent.setValues(linkedListTemplate, 1);
 	    listInputTextField.setText("");
 	}
 
@@ -226,10 +226,10 @@ public class StackPanel extends BasePanel {
 	private void listPopButtonActionPerformed(ActionEvent evt) {
 		if (linkedListTemplate.firstNode == null) {
 			JOptionPane.showMessageDialog(null, "Stiva nu contine elemente.", "alert", JOptionPane.ERROR_MESSAGE);
-			listStackComponent.setValues(linkedListTemplate, 0, 'e');
+			listStackComponent.setValues(linkedListTemplate, 0);
 		} else {
 			linkedListTemplate.deleteElement(linkedListTemplate.lastNode.data);
-			listStackComponent.setValues(linkedListTemplate, 0, 'n'); // n
+			listStackComponent.setValues(linkedListTemplate, 0); 
 		}
 	}
 
