@@ -86,13 +86,6 @@ public class ListStack extends SinglyListComponent {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println("Desenat");
-		if (flag == 'e') {
-			g.setColor(Color.RED);
-		}
 		drawList(g);
-		if (this.operation == 1) {
-			System.out.println("Elementul a fost inserat");
-		}
 	}
 }

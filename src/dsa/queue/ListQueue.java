@@ -2,15 +2,10 @@ package dsa.queue;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JComponent;
 
 import dsa.Node;
 import dsa.linked.list.SinglyListComponent;
 import dsa.LinkedListTemplate;
-import dsa.panels.ListPanel;
 
 public class ListQueue extends SinglyListComponent {
 
@@ -31,16 +26,15 @@ public class ListQueue extends SinglyListComponent {
   		height = this.getHeight();
   		width = this.getWidth();
 
-  		int stepHeight;
-  		int incr_distance = 50;
-  		boolean changed = false;
+  		int stepHeight = 70;
+  		int increaseDistance = 50;
   		currentX = 20;
   		currentY = 70;
-  		stepHeight = 70;
+  		boolean changed = false;
 
-  		Node temp = this.list.firstNode;
   		finalX = currentX + 60;
   		finalY = currentY;
+  		Node currentNode = this.list.firstNode;
 
   		g.setColor(Color.RED);
   		g.drawString("Head", currentX, currentY + 20);
@@ -49,13 +43,13 @@ public class ListQueue extends SinglyListComponent {
   		drawArrow(g, currentX + 59, currentY + 15, 1);
 
 
-  		while(temp != null){
+  		while(currentNode != null){
           g.setColor(Color.WHITE);
           drawNull(g,currentX + 37, currentY);
 
            if(currentX + 130 > width){
                finalX = 90;
-               stepHeight += (incr_distance + 30);
+               stepHeight += (increaseDistance + 30);
                finalY = stepHeight;
 
                changed = true;
@@ -66,18 +60,17 @@ public class ListQueue extends SinglyListComponent {
            }
 
            g.setColor(Color.black);
-           drawNode(g, finalX, finalY, ""+temp.data);
+           drawNode(g, finalX, finalY, "" + currentNode.data);
            if(changed){
              g.drawLine(currentX+35, currentY+15, currentX+70, currentY+15);
-             g.drawLine(currentX+70, currentY+15, currentX+70, currentY+(30+incr_distance/2));
-             g.drawLine(currentX+70, currentY+(30+incr_distance/2), 10, currentY+(30+incr_distance/2));
-             g.drawLine(10, currentY+(30+incr_distance/2), 10, finalY+15);
+             g.drawLine(currentX+70, currentY+15, currentX+70, currentY+(30+increaseDistance/2));
+             g.drawLine(currentX+70, currentY+(30+increaseDistance/2), 10, currentY+(30+increaseDistance/2));
+             g.drawLine(10, currentY+(30+increaseDistance/2), 10, finalY+15);
              g.drawLine(10, finalY+15, finalX, finalY+15);
              changed = false;
            }
            else{
                g.drawLine(currentX+35, currentY+15, finalX, finalY+15);
-
            }
            drawArrow(g, finalX, finalY+15, 1);
 
@@ -85,9 +78,9 @@ public class ListQueue extends SinglyListComponent {
            lastCurrentY = currentY;
            currentX = finalX;
            currentY = finalY;
-           data = temp.data;
+           data = currentNode.data;
 
-           temp = temp.next;
+           currentNode = currentNode.next;
        }
 
        g.setColor(Color.RED);
@@ -100,12 +93,7 @@ public class ListQueue extends SinglyListComponent {
 
      @Override
 	public void paintComponent(Graphics g) {
-    	 System.out.println("Desenat!");
-
     	 drawList(g);
-    	 if(this.operation == 1){
-    		 System.out.println("A fost insertat un nou element.");
-    	 }
      }
  }
 
