@@ -13,3 +13,13 @@ This Java desktop application offers interactive animations for:
 - Visualize data structure operations.
 - Observe pathfinding algorithms in action.
 - Simple user interface for easy interaction.
+
+## Database (Optional)
+
+Setting up a database is optional and only needed for login and registration features. To enable these you need to set environment variables:
+- DB_URL: JDBC URL for your database connection
+- DB_USER: Database username
+- DB_PASSWORD: Database password
+
+Supported databases: Any SQL database compatible with JDBC (e.g., MySQL, PostgreSQL, SQL Server) based on the DB_URL and driver you configure.
+To skip the database setup simply run Main.
