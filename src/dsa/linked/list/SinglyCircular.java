@@ -39,55 +39,6 @@ public class SinglyCircular extends SinglyListComponent {
 		drawArrow(g, initialX + 20, initialY, 2);
 	}
 
-	private void drawAnimation() {
-		// Breshenham
-		int deltaX, deltaY, p, x, y;
-		int prevX = 0, prevY = 0;
-
-		this.operation = 1;
-		tempX = 20;
-		tempY = 20;
-		currentX = lastCurrentX;
-		currentY = lastCurrentY;
-
-		deltaX = 60 + finalX - tempX; // deltaX = x2 - x1
-		deltaY = finalY - tempY; // deltaY = y2 - y1
-
-		p = 2 * deltaY - deltaX; // pentru rasterizare, formula este P0 = 2 * deltaY - deltaX
-		x = tempX;
-		y = tempY;
-
-		while (x <= finalX) { // Only need to check x, as y is always incremented
-			if (p < 0) {
-				x = x + 1;
-				p = p + 2 * (deltaY);
-			} else {
-				x = x + 1;
-				y = y + 1;
-				p = p + 2 * (deltaY - deltaX);
-			}
-			System.out.println("x = " + x + "    y = " + y);
-
-			if (x % 4 == 0) {
-				prevX = x;
-				prevY = y;
-				interX = x;
-				interY = y;
-
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
-
-				repaint();
-			}
-
-		}
-		this.operation = 0;
-
-	}
-
 	void drawInterPath(Graphics g) {
 		height = this.getHeight();
 		width = this.getWidth();

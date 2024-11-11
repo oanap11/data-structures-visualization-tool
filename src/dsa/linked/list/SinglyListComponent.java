@@ -59,7 +59,7 @@ public class SinglyListComponent extends JComponent {
 		g.drawLine(x + 15, y + 30, x + 25, y + 30); // deseneaza linie jos
 	}
 
-	private void drawAnimation() {
+	protected void drawAnimation() {
 		// Breshenham
 		int deltaX, deltaY, p, x, y;
 		int prevX = 0, prevY = 0;
@@ -151,16 +151,7 @@ public class SinglyListComponent extends JComponent {
 	}
 
 	void drawInterPath(Graphics g) {
-	    height = this.getHeight();
-	    width = this.getWidth();
-
-	    int stepHeight = 70;
-	    int increaseDistance = 50;
-		currentX = 20;
-		currentY = 70;
-	    boolean changed = false;
-
-	    Node currentNode = this.list.firstNode;
+		initializeDrawingVariables(g);
 	    drawFirstNode(g);
 
 	    while (currentNode != null && currentNode.next != null) {
@@ -172,7 +163,6 @@ public class SinglyListComponent extends JComponent {
 
 	protected void drawList(Graphics g) {
 		initializeDrawingVariables(g);
-		
 	    drawFirstNode(g);
 
 	    while (currentNode != null) {

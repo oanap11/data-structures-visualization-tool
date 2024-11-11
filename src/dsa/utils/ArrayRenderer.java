@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
-public class GraphicalArray {
+public class ArrayRenderer {
 	
 	public Rectangle2D rectangles[];
 	public String elements[];
@@ -14,7 +14,7 @@ public class GraphicalArray {
 	public int head, tail, count, size;
 	private int xPoint = 80;
 	
-	public GraphicalArray(int size, int width, int height) {
+	public ArrayRenderer(int size, int width, int height) {
 		this.size = size;
 		rectangles = new Rectangle2D[size];
 		elements = new String[size];

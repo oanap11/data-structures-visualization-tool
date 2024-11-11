@@ -1,8 +1,8 @@
 package dsa.stack;
 
-import dsa.utils.GraphicalArray;
+import dsa.utils.ArrayRenderer;
 
-public class GraphicalArrayStack extends GraphicalArray {
+public class GraphicalArrayStack extends ArrayRenderer {
 
 	public GraphicalArrayStack(int size, int width, int height) {
 		super(size, width, height);

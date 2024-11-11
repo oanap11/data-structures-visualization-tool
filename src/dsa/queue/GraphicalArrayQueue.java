@@ -1,8 +1,8 @@
 package dsa.queue;
 
-import dsa.utils.GraphicalArray;
+import dsa.utils.ArrayRenderer;
 
-public class GraphicalArrayQueue extends GraphicalArray  {
+public class GraphicalArrayQueue extends ArrayRenderer  {
 
 	public GraphicalArrayQueue(int size, int width, int height) {
 		super(size, width, height);
