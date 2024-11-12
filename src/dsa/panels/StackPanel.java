@@ -55,7 +55,6 @@ public class StackPanel extends BasePanel {
 		configureArrayInputField();
 		configureArraySizeText();
 		configureArraySizeLabel();
-		configureArrayPanelSeparators();
 		configureArrayNorthPanel();
 		configureArrayView();
 
