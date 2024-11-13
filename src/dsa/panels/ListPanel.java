@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 import dsa.LinkedListTemplate;
 import dsa.linked.list.SinglyListComponent;
+import dsa.utils.GroupLayoutUtil;
 import dsa.linked.list.SinglyCircular;
 
 public class ListPanel extends JPanel {
@@ -104,8 +105,10 @@ public class ListPanel extends JPanel {
 		setupButton(singlyAddButton, "Insereaza", evt -> singlyAddButtonActionPerformed(evt));
 		setupButton(singlyDeleteButton, "Sterge", evt -> singlyDeleteButtonActionPerformed(evt));
 		
-		setupNorthPanel(singlyListNorthPanel, singlyAddNodeField, singlyAddButton,
-	            singlyDeleteNodeField, singlyDeleteButton);
+	    GroupLayout singlyListNorthPanelLayout = GroupLayoutUtil.createCustomLayoutForSinglyListNorthPanel(
+	            singlyListNorthPanel, singlyAddNodeField, singlyAddButton, singlyDeleteNodeField, singlyDeleteButton);
+	    singlyListNorthPanel.setLayout(singlyListNorthPanelLayout);
+	    
 		configureListView(singlyListMainPanel, singlyListNorthPanel, singlyListSouthPanel);
 	}
 	
@@ -117,8 +120,10 @@ public class ListPanel extends JPanel {
 		setupButton(circularDeleteButton, "Sterge", evt -> circularDeleteButtonActionPerformed(evt));
 		
 		configureDeleteNodeField(circularDeleteNodeField);;
-		setupNorthPanel(circularListNorthPanel, circularAddNodeField, circularAddButton,
-	            circularDeleteNodeField, circularDeleteButton);
+
+	    GroupLayout singlyListNorthPanelLayout = GroupLayoutUtil.createCustomLayoutForSinglyListNorthPanel(
+	    		circularListNorthPanel, circularAddNodeField, circularAddButton, circularDeleteNodeField, circularDeleteButton);
+	    singlyListNorthPanel.setLayout(singlyListNorthPanelLayout);
 		configureListView(circularListMainPanel, circularListNorthPanel, circularListSouthPanel);
 	}
 	
@@ -178,36 +183,6 @@ public class ListPanel extends JPanel {
 	    deleteButton.setHorizontalTextPosition(SwingConstants.CENTER);
 	    deleteButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 	    deleteButton.addActionListener(actionListener);
-	}
-	
-	void setupNorthPanel(JPanel northPanel, JTextField addNodeField, JButton addButton,
-	        JTextField deleteNodeField, JButton deleteButton) {
-	    GroupLayout northPanelLayout = new GroupLayout(northPanel);
-	    northPanel.setLayout(northPanelLayout);
-	    northPanelLayout.setHorizontalGroup(northPanelLayout
-	            .createParallelGroup(GroupLayout.Alignment.LEADING)
-	            .addGroup(northPanelLayout.createSequentialGroup().addContainerGap().addGap(18, 18, 18)
-	                    .addComponent(addNodeField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-	                    .addGap(18, 18, 18).addComponent(addButton, 0, GroupLayout.DEFAULT_SIZE, 200)
-	                    .addGap(41, 41, 41)
-	                    .addComponent(deleteNodeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-	                            GroupLayout.PREFERRED_SIZE)
-	                    .addGap(18, 18, 18).addComponent(deleteButton, 0, GroupLayout.DEFAULT_SIZE, 200)
-	                    .addContainerGap(298, Short.MAX_VALUE)));
-	    
-	    northPanelLayout.setVerticalGroup(northPanelLayout
-	            .createParallelGroup(GroupLayout.Alignment.LEADING)
-	            .addGroup(GroupLayout.Alignment.TRAILING, northPanelLayout.createSequentialGroup()
-	            		.addContainerGap()
-	                    .addGroup(northPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                            .addGroup(northPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                                    .addComponent(addButton)
-	                                    .addComponent(addNodeField, GroupLayout.PREFERRED_SIZE,
-	                                            GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	                                    .addComponent(deleteNodeField, GroupLayout.PREFERRED_SIZE,
-	                                            GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-	                            .addComponent(deleteButton))
-	                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 	}
 
 	private void singlyAddButtonActionPerformed(ActionEvent evt) {
