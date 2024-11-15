@@ -7,26 +7,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
 import dsa.LinkedListTemplate;
 import dsa.stack.GraphicalArrayStack;
 import dsa.stack.ArrayStack;
 import dsa.stack.ListStack;
-import dsa.utils.GroupLayoutUtil;
 
-public class StackPanel extends BasePanel {
+public class StackPanel extends StackOrQueueView {
 
 	private static final long serialVersionUID = 1L;
-
-	private JPanel stackMainPanel;
 
 	public StackPanel() {
 		initComponents();
@@ -36,15 +26,11 @@ public class StackPanel extends BasePanel {
 
 	private void initComponents() {
 
-		tabbedPane = new JTabbedPane();
-		stackMainPanel = new JPanel();
-
-		initArrayStackComponents();
-		initListStackComponents();
+		initArrayComponents();
+		initListComponents();
 
 		setLayout(new BorderLayout());
-
-		stackMainPanel.setLayout(new BoxLayout(stackMainPanel, BoxLayout.LINE_AXIS));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 
 		configureButton(arrayAddButton, "Push", evt -> pushButtonActionPerformed(evt));
 		configureButton(arrayRemoveButton, "Pop", evt -> popButtonActionPerformed(evt));
@@ -56,8 +42,10 @@ public class StackPanel extends BasePanel {
 		configureArraySizeLabel();
 		configureArrayNorthPanel();
 		configureArrayView();
-
-		tabbedPane.addTab("Stiva - Tablou de elemente", arrayPanel);
+		
+		// ====================================================================================================== //
+		
+		setupTabs();
 
 		listPanel.setBackground(new Color(254, 254, 254));
 		listPanel.setLayout(new BorderLayout());
@@ -67,17 +55,17 @@ public class StackPanel extends BasePanel {
 
 		configureListInputField();
 		configureListNorthPanel();
-		configureListView();
+		setupListPanelLayout();
 
-		tabbedPane.addTab("Stiva - lista inlantuita", listPanel);
-		stackMainPanel.add(tabbedPane);
-		add(stackMainPanel, BorderLayout.CENTER);
+		
+		
+		add(mainPanel, BorderLayout.CENTER);
 	}
-
-	void configureListNorthPanel() {
-		GroupLayout listStackLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel,
-				listInputTextField, listAddButton, listRemoveButton);
-		listNorthPanel.setLayout(listStackLayout);
+	
+	void setupTabs() {
+		tabbedPane.addTab("Stiva - Tablou de elemente", arrayPanel);
+		tabbedPane.addTab("Stiva - lista inlantuita", listPanel);
+		mainPanel.add(tabbedPane);
 	}
 
 	void configureArrayInputField() {
@@ -114,27 +102,6 @@ public class StackPanel extends BasePanel {
 		listPanel.add(listStackComponent, BorderLayout.CENTER);
 		linkedListTemplate = new LinkedListTemplate();
 		listStackComponent.setValues(linkedListTemplate, 0);
-	}
-
-	void initArrayStackComponents() {
-		arrayAddButton = new JButton();
-		arrayRemoveButton = new JButton();
-		arrayInputTextField = new JTextField();
-		arraySizeButton = new JButton();
-		arraySizeText = new JTextField();
-		arraySizeLabel = new JLabel();
-		arrayResetButton = new JButton();
-		jSeparator1 = new JSeparator();
-		jSeparator2 = new JSeparator();
-	}
-
-	void initListStackComponents() {
-		listPanel = new JPanel();
-		listNorthPanel = new JPanel();
-		listSouthPanel = new JPanel();
-		listAddButton = new JButton();
-		listRemoveButton = new JButton();
-		listInputTextField = new JTextField();
 	}
 	
 	void addElementToArray() {

@@ -7,24 +7,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
 import dsa.queue.GraphicalArrayQueue;
 import dsa.queue.ArrayQueue;
-import dsa.utils.GroupLayoutUtil;
 
-public class QueuePanel extends BasePanel {
+public class QueuePanel extends StackOrQueueView {
 
 	private static final long serialVersionUID = 1L;
-
-	private JPanel queueMainPanel;
 
 	public QueuePanel() {
 		initComponents();
@@ -33,21 +23,13 @@ public class QueuePanel extends BasePanel {
 	}
 	
 	private void initComponents() {
-
-		tabbedPane = new JTabbedPane();
-		queueMainPanel = new JPanel();
-
-		initArrayQueueComponents();
-		initListQueueComponents();
-
+		initArrayComponents();
+		initListComponents();
+		
 		setLayout(new BorderLayout());
-
-		queueMainPanel.setLayout(new BoxLayout(queueMainPanel, BoxLayout.LINE_AXIS));
-
-		configureButton(arrayAddButton, "Adauga element", evt -> arrayEnqueueButtonActionPerformed(evt));
-		configureButton(arrayRemoveButton, "Sterge element", evt -> dequeueButtonActionPerformed(evt));
-		configureButton(arrayResetButton, "Reseteaza", evt -> resetButtonActionPerformed(evt));
-		configureButton(arraySizeButton, "Numar elemente", evt -> sizeButtonActionPerformed(evt));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
+		
+		configureArrayPanelButtons();
 		
 		configureArrayInputField();
 		configureArraySizeText();
@@ -60,16 +42,25 @@ public class QueuePanel extends BasePanel {
 
 		listPanel.setBackground(Color.white);
 		listPanel.setLayout(new BorderLayout());
+		
+		
 
 		configureButton(listAddButton, "Adauga element", evt -> listEnqueueButtonActionPerformed(evt));
 		configureButton(listRemoveButton, "Sterge element", evt -> listDequeueButtonActionPerformed(evt));
 		configureListInputField();
 		configureListNorthPanel();
-		configureListView();
+		setupListPanelLayout();
 
 		tabbedPane.addTab("Coada - Lista", listPanel);
-		queueMainPanel.add(tabbedPane);
-		add(queueMainPanel, BorderLayout.CENTER);
+		mainPanel.add(tabbedPane);
+		add(mainPanel, BorderLayout.CENTER);
+	}
+	
+	void configureArrayPanelButtons() {
+		configureButton(arrayAddButton, "Adauga element", evt -> arrayEnqueueButtonActionPerformed(evt));
+		configureButton(arrayRemoveButton, "Sterge element", evt -> dequeueButtonActionPerformed(evt));
+		configureButton(arrayResetButton, "Reseteaza", evt -> resetButtonActionPerformed(evt));
+		configureButton(arraySizeButton, "Numar elemente", evt -> sizeButtonActionPerformed(evt));
 	}
 	
 	void configureArrayInputField() {
@@ -91,27 +82,6 @@ public class QueuePanel extends BasePanel {
 		});
 	}
 	
-	void initArrayQueueComponents() {
-		arrayAddButton = new JButton();
-		arrayRemoveButton = new JButton();
-		arrayInputTextField = new JTextField();
-		arraySizeButton = new JButton();
-		arraySizeText = new JTextField();
-		arraySizeLabel = new JLabel();
-		arrayResetButton = new JButton();
-		jSeparator1 = new JSeparator();
-		jSeparator2 = new JSeparator();
-	}
-
-	void initListQueueComponents() {
-		listPanel = new JPanel();
-		listNorthPanel = new JPanel();
-		listAddButton = new JButton();
-		listRemoveButton = new JButton();
-		listInputTextField = new JTextField();
-		listSouthPanel = new JPanel();
-	}
-	
 	void configureListInputField() {
 		listInputTextField.setColumns(5);
 		listInputTextField.addKeyListener(new KeyAdapter() {
@@ -120,11 +90,6 @@ public class QueuePanel extends BasePanel {
 				listInputTextKeyPressed(evt);
 			}
 		});
-	}
-	
-	void configureListNorthPanel() {
-		GroupLayout listQueueLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listAddButton, listRemoveButton);
-		listNorthPanel.setLayout(listQueueLayout);
 	}
 
 	private void setQueueSize() {

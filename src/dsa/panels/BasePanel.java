@@ -85,7 +85,7 @@ public class BasePanel extends JPanel{
 		arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
 	}
 	
-	void configureListView() {
+	void setupListPanelLayout() {
 		listPanel.add(listNorthPanel, BorderLayout.NORTH);
 		listSouthPanel.setBackground(new Color(255, 87, 51));
 		listSouthPanel.setPreferredSize(new Dimension(100, 100));
