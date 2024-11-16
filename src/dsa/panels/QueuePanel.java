@@ -34,7 +34,6 @@ public class QueuePanel extends StackOrQueueView {
 		configureArrayInputField();
 		configureArraySizeText();
 		configureArraySizeLabel();	
-		configureArrayPanelSeparators();
 		configureArrayNorthPanel();
 		configureArrayView();	
 
@@ -151,13 +150,13 @@ public class QueuePanel extends StackOrQueueView {
 			JOptionPane.showMessageDialog(null, "Nu sunt elemente in coada", "alert", JOptionPane.ERROR_MESSAGE);
 		else
 			linkedListTemplate.deleteElement(linkedListTemplate.firstNode.data);
-		listComponent.setValues(linkedListTemplate, 0);
+		listQueueComponent.setValues(linkedListTemplate, 0);
 	}
 
 	private void addElementToList() {
 	    int element = Integer.parseInt(listInputTextField.getText());
 	    linkedListTemplate.insertElement(element);
-	    listComponent.setValues(linkedListTemplate, 1);
+	    listQueueComponent.setValues(linkedListTemplate, 1);
 	    listInputTextField.setText("");
 	}
 	

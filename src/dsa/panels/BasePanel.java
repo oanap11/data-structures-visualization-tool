@@ -10,7 +10,6 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -34,7 +33,7 @@ public class BasePanel extends JPanel{
 	GraphicalArrayQueue arrayQueue;
 	GraphicalArrayStack stackArray;
 	
-	ListQueue listComponent;
+	ListQueue listQueueComponent;
 	ListStack listStackComponent;
 	
 	LinkedListTemplate linkedListTemplate;
@@ -45,7 +44,6 @@ public class BasePanel extends JPanel{
 	protected JTextField arrayInputTextField;
 	protected JLabel arraySizeLabel;
 	protected JTextField arraySizeText;
-	protected JSeparator jSeparator1, jSeparator2;
 	
 	protected JButton listAddButton, listRemoveButton;
 	protected JPanel listPanel;
@@ -63,19 +61,21 @@ public class BasePanel extends JPanel{
     }
 	
 	void configureListComponent() {
-		listComponent = new ListQueue();
-		listPanel.add(listComponent, BorderLayout.CENTER);
+		listQueueComponent = new ListQueue();
+		listPanel.add(listQueueComponent, BorderLayout.CENTER);
 		linkedListTemplate = new LinkedListTemplate();
-		listComponent.setValues(linkedListTemplate, 0);
+		listQueueComponent.setValues(linkedListTemplate, 0);
 	}
 	
 	protected void configureArrayNorthPanel() {
 		GroupLayout queueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
-			    arrayAddButton, arrayRemoveButton, jSeparator1, arraySizeText, arraySizeButton, arraySizeLabel, jSeparator2,
-			    arrayResetButton
-			);
-
+			    arrayAddButton, arrayRemoveButton, arraySizeText, arraySizeButton, arraySizeLabel, arrayResetButton);
 		arrayNorthPanel.setLayout(queueLayout);
+	}
+	
+	void configureListNorthPanel() {
+		GroupLayout listQueueLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listAddButton, listRemoveButton);
+		listNorthPanel.setLayout(listQueueLayout);
 	}
 	
 	protected void configureArrayView() {
@@ -110,11 +110,6 @@ public class BasePanel extends JPanel{
 		arrayRemoveButton.setEnabled(false);
 		arrayResetButton.setEnabled(false);
 		arrayInputTextField.setEnabled(false);
-	}
-	
-	void configureArrayPanelSeparators() {
-		jSeparator1.setOrientation(SwingConstants.VERTICAL);
-		jSeparator2.setOrientation(SwingConstants.VERTICAL);
 	}
 	
 	protected void configureButton(JButton button, String text, ActionListener listener) {

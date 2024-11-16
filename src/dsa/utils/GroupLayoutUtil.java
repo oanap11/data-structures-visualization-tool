@@ -39,11 +39,11 @@ public class GroupLayoutUtil {
 
     public static GroupLayout createCustomLayoutForArrayNorthPanel(
             JPanel panel, JTextField inputTextField, JButton pushButton, JButton popButton,
-            JComponent separator1, JTextField sizeText, JButton sizeButton, JLabel sizeLabel,
-            JComponent separator2, JButton resetButton) {
+            JTextField sizeText, JButton sizeButton, JLabel sizeLabel,
+            JButton resetButton) {
 
         return createCustomLayout(panel, Arrays.asList(
-            inputTextField, pushButton, popButton, separator1, sizeText, sizeButton, sizeLabel, separator2, resetButton
+            inputTextField, pushButton, popButton, sizeText, sizeButton, sizeLabel, resetButton
         ));
     }
 
