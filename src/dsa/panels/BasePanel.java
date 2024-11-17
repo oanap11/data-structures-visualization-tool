@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,110 +15,131 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import dsa.LinkedListTemplate;
-import dsa.queue.GraphicalArrayQueue;
-import dsa.queue.ArrayQueue;
-import dsa.queue.ListQueue;
-import dsa.stack.GraphicalArrayStack;
-import dsa.stack.ArrayStack;
-import dsa.stack.ListStack;
 import dsa.utils.GroupLayoutUtil;
 
-public class BasePanel extends JPanel{
+public class BasePanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	
-	ArrayQueue queueComponent;
-	ArrayStack arrayStackComponent;
-	
-	GraphicalArrayQueue arrayQueue;
-	GraphicalArrayStack stackArray;
-	
-	ListQueue listQueueComponent;
-	ListStack listStackComponent;
-	
-	LinkedListTemplate linkedListTemplate;
-	
-	protected JTabbedPane tabbedPane;
-	protected JPanel arrayPanel, arraySouthPanel, arrayNorthPanel;
-	protected JButton arrayAddButton, arrayRemoveButton, arrayResetButton, arraySizeButton;
-	protected JTextField arrayInputTextField;
-	protected JLabel arraySizeLabel;
-	protected JTextField arraySizeText;
-	
-	protected JButton listAddButton, listRemoveButton;
-	protected JPanel listPanel;
-	protected JTextField listInputTextField;
-	protected JPanel listSouthPanel;
-	protected JPanel listNorthPanel;
-	
-	public BasePanel() {
-        // Initialize the arrayPanel
-        arrayPanel = new JPanel();
-        arrayPanel.setBackground(new Color(254, 254, 254));
-        arrayPanel.setLayout(new BorderLayout());
+    private static final long serialVersionUID = 1L;
+
+    LinkedListTemplate linkedListTemplate;
+
+    // Panels
+    protected JTabbedPane tabbedPane;
+    protected JPanel mainPanel;
+    protected JPanel arrayPanel, arrayNorthPanel, arraySouthPanel;
+    protected JPanel listPanel, listNorthPanel, listSouthPanel;
+
+    // Buttons 
+    protected JButton arrayAddButton, arrayRemoveButton, arrayResetButton, arraySizeButton;
+    protected JButton listAddButton, listRemoveButton;
+
+    // Text Fields
+    protected JTextField arrayInputTextField;
+    protected JTextField listInputTextField;
+    protected JTextField arraySizeText;
+
+    // Labels
+    protected JLabel arraySizeLabel;
+
+    public BasePanel() {
+        initializePanels();
+        initComponents();
+    }
+
+    private void initializePanels() {
+        arrayPanel = createPanel(new BorderLayout(), new Color(254, 254, 254));
         arrayNorthPanel = new JPanel();
         arraySouthPanel = new JPanel();
+        listPanel = createPanel(new BorderLayout(), null);
+        listNorthPanel = new JPanel();
+        listSouthPanel = new JPanel();
     }
-	
-	void configureListComponent() {
-		listQueueComponent = new ListQueue();
-		listPanel.add(listQueueComponent, BorderLayout.CENTER);
-		linkedListTemplate = new LinkedListTemplate();
-		listQueueComponent.setValues(linkedListTemplate, 0);
-	}
-	
-	protected void configureArrayNorthPanel() {
-		GroupLayout queueLayout = GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(arrayNorthPanel, arrayInputTextField,
-			    arrayAddButton, arrayRemoveButton, arraySizeText, arraySizeButton, arraySizeLabel, arrayResetButton);
-		arrayNorthPanel.setLayout(queueLayout);
-	}
-	
-	void configureListNorthPanel() {
-		GroupLayout listQueueLayout = GroupLayoutUtil.createCustomLayoutForListNorthPanel(listNorthPanel, listInputTextField, listAddButton, listRemoveButton);
-		listNorthPanel.setLayout(listQueueLayout);
-	}
-	
-	protected void configureArrayView() {
-		arrayPanel.add(arrayNorthPanel, BorderLayout.NORTH);
-		arraySouthPanel.setBackground(new Color(255, 87, 51));
-		arraySouthPanel.setPreferredSize(new Dimension(100, 100));
-		arrayPanel.add(arraySouthPanel, BorderLayout.SOUTH);
-	}
-	
-	void setupListPanelLayout() {
-		listPanel.add(listNorthPanel, BorderLayout.NORTH);
-		listSouthPanel.setBackground(new Color(255, 87, 51));
-		listSouthPanel.setPreferredSize(new Dimension(100, 100));
-		listPanel.add(listSouthPanel, BorderLayout.SOUTH);
-	}
-	
-	void configureArraySizeLabel() {
-		arraySizeLabel.setFont(new Font("Ubuntu", 0, 18)); // NOI18N
-		arraySizeLabel.setForeground(new Color(241, 19, 19));
-		arraySizeLabel.setText("Numar de elemente:  ");
-	}
-	
-	void enableArrayButtons() {
-		arrayAddButton.setEnabled(true);
-		arrayRemoveButton.setEnabled(true);
-		arrayResetButton.setEnabled(true);
-		arrayInputTextField.setEnabled(true);
-	}
-	
-	void disableArrayButtons() {
-		arrayAddButton.setEnabled(false);
-		arrayRemoveButton.setEnabled(false);
-		arrayResetButton.setEnabled(false);
-		arrayInputTextField.setEnabled(false);
-	}
-	
-	protected void configureButton(JButton button, String text, ActionListener listener) {
-	    button.setBackground(Color.white);
-	    button.setText(text);
-	    button.setFocusable(false);
-	    button.setHorizontalTextPosition(SwingConstants.CENTER);
-	    button.setVerticalTextPosition(SwingConstants.BOTTOM);
-	    button.addActionListener(listener);
-	}
-	
+
+    private JPanel createPanel(LayoutManager layout, Color bgColor) {
+        JPanel panel = new JPanel(layout);
+        if (bgColor != null) {
+            panel.setBackground(bgColor);
+        }
+        return panel;
+    }
+
+    private void initComponents() {
+        tabbedPane = new JTabbedPane();
+        mainPanel = new JPanel();
+    }
+
+    void initArrayComponents() {
+        arrayAddButton = new JButton();
+        arrayRemoveButton = new JButton();
+        arrayResetButton = new JButton();
+        arrayInputTextField = new JTextField();
+        arraySizeButton = new JButton();
+        arraySizeText = new JTextField();
+        arraySizeLabel = createLabel("Numar de elemente:  ", new Font("Ubuntu", Font.PLAIN, 18), new Color(241, 19, 19));
+    }
+
+    void initListComponents() {
+        listAddButton = new JButton();
+        listRemoveButton = new JButton();
+        listInputTextField = new JTextField();
+    }
+
+    private JLabel createLabel(String text, Font font, Color color) {
+        JLabel label = new JLabel(text);
+        label.setFont(font);
+        label.setForeground(color);
+        return label;
+    }
+
+    protected void configureArrayNorthPanel() {
+        arrayNorthPanel.setLayout(GroupLayoutUtil.createCustomLayoutForArrayNorthPanel(
+            arrayNorthPanel, arrayInputTextField, arrayAddButton,
+            arrayRemoveButton, arraySizeText, arraySizeButton, arraySizeLabel, arrayResetButton
+        ));
+    }
+
+    void configureListNorthPanel() {
+        listNorthPanel.setLayout(GroupLayoutUtil.createCustomLayoutForListNorthPanel(
+            listNorthPanel, listInputTextField, listAddButton, listRemoveButton
+        ));
+    }
+
+    protected void configureArrayView() {
+        configurePanel(arrayPanel, arrayNorthPanel, arraySouthPanel);
+    }
+
+    void setupListPanelLayout() {
+        configurePanel(listPanel, listNorthPanel, listSouthPanel);
+    }
+
+    private void configurePanel(JPanel parentPanel, JPanel northPanel, JPanel southPanel) {
+        parentPanel.add(northPanel, BorderLayout.NORTH);
+        southPanel.setBackground(new Color(255, 87, 51));
+        southPanel.setPreferredSize(new Dimension(100, 100));
+        parentPanel.add(southPanel, BorderLayout.SOUTH);
+    }
+
+    void enableArrayButtons() {
+        setArrayButtonsEnabled(true);
+    }
+
+    void disableArrayButtons() {
+        setArrayButtonsEnabled(false);
+    }
+
+    private void setArrayButtonsEnabled(boolean enabled) {
+        arrayAddButton.setEnabled(enabled);
+        arrayRemoveButton.setEnabled(enabled);
+        arrayResetButton.setEnabled(enabled);
+        arrayInputTextField.setEnabled(enabled);
+    }
+
+    protected void configureButton(JButton button, String text, ActionListener listener) {
+        button.setBackground(Color.WHITE);
+        button.setText(text);
+        button.setFocusable(false);
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        button.setVerticalTextPosition(SwingConstants.BOTTOM);
+        button.addActionListener(listener);
+    }
 }

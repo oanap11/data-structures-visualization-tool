@@ -10,16 +10,30 @@ import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
 import dsa.queue.GraphicalArrayQueue;
+import dsa.queue.ListQueue;
+import dsa.stack.ArrayStack;
+import dsa.LinkedListTemplate;
 import dsa.queue.ArrayQueue;
 
-public class QueuePanel extends StackOrQueueView {
+public class QueuePanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	ArrayQueue arrayQueueComponent;
+	GraphicalArrayQueue arrayQueue;
+	ListQueue listQueueComponent;
 
 	public QueuePanel() {
 		initComponents();
 		configureListComponent();
 		disableArrayButtons();
+	}
+	
+	void configureListComponent() {
+		listQueueComponent = new ListQueue();
+		listPanel.add(listQueueComponent, BorderLayout.CENTER);
+		linkedListTemplate = new LinkedListTemplate();
+		listQueueComponent.setValues(linkedListTemplate, 0);
 	}
 	
 	private void initComponents() {
@@ -33,7 +47,6 @@ public class QueuePanel extends StackOrQueueView {
 		
 		configureArrayInputField();
 		configureArraySizeText();
-		configureArraySizeLabel();	
 		configureArrayNorthPanel();
 		configureArrayView();	
 
@@ -100,8 +113,8 @@ public class QueuePanel extends StackOrQueueView {
 	    if (arraySizeText.getText().equals(""))
 	        return;
 
-	    if (queueComponent != null) {
-	        arrayPanel.remove(queueComponent);
+	    if (arrayQueueComponent != null) {
+	        arrayPanel.remove(arrayQueueComponent);
 	    }
 
 	    if (!arraySizeText.getText().trim().isEmpty()) {
@@ -110,11 +123,11 @@ public class QueuePanel extends StackOrQueueView {
 	        enableArrayButtons();
 	    }
 
-	    queueComponent = new ArrayQueue();
-	    arrayPanel.add(queueComponent, BorderLayout.CENTER);
+	    arrayQueueComponent = new ArrayQueue();
+	    arrayPanel.add(arrayQueueComponent, BorderLayout.CENTER);
 
 	    arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
-	    queueComponent.setValues(arrayQueue);
+	    arrayQueueComponent.setValues(arrayQueue);
 	    arrayPanel.revalidate();
 
 	    arraySizeText.setText(null);
@@ -127,7 +140,7 @@ public class QueuePanel extends StackOrQueueView {
 	        arrayAddButton.setEnabled(false);
 	    }
 	    arrayRemoveButton.setEnabled(true);
-	    queueComponent.setValues(arrayQueue);
+	    arrayQueueComponent.setValues(arrayQueue);
 	    arrayInputTextField.setText("");
 	}
 	
@@ -138,7 +151,7 @@ public class QueuePanel extends StackOrQueueView {
 			JOptionPane.showMessageDialog(null, "Coada este goala.", "alert", JOptionPane.ERROR_MESSAGE);
 		}
 		arrayAddButton.setEnabled(true);
-		queueComponent.setValues(arrayQueue);
+		arrayQueueComponent.setValues(arrayQueue);
 		arrayInputTextField.setText("");
 	}
 
@@ -147,7 +160,7 @@ public class QueuePanel extends StackOrQueueView {
 		arraySizeButton.setEnabled(true);
 		disableArrayButtons();
 		arrayQueue.size = 0;
-		queueComponent.setValues(arrayQueue);
+		arrayQueueComponent.setValues(arrayQueue);
 	}
 
 	private void listDequeueButtonActionPerformed(ActionEvent evt) {

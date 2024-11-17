@@ -14,9 +14,13 @@ import dsa.stack.GraphicalArrayStack;
 import dsa.stack.ArrayStack;
 import dsa.stack.ListStack;
 
-public class StackPanel extends StackOrQueueView {
+public class StackPanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	ArrayStack arrayStackComponent;
+	GraphicalArrayStack stackArray;
+	ListStack listStackComponent;
 
 	public StackPanel() {
 		initComponents();
@@ -35,7 +39,6 @@ public class StackPanel extends StackOrQueueView {
 
 		configureArrayInputField();
 		configureArraySizeText();
-		configureArraySizeLabel();
 		configureArrayNorthPanel();
 		configureArrayView();
 		
