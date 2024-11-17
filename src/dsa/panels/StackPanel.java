@@ -25,17 +25,13 @@ public class StackPanel extends StackOrQueueView {
 	}
 
 	private void initComponents() {
-
 		initArrayComponents();
 		initListComponents();
 
 		setLayout(new BorderLayout());
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 
-		configureButton(arrayAddButton, "Push", evt -> pushButtonActionPerformed(evt));
-		configureButton(arrayRemoveButton, "Pop", evt -> popButtonActionPerformed(evt));
-		configureButton(arraySizeButton, "Numar de elemente", evt -> stackSizeButtonActionPerformed(evt));
-		configureButton(arrayResetButton, "Reseteaza", evt -> stackResetButtonActionPerformed(evt));
+		configureArrayPanelButtons();
 
 		configureArrayInputField();
 		configureArraySizeText();
@@ -57,9 +53,14 @@ public class StackPanel extends StackOrQueueView {
 		configureListNorthPanel();
 		setupListPanelLayout();
 
-		
-		
 		add(mainPanel, BorderLayout.CENTER);
+	}
+	
+	void configureArrayPanelButtons() {
+		configureButton(arrayAddButton, "Push", evt -> pushButtonActionPerformed(evt));
+		configureButton(arrayRemoveButton, "Pop", evt -> popButtonActionPerformed(evt));
+		configureButton(arraySizeButton, "Numar de elemente", evt -> stackSizeButtonActionPerformed(evt));
+		configureButton(arrayResetButton, "Reseteaza", evt -> stackResetButtonActionPerformed(evt));
 	}
 	
 	void setupTabs() {

@@ -37,22 +37,27 @@ public class QueuePanel extends StackOrQueueView {
 		configureArrayNorthPanel();
 		configureArrayView();	
 
-		tabbedPane.addTab("Coada - Tablou de elemente", arrayPanel);
+		// ====================================================================================================== //
+		
+		setupTabs();
 
 		listPanel.setBackground(Color.white);
 		listPanel.setLayout(new BorderLayout());
-		
-		
 
 		configureButton(listAddButton, "Adauga element", evt -> listEnqueueButtonActionPerformed(evt));
 		configureButton(listRemoveButton, "Sterge element", evt -> listDequeueButtonActionPerformed(evt));
+		
 		configureListInputField();
 		configureListNorthPanel();
 		setupListPanelLayout();
-
+		
+		add(mainPanel, BorderLayout.CENTER);
+	}
+	
+	void setupTabs() {
+		tabbedPane.addTab("Coada - Tablou de elemente", arrayPanel);
 		tabbedPane.addTab("Coada - Lista", listPanel);
 		mainPanel.add(tabbedPane);
-		add(mainPanel, BorderLayout.CENTER);
 	}
 	
 	void configureArrayPanelButtons() {
