@@ -43,16 +43,17 @@ public class BasePanel extends JPanel {
 
     public BasePanel() {
         initializePanels();
-        initComponents();
     }
 
     private void initializePanels() {
-        arrayPanel = createPanel(new BorderLayout(), new Color(254, 254, 254));
+    	mainPanel = new JPanel();
+        arrayPanel = createPanel(new BorderLayout(), Color.WHITE);
         arrayNorthPanel = new JPanel();
         arraySouthPanel = new JPanel();
-        listPanel = createPanel(new BorderLayout(), null);
+        listPanel = createPanel(new BorderLayout(), Color.WHITE);
         listNorthPanel = new JPanel();
         listSouthPanel = new JPanel();
+        tabbedPane = new JTabbedPane();
     }
 
     private JPanel createPanel(LayoutManager layout, Color bgColor) {
@@ -61,11 +62,6 @@ public class BasePanel extends JPanel {
             panel.setBackground(bgColor);
         }
         return panel;
-    }
-
-    private void initComponents() {
-        tabbedPane = new JTabbedPane();
-        mainPanel = new JPanel();
     }
 
     void initArrayComponents() {

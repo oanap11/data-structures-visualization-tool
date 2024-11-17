@@ -46,9 +46,6 @@ public class StackPanel extends BasePanel {
 		
 		setupTabs();
 
-		listPanel.setBackground(new Color(254, 254, 254));
-		listPanel.setLayout(new BorderLayout());
-
 		configureButton(listAddButton, "Push", evt -> listPushButtonActionPerformed(evt));
 		configureButton(listRemoveButton, "Pop", evt -> listPopButtonActionPerformed(evt));
 

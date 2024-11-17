@@ -54,9 +54,6 @@ public class QueuePanel extends BasePanel {
 		
 		setupTabs();
 
-		listPanel.setBackground(Color.white);
-		listPanel.setLayout(new BorderLayout());
-
 		configureButton(listAddButton, "Adauga element", evt -> listEnqueueButtonActionPerformed(evt));
 		configureButton(listRemoveButton, "Sterge element", evt -> listDequeueButtonActionPerformed(evt));
 		
