@@ -1,4 +1,4 @@
-package dsa.utils;
+package dsa.common;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;

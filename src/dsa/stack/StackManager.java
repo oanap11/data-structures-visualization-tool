@@ -2,9 +2,9 @@ package dsa.stack;
 
 import java.awt.Graphics;
 
-import dsa.utils.AbstractArrayComponent;
+import dsa.common.AbstractArrayComponent;
 
-public class ArrayStack extends AbstractArrayComponent {
+public class StackManager extends AbstractArrayComponent {
 
     GraphicalArrayStack stack;
 

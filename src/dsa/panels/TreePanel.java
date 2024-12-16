@@ -16,9 +16,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import dsa.common.GroupLayoutUtil;
 import dsa.trees.GraphicalTree;
 import dsa.trees.TreeComponent;
-import dsa.utils.GroupLayoutUtil;
 
 public class TreePanel extends JPanel {
 

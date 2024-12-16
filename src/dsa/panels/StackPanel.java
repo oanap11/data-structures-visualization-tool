@@ -11,14 +11,14 @@ import javax.swing.JOptionPane;
 
 import dsa.LinkedListTemplate;
 import dsa.stack.GraphicalArrayStack;
-import dsa.stack.ArrayStack;
+import dsa.stack.StackManager;
 import dsa.stack.ListStack;
 
 public class StackPanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	ArrayStack arrayStackComponent;
+	StackManager arrayStackComponent;
 	GraphicalArrayStack stackArray;
 	ListStack listStackComponent;
 
@@ -142,7 +142,7 @@ public class StackPanel extends BasePanel {
 	        arraySizeButton.setEnabled(false);
 	        enableArrayButtons();
 	    }
-	    arrayStackComponent = new ArrayStack();
+	    arrayStackComponent = new StackManager();
 	    arrayPanel.add(arrayStackComponent, BorderLayout.CENTER);
 	    stackArray = new GraphicalArrayStack(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
 	    arrayStackComponent.setValues(stackArray);

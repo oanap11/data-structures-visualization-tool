@@ -1,4 +1,4 @@
-package dsa.utils;
+package dsa.common;
 
 import java.awt.Container;
 

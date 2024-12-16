@@ -1,4 +1,4 @@
-package dsa.utils;
+package dsa.common;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

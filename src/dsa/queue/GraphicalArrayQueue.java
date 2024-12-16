@@ -1,6 +1,6 @@
 package dsa.queue;
 
-import dsa.utils.GraphicalArrayStructure;
+import dsa.common.GraphicalArrayStructure;
 
 public class GraphicalArrayQueue extends GraphicalArrayStructure {
 

@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import dsa.LinkedListTemplate;
+import dsa.common.GroupLayoutUtil;
 import dsa.linked.list.SinglyListComponent;
-import dsa.utils.GroupLayoutUtil;
 import dsa.linked.list.SinglyCircular;
 
 public class ListPanel extends JPanel {

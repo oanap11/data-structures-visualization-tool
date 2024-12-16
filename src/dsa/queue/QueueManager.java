@@ -2,9 +2,9 @@ package dsa.queue;
 
 import java.awt.Graphics;
 
-import dsa.utils.AbstractArrayComponent;
+import dsa.common.AbstractArrayComponent;
 
-public class ArrayQueue extends AbstractArrayComponent {
+public class QueueManager extends AbstractArrayComponent {
 
     GraphicalArrayQueue queue;
 

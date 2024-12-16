@@ -11,15 +11,15 @@ import javax.swing.JOptionPane;
 
 import dsa.queue.GraphicalArrayQueue;
 import dsa.queue.ListQueue;
-import dsa.stack.ArrayStack;
+import dsa.stack.StackManager;
 import dsa.LinkedListTemplate;
-import dsa.queue.ArrayQueue;
+import dsa.queue.QueueManager;
 
 public class QueuePanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	ArrayQueue arrayQueueComponent;
+	QueueManager arrayQueueComponent;
 	GraphicalArrayQueue arrayQueue;
 	ListQueue listQueueComponent;
 
@@ -120,7 +120,7 @@ public class QueuePanel extends BasePanel {
 	        enableArrayButtons();
 	    }
 
-	    arrayQueueComponent = new ArrayQueue();
+	    arrayQueueComponent = new QueueManager();
 	    arrayPanel.add(arrayQueueComponent, BorderLayout.CENTER);
 
 	    arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);

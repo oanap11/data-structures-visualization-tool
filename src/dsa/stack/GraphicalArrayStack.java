@@ -1,6 +1,6 @@
 package dsa.stack;
 
-import dsa.utils.GraphicalArrayStructure;
+import dsa.common.GraphicalArrayStructure;
 
 public class GraphicalArrayStack extends GraphicalArrayStructure {
 

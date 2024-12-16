@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import dsa.LinkedListTemplate;
-import dsa.utils.GroupLayoutUtil;
+import dsa.common.GroupLayoutUtil;
 
 public class BasePanel extends JPanel {
 

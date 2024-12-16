@@ -23,7 +23,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import dsa.Main;
-import dsa.utils.FormLayoutUtils;
+import dsa.common.FormLayoutUtils;
 
 public class LoginForm extends JFrame {
 

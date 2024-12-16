@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import dsa.utils.FormLayoutUtils;
+import dsa.common.FormLayoutUtils;
 
 public class RegisterForm extends JFrame {
 

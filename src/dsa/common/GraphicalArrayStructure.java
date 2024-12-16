@@ -1,4 +1,4 @@
-package dsa.utils;
+package dsa.common;
 
 public abstract class GraphicalArrayStructure extends ArrayRenderer {
     public int head = 0;

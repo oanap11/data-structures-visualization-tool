@@ -1,4 +1,4 @@
-package dsa.utils;
+package dsa.common;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -40,7 +40,7 @@ public abstract class AbstractArrayComponent extends JComponent {
         graphics.setColor(Color.red);
         graphics.drawString("Head", tailPosition - 4, halfHeight + 95);
 
-        if (this instanceof dsa.queue.ArrayQueue) { // Queue-specific: draw head
+        if (this instanceof dsa.queue.QueueManager) { // Queue-specific: draw head
             int headXPoints[] = { headPosition, headPosition - 8, headPosition + 8, headPosition };
             int headYPoints[] = { halfHeight - 30, halfHeight - 50, halfHeight - 50, halfHeight - 30 };
 
