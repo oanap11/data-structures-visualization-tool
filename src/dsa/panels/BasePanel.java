@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -102,6 +103,21 @@ public class BasePanel extends JPanel {
 
     protected void configureArrayView() {
         configurePanel(arrayPanel, arrayNorthPanel, arraySouthPanel);
+    }
+    
+    protected int validateSize(String input) {
+        input = input.trim();
+        if (input.isEmpty()) return -1;
+
+        try {
+            int size = Integer.parseInt(input);
+            if (size < 0) throw new IllegalArgumentException("Size cannot be negative.");
+            return size;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(arrayPanel, "Invalid size. Please enter a positive number.", 
+                                          "Error", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
     }
 
     void setupListPanelLayout() {

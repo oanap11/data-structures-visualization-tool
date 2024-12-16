@@ -1,7 +1,6 @@
 package dsa.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -132,24 +131,29 @@ public class StackPanel extends BasePanel {
 	}
 	
 	private void setStackSize() {
-	    if (arraySizeText.getText().equals(""))
-	        return;
+	    int size = validateSize(arraySizeText.getText());
+	    if (size < 0) return;
+
+	    setupArray(size);
+	}
+	
+	private void setupArray(int size) {
 	    if (arrayStackComponent != null) {
 	        arrayPanel.remove(arrayStackComponent);
 	    }
-	    if (!arraySizeText.getText().trim().isEmpty()) {
-	        arraySizeLabel.setText("Numar de elemente:   " + arraySizeText.getText());
-	        arraySizeButton.setEnabled(false);
-	        enableArrayButtons();
-	    }
+
+	    arraySizeLabel.setText("Numar de elemente:   " + size);
+	    arraySizeButton.setEnabled(false);
+	    enableArrayButtons();
+
 	    arrayStackComponent = new StackManager();
 	    arrayPanel.add(arrayStackComponent, BorderLayout.CENTER);
-	    stackArray = new GraphicalArrayStack(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
+	    stackArray = new GraphicalArrayStack(size, arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
 	    arrayStackComponent.setValues(stackArray);
 	    arrayPanel.revalidate();
 	    arraySizeText.setText(null);
 	}
-	
+
 	private void addElementToList() {
 	    int element = Integer.parseInt(listInputTextField.getText());
 	    linkedListTemplate.insertElement(element);

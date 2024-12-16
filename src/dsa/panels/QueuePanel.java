@@ -1,7 +1,6 @@
 package dsa.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,7 +10,6 @@ import javax.swing.JOptionPane;
 
 import dsa.queue.GraphicalArrayQueue;
 import dsa.queue.ListQueue;
-import dsa.stack.StackManager;
 import dsa.LinkedListTemplate;
 import dsa.queue.QueueManager;
 
@@ -105,28 +103,28 @@ public class QueuePanel extends BasePanel {
 			}
 		});
 	}
-
+	
 	private void setQueueSize() {
-	    if (arraySizeText.getText().equals(""))
-	        return;
+	    int size = validateSize(arraySizeText.getText());
+	    if (size < 0) return;
 
+	    setupArray(size);
+	}
+	
+	private void setupArray(int size) {
 	    if (arrayQueueComponent != null) {
 	        arrayPanel.remove(arrayQueueComponent);
 	    }
 
-	    if (!arraySizeText.getText().trim().isEmpty()) {
-	        arraySizeLabel.setText("Numar elemente: " + arraySizeText.getText());
-	        arraySizeButton.setEnabled(false);
-	        enableArrayButtons();
-	    }
+	    arraySizeLabel.setText("Numar de elemente:   " + size);
+	    arraySizeButton.setEnabled(false);
+	    enableArrayButtons();
 
 	    arrayQueueComponent = new QueueManager();
 	    arrayPanel.add(arrayQueueComponent, BorderLayout.CENTER);
-
-	    arrayQueue = new GraphicalArrayQueue(Integer.parseInt(arraySizeText.getText()), arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
+	    arrayQueue = new GraphicalArrayQueue(size, arrayPanel.getWidth(), arrayPanel.getHeight() / 2);
 	    arrayQueueComponent.setValues(arrayQueue);
 	    arrayPanel.revalidate();
-
 	    arraySizeText.setText(null);
 	}
 	
