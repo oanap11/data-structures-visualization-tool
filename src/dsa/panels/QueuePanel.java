@@ -131,8 +131,12 @@ public class QueuePanel extends BasePanel {
 	}
 	
 	private void addElementToArray() {
-	    int a = arrayQueue.enqueue(arrayInputTextField.getText());
-	    if (a == -1) {
+		if (arrayInputTextField.getText().equals("")) {
+			return;
+		}
+		
+	    int addResult = arrayQueue.add(arrayInputTextField.getText());
+	    if (addResult == -1) {
 	        JOptionPane.showMessageDialog(null, "Coada este plina.", "alert", JOptionPane.ERROR_MESSAGE);
 	        arrayAddButton.setEnabled(false);
 	    }
@@ -142,8 +146,7 @@ public class QueuePanel extends BasePanel {
 	}
 	
 	private void dequeueButtonActionPerformed(ActionEvent evt) {
-		String s = arrayQueue.dequeue();
-		if (s == null) {
+		if (arrayQueue.remove() == null) {
 			arrayRemoveButton.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Coada este goala.", "alert", JOptionPane.ERROR_MESSAGE);
 		}

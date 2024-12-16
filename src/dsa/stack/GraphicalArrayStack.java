@@ -1,36 +1,22 @@
 package dsa.stack;
 
-import dsa.utils.ArrayRenderer;
+import dsa.utils.GraphicalArrayStructure;
 
-public class GraphicalArrayStack extends ArrayRenderer {
+public class GraphicalArrayStack extends GraphicalArrayStructure {
 
-	public GraphicalArrayStack(int size, int width, int height) {
-		super(size, width, height);
-	}
-	
+    public GraphicalArrayStack(int size, int width, int height) {
+        super(size, width, height);
+    }
 
-	public String pop() {
-		String temp;
-		if (head == 0) {
-			System.out.println("Stiva nu contine elemente.");
-			return null;
-		}
-		temp = elements[head - 1];
-		elements[head - 1] = " ";
-		head = head - 1;
-		count--;
-		return temp;
-	}
+    @Override
+    protected void insertElement(String element) {
+        elements[head++] = element; // Push to the top of the stack
+    }
 
-	public int push(String element) {
-		if (count == size) {
-			System.out.println("Stiva este plina.");
-			return -1;
-		}
-		elements[head] = element;
-		head++;
-		count++;
-		return 0;
-	}
-
+    @Override
+    protected String extractElement() {
+        String temp = elements[--head]; // Pop from the top of the stack
+        clearElement(head);
+        return temp;
+    }
 }

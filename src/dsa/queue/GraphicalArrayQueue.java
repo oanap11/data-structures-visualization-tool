@@ -1,35 +1,24 @@
 package dsa.queue;
 
-import dsa.utils.ArrayRenderer;
+import dsa.utils.GraphicalArrayStructure;
 
-public class GraphicalArrayQueue extends ArrayRenderer  {
+public class GraphicalArrayQueue extends GraphicalArrayStructure {
 
-	public GraphicalArrayQueue(int size, int width, int height) {
-		super(size, width, height);
-	}
+    public GraphicalArrayQueue(int size, int width, int height) {
+        super(size, width, height);
+    }
 
-	public String dequeue() {
-		String temp;
-		if (count == 0) {
-			System.out.println("Coada nu contine elemente.");
-			return null;
-		}
-		temp = elements[head];
-		elements[head] = " ";
-		head = (head + 1) % size;
-		count--;
-		return temp;
-	}
+    @Override
+    protected void insertElement(String element) {
+        elements[tail] = element; // Enqueue at the tail
+        tail = (tail + 1) % size;
+    }
 
-	public int enqueue(String element) {
-		if (count == size) {
-			System.out.println("Coada este plina - nu mai pot fi adaugate elemente.");
-			return -1;
-		}
-		elements[tail] = element;
-		tail = (tail + 1) % size;
-		count++;
-		return 0;
-	}
-
-} 
+    @Override
+    protected String extractElement() {
+        String temp = elements[head]; // Dequeue from the head
+        clearElement(head);
+        head = (head + 1) % size;
+        return temp;
+    }
+}

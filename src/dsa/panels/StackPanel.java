@@ -109,9 +109,9 @@ public class StackPanel extends BasePanel {
 		if (arrayInputTextField.getText().equals("")) {
 			return;
 		}
-		int temp = stackArray.push(arrayInputTextField.getText());
-
-		if (temp == -1) {
+		
+		int addResult = stackArray.add(arrayInputTextField.getText());
+		if (addResult == -1) {
 			arrayAddButton.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE);
 		}
@@ -121,7 +121,7 @@ public class StackPanel extends BasePanel {
 	}
 
 	private void popButtonActionPerformed(ActionEvent evt) {
-		String temp = stackArray.pop();
+		String temp = stackArray.remove();
 		if (temp == null) {
 			arrayRemoveButton.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Stiva nu contine elemente", "alert", JOptionPane.ERROR_MESSAGE);

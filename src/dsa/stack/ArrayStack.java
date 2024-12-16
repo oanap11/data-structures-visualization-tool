@@ -1,46 +1,41 @@
 package dsa.stack;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-import javax.swing.JComponent;
+import dsa.utils.AbstractArrayComponent;
 
-public class ArrayStack extends JComponent {
+public class ArrayStack extends AbstractArrayComponent {
 
-	GraphicalArrayStack stack;
+    GraphicalArrayStack stack;
 
-	public synchronized void setValues(GraphicalArrayStack stack) {
-		this.stack = stack;
-		repaint();
-	}
+    public synchronized void setValues(GraphicalArrayStack stack) {
+        this.stack = stack;
+        repaint();
+    }
 
-	@Override
-	public synchronized void paintComponent(Graphics graphics) {
-		Graphics2D graphicsContext = (Graphics2D) graphics;
-		int halfHeight = getHeight() / 2;
-		stack.updateRectanglesPosition(halfHeight, graphics);
+    @Override
+    protected int getHead() {
+        return stack.head;
+    }
 
-		if (this.stack.size != 0) {
-			graphicsContext.setStroke(new BasicStroke(4));
-			drawArrows(graphics);
-			graphicsContext.draw(stack.tailLine);
-			graphicsContext.setStroke(new BasicStroke(1));
-		}
-	}
-	
-	void drawArrows(Graphics graphics) {
-		int tailPosition = 80 + (stack.head * 60);
-		int halfHeight = getHeight() / 2;
-		int tailXPoints[] = { tailPosition, tailPosition - 8, tailPosition + 8, tailPosition };
-		int tailYPoints[] = { halfHeight + 30, halfHeight + 50, halfHeight + 50, halfHeight + 30 };
-		
-		stack.tailLine.setLine(tailPosition, halfHeight + 37, tailPosition, halfHeight + 80);
-		
-		graphics.setColor(Color.red);
-		graphics.drawString("Top", tailPosition - 4, halfHeight + 95);
-		graphics.setColor(Color.black);
-		graphics.fillPolygon(tailXPoints, tailYPoints, 4);
-	}
+    @Override
+    protected int getTail() {
+        return stack.head; // For a stack, head and tail are the same as there's only one pointer (top).
+    }
+
+    @Override
+    protected int getLogicalSize() {
+        return stack.size;
+    }
+
+    @Override
+    protected void updateRectanglesPosition(int halfHeight, Graphics graphics) {
+        stack.updateRectanglesPosition(halfHeight, graphics);
+    }
+
+    @Override
+    protected void updateHeadTailLines(int halfHeight) {
+        int headPosition = 80 + (stack.head * 60);
+        stack.tailLine.setLine(headPosition, halfHeight + 37, headPosition, halfHeight + 80); // Reused as a single pointer line.
+    }
 }
